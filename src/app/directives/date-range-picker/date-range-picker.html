@@ -1,44 +1,10 @@
 <div layout="row">
-  <div class="start-calender" flex>
-    <div class="header">
-      <button ng-click="picker.moveStartCalendarByMonths(picker.startCalender, -1)"><<</button>
-      <span>{{picker.startCalender.year}}, {{picker.startCalender.month}}</span>
-      <button ng-click="picker.moveStartCalendarByMonths(picker.startCalender, 1)">>></button>
-    </div>
-    <div class="calendar">
-      <div class="daysOfWeek" layout="row">
-        <div ng-repeat="day in picker.daysOfWeek track by $index" flex>
-          <span layout="row" layout-align="center">{{day}}</span>
-        </div>
-      </div>
-
-      <div class="weeks" layout="column">
-        <div ng-repeat="week in picker.startCalender.monthWeeks track by $index" flex layout="row">
-          <div class="day" flex ng-repeat="day in week track by $index" layout="row" layout-align="center">
-            <span>{{day.format('D')}}</span>
-          </div>
-        </div>
-      </div>
-  </div>
-
-  <div class="end-calender" flex>
-    <button ng-click="picker.moveEndCalendarByMonths(picker.endCalender, -1)"><<</button>
-    <div class="header">{{picker.endCalender.year}}, {{picker.endCalender.month}}</div>
-    <div class="calendar">
-
-      <div class="daysOfWeek" layout="row">
-        <div ng-repeat="day in picker.daysOfWeek track by $index" flex>
-          <span layout="row" layout-align="center">{{day}}</span>
-        </div>
-      </div>
-
-      <div class="weeks" layout="column">
-        <div ng-repeat="week in picker.endCalender.monthWeeks track by $index" flex layout="row">
-          <div class="day" flex ng-repeat="day in week track by $index" layout="row" layout-align="center">
-            <span>{{day.format('D')}}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <calendar flex
+            month="picker.startCalendar"
+            max-month="picker.endCalendar">
+  </calendar>
+  <calendar flex
+            month="picker.endCalendar"
+            min-month="picker.startCalendar">
+  </calendar>
 </div>

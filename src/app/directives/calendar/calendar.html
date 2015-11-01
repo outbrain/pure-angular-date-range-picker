@@ -1,18 +1,18 @@
-<div class="start-calender" flex>
+<div flex>
   <div class="header">
-    <button ng-click="picker.moveStartCalendarByMonths(picker.startCalender, -1)"><<</button>
-    <span>{{picker.startCalender.year}}, {{picker.startCalender.month}}</span>
-    <button ng-click="picker.moveStartCalendarByMonths(picker.startCalender, 1)">>></button>
+    <button ng-if="month.showBackButton()" ng-click="month.moveCalenderByMonth(-1)"><<</button>
+    <span>{{month.calendar.year}}, {{month.calendar.month}}</span>
+    <button ng-click="month.moveCalenderByMonth(1)">>></button>
   </div>
   <div class="calendar">
     <div class="daysOfWeek" layout="row">
-      <div ng-repeat="day in picker.daysOfWeek track by $index" flex>
+      <div ng-repeat="day in calendar.daysOfWeek track by $index" flex>
         <span layout="row" layout-align="center">{{day}}</span>
       </div>
     </div>
 
     <div class="weeks" layout="column">
-      <div ng-repeat="week in picker.startCalender.monthWeeks track by $index" flex layout="row">
+      <div ng-repeat="week in month.calendar.monthWeeks track by $index" flex layout="row">
         <div class="day" flex ng-repeat="day in week track by $index" layout="row" layout-align="center">
           <span>{{day.format('D')}}</span>
         </div>
