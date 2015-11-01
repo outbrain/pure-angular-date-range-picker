@@ -5,10 +5,11 @@ export function Calendar() {
     restrict: 'E',
     scope: {
       weekStart: '@',
-      minMonth: '&',
-      maxMonth: '&',
-      month: '='
-
+      position: '@',
+      month: '=',
+      interceptors: '&',
+      rangeStart: '&',
+      rangeEnd: '&'
     },
     templateUrl: 'app/directives/calendar/calendar.html',
     controller: CalendarController,
@@ -20,14 +21,40 @@ export function Calendar() {
 }
 
 class CalendarController {
-  constructor(moment) {
+  constructor(moment, $scope) {
     'ngInject';
 
     this.Moment = moment;
+    this.Scope = $scope;
 
     this.firstDayOfWeek = this.weekStart ? this.weekStart : 'su';
     this.daysOfWeek = this.buildWeek(this.firstDayOfWeek);
     this.calendar = this.buildCalendar(this.month);
+    this.interceptors = this.interceptors ? this.interceptors() : null;
+    this.setPosition();
+    this.setListeners();
+  }
+
+  setListeners() {
+    this.Scope.$watch(() => {
+      return this.month;
+    }, (newMonth) => {
+      this.calendar = this.buildCalendar(newMonth);
+    });
+  }
+
+  setPosition() {
+    switch (this.position) {
+      case 'left':
+        this.left = true;
+        break;
+      case 'right':
+        this.right = true;
+        break;
+      default:
+        this.left = true;
+        this.right = true;
+    }
   }
 
   buildWeek(firstDay) {
@@ -49,8 +76,12 @@ class CalendarController {
     let tmpDate = firstDayOfMonth.clone().subtract(pivot, 'd');
 
     for (let i = 0; i < 6; i++) {
-      for(let j = 0; j < 7; j++) {
-        monthWeeks[i][j] = tmpDate;
+      for (let j = 0; j < 7; j++) {
+        monthWeeks[i][j] = {
+          mo: tmpDate,
+          currentDay: tmpDate.isSame(this.Moment(), 'day'),
+          currentMonth: tmpDate.isSame(this.month, 'month')
+        };
         tmpDate = tmpDate.clone().add(1, 'd');
       }
     }
@@ -71,19 +102,25 @@ class CalendarController {
     this.calendar = this.buildCalendar(mo.clone().add(months, 'M'));
   }
 
+  moveToNext() {
+    if (this.interceptors && this.interceptors.moveToNextClicked) {
+      this.interceptors.moveToNextClicked.call(this.interceptors.context);
+    } else {
+      this.moveCalenderByMonth(1);
+    }
+  }
+
+  moveToPrev() {
+    if (this.interceptors && this.interceptors.moveToPrevClicked) {
+      this.interceptors.moveToPrevClicked.call(this.interceptors.context);
+    } else {
+      this.moveCalenderByMonth(-1);
+    }
+  }
+
   getMonthDateRange(year, month) {
     let startDate = this.Moment([year, month - 1]);
     let endDate = this.Moment(startDate).endOf('month');
     return {start: startDate, end: endDate};
-  }
-
-  showBackButton() {
-    let toShow = true;
-    if(this.minMonth && this.minMonth()) {
-      let minMonth = this.minMonth();
-      toShow = this.calendar.currentCalendar.diff(minMonth, 'month') > 1;
-    }
-
-    return toShow;
   }
 }

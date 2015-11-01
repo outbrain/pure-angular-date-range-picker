@@ -1,0 +1,11 @@
+calendar {
+  .day {
+    &.current:not(.other-month) {
+      background: #00ffff;
+    }
+
+    &.other-month {
+      color: #CCCCCC;
+    }
+  }
+}

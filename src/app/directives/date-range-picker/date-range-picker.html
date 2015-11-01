@@ -1,10 +1,14 @@
 <div layout="row">
   <calendar flex
             month="picker.startCalendar"
-            max-month="picker.endCalendar">
+            interceptors="picker.startCalendarInterceptors"
+            range="picker.selectedRange"
+            position="left">
   </calendar>
   <calendar flex
             month="picker.endCalendar"
-            min-month="picker.startCalendar">
+            interceptors="picker.endCalendarInterceptors"
+            range="picker.selectedRange"
+            position="right">
   </calendar>
 </div>
