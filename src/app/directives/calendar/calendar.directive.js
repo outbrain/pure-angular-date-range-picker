@@ -125,6 +125,8 @@ class CalendarController {
   }
 
   isInRange(day) {
-    return day.isBetween(this.rangeStart(), this.rangeEnd());
+    let start = this.rangeStart() ? this.rangeStart().clone().subtract(1, 'd') : null;
+    let end = this.rangeEnd() ? this.rangeEnd().clone().add(1, 'd') : null;
+    return day.isBetween(start, end);
   }
 }
