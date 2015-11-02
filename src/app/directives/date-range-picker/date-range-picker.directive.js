@@ -23,7 +23,7 @@ class DateRangePickerController {
     this.startCalendar = this.Moment();
     this.endCalendar = this.Moment().add(1, 'M');
     this.rangeStart = this.Moment();
-    this.rangeEnd = null;
+    this.rangeEnd = this.Moment().clone().add(40, 'd');
     this.setInterceptors();
   }
 

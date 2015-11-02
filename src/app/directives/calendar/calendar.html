@@ -1,29 +1,21 @@
-<div flex>
-  <div class="header" layout="row">
-    <button ng-if="month.left" ng-click="month.moveToPrev()"><<</button>
-    <div flex layout="row" layout-align="center">
-      <span>{{month.calendar.year}}, {{month.calendar.month}}</span>
-    </div>
-    <button ng-if="month.right" ng-click="month.moveToNext(1)">>></button>
+<div class="header" ng-class="{'pull-left': month.left, 'pull-right': month.right}">
+  <button ng-if="month.left" ng-click="month.moveToPrev()"><<</button>
+  <span class="date">{{month.calendar.year}}, {{month.calendar.month}}</span>
+  <button ng-if="month.right" ng-click="month.moveToNext(1)">>></button>
+</div>
+
+<div class="board">
+  <div class="days-of-week">
+    <span ng-repeat="day in month.daysOfWeek track by $index">{{day}}</span>
   </div>
 
-  <div class="calendar">
-    <div class="daysOfWeek" layout="row">
-      <div ng-repeat="day in month.daysOfWeek track by $index" flex>
-        <span layout="row" layout-align="center">{{day}}</span>
-      </div>
-    </div>
-
-    <div class="weeks" layout="column">
-      <div ng-repeat="week in month.calendar.monthWeeks track by $index" flex layout="row">
-        <div class="day"
-             ng-repeat="day in week track by $index"
-             flex layout="row" layout-align="center"
-             ng-class="{'current': day.currentDay, 'other-month': !day.currentMonth, 'in-range': month.isInRange(day.mo)}">
-          <span>{{day.mo.format('D')}}</span>
-        </div>
-      </div>
+  <div class="weeks">
+    <div ng-repeat="week in month.calendar.monthWeeks track by $index">
+        <span class="day"
+              ng-repeat="day in week track by $index"
+              ng-class="{'current': day.currentDay, 'other-month': !day.currentMonth, 'in-range': month.isInRange(day.mo)}">
+              {{day.mo.format('D')}}
+        </span>
     </div>
   </div>
-
 </div>
