@@ -19,7 +19,7 @@
         <div class="day"
              ng-repeat="day in week track by $index"
              flex layout="row" layout-align="center"
-             ng-class="{'current': day.currentDay, 'other-month': !day.currentMonth}">
+             ng-class="{'current': day.currentDay, 'other-month': !day.currentMonth, 'in-range': month.isInRange(day.mo)}">
           <span>{{day.mo.format('D')}}</span>
         </div>
       </div>

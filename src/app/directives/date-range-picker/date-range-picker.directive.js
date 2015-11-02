@@ -22,6 +22,8 @@ class DateRangePickerController {
     this.Moment = moment;
     this.startCalendar = this.Moment();
     this.endCalendar = this.Moment().add(1, 'M');
+    this.rangeStart = this.Moment();
+    this.rangeEnd = null;
     this.setInterceptors();
   }
 
@@ -30,6 +32,9 @@ class DateRangePickerController {
       moveToPrevClicked: () => {
         this.startCalendar = this.startCalendar.clone().add(-1, 'M');
         this.endCalendar = this.endCalendar.clone().add(-1, 'M');
+      },
+      daySelected: () => {
+
       }
     };
 
@@ -37,6 +42,9 @@ class DateRangePickerController {
       moveToNextClicked: () => {
         this.startCalendar = this.startCalendar.clone().add(1, 'M');
         this.endCalendar = this.endCalendar.clone().add(1, 'M');
+      },
+      daySelected: () => {
+
       }
     }
   }

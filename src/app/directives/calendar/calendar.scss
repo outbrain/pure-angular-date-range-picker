@@ -7,5 +7,9 @@ calendar {
     &.other-month {
       color: #CCCCCC;
     }
+
+    &.in-range {
+      background: #87ceeb;
+    }
   }
 }

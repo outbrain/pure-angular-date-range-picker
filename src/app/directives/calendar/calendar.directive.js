@@ -123,4 +123,8 @@ class CalendarController {
     let endDate = this.Moment(startDate).endOf('month');
     return {start: startDate, end: endDate};
   }
+
+  isInRange(day) {
+    return day.isBetween(this.rangeStart(), this.rangeEnd());
+  }
 }
