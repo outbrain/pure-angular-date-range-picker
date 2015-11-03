@@ -1,4 +1,4 @@
-/* global, moment:false */
+/* global moment:false */
 
 import { config } from './index.config';
 import { MainController } from './main/main.controller';

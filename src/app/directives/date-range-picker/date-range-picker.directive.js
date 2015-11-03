@@ -4,7 +4,7 @@ export function DateRangePicker() {
   let directive = {
     restrict: 'E',
     scope: {
-      'weekStart': '@'
+      'weekStart': '&'
     },
     templateUrl: 'app/directives/date-range-picker/date-range-picker.html',
     controller: DateRangePickerController,

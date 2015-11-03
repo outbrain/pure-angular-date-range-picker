@@ -4,7 +4,7 @@ export function Calendar() {
   let directive = {
     restrict: 'E',
     scope: {
-      weekStart: '@',
+      weekStart: '&',
       position: '@',
       month: '=',
       interceptors: '&',
@@ -27,10 +27,9 @@ class CalendarController {
     this.Moment = moment;
     this.Scope = $scope;
 
-    this.firstDayOfWeek = this.weekStart ? this.weekStart : 'su';
+    this.firstDayOfWeek = this.weekStart() || 'su';
     this.daysOfWeek = this.buildWeek(this.firstDayOfWeek);
     this.calendar = this.buildCalendar(this.month);
-    this.updateDaysInRange();
     this.interceptors = this.interceptors ? this.interceptors() : {};
     this.setPosition();
     this.setListeners();
@@ -41,27 +40,25 @@ class CalendarController {
       return this.month;
     }, (newMonth) => {
       this.calendar = this.buildCalendar(newMonth);
-      this.updateDaysInRange();
     });
 
     this.Scope.$watch(() => {
       return this.rangeStart();
     }, () => {
-      this.updateDaysInRange();
+      this.updateDaysInRange(this.calendar.monthWeeks);
     });
 
     this.Scope.$watch(() => {
       return this.rangeEnd();
     }, () => {
-      this.updateDaysInRange();
+      this.updateDaysInRange(this.calendar.monthWeeks);
     });
   }
 
-  updateDaysInRange() {
-    this.calendar.monthWeeks.forEach((week) => {
+  updateDaysInRange(monthWeeks) {
+    monthWeeks.forEach((week) => {
       week.forEach((day) => {
         day.inRange = this.isInRange(day.mo);
-        let start = this.rangeStart();
         day.rangeStart = day.mo.isSame(this.rangeStart(), 'day');
         day.rangeEnd = day.mo.isSame(this.rangeEnd(), 'day');
       });
@@ -111,7 +108,9 @@ class CalendarController {
       }
     }
 
-    return {
+    this.updateDaysInRange(monthWeeks);
+
+    return  {
       currentCalendar: date,
       selectedDate: date,
       year: date.year(),
@@ -119,7 +118,7 @@ class CalendarController {
       firstDayOfMonth: monthRange.start.format('D'),
       lastDayOfMonth: monthRange.end.format('D'),
       monthWeeks: monthWeeks
-    }
+    };
   }
 
   moveCalenderByMonth(months) {
