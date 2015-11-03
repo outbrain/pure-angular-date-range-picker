@@ -30,7 +30,8 @@ class CalendarController {
     this.firstDayOfWeek = this.weekStart ? this.weekStart : 'su';
     this.daysOfWeek = this.buildWeek(this.firstDayOfWeek);
     this.calendar = this.buildCalendar(this.month);
-    this.interceptors = this.interceptors ? this.interceptors() : null;
+    this.updateDaysInRange();
+    this.interceptors = this.interceptors ? this.interceptors() : {};
     this.setPosition();
     this.setListeners();
   }
@@ -40,6 +41,30 @@ class CalendarController {
       return this.month;
     }, (newMonth) => {
       this.calendar = this.buildCalendar(newMonth);
+      this.updateDaysInRange();
+    });
+
+    this.Scope.$watch(() => {
+      return this.rangeStart();
+    }, () => {
+      this.updateDaysInRange();
+    });
+
+    this.Scope.$watch(() => {
+      return this.rangeEnd();
+    }, () => {
+      this.updateDaysInRange();
+    });
+  }
+
+  updateDaysInRange() {
+    this.calendar.monthWeeks.forEach((week) => {
+      week.forEach((day) => {
+        day.inRange = this.isInRange(day.mo);
+        let start = this.rangeStart();
+        day.rangeStart = day.mo.isSame(this.rangeStart(), 'day');
+        day.rangeEnd = day.mo.isSame(this.rangeEnd(), 'day');
+      });
     });
   }
 
@@ -103,7 +128,7 @@ class CalendarController {
   }
 
   moveToNext() {
-    if (this.interceptors && this.interceptors.moveToNextClicked) {
+    if (this.interceptors.moveToNextClicked) {
       this.interceptors.moveToNextClicked.call(this.interceptors.context);
     } else {
       this.moveCalenderByMonth(1);
@@ -111,7 +136,7 @@ class CalendarController {
   }
 
   moveToPrev() {
-    if (this.interceptors && this.interceptors.moveToPrevClicked) {
+    if (this.interceptors.moveToPrevClicked) {
       this.interceptors.moveToPrevClicked.call(this.interceptors.context);
     } else {
       this.moveCalenderByMonth(-1);
@@ -128,5 +153,13 @@ class CalendarController {
     let start = this.rangeStart() ? this.rangeStart().clone().subtract(1, 'd') : null;
     let end = this.rangeEnd() ? this.rangeEnd().clone().add(1, 'd') : null;
     return day.isBetween(start, end);
+  }
+
+  daySelected(day) {
+    if (this.interceptors.daySelected) {
+      this.interceptors.daySelected.call(this.interceptors.context, day.mo);
+    } else {
+      this.selectedDay = day;
+    }
   }
 }

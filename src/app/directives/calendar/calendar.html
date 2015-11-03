@@ -13,7 +13,8 @@
     <div ng-repeat="week in month.calendar.monthWeeks track by $index">
         <span class="day"
               ng-repeat="day in week track by $index"
-              ng-class="{'current': day.currentDay, 'other-month': !day.currentMonth, 'in-range': month.isInRange(day.mo)}">
+              ng-class="{'current': day.currentDay, 'other-month': !day.currentMonth, 'in-range': day.inRange, 'range-start': day.rangeStart, 'range-end': day.rangeEnd}"
+              ng-click="month.daySelected(day)">
               {{day.mo.format('D')}}
         </span>
     </div>
