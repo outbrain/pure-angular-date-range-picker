@@ -149,9 +149,10 @@ class CalendarController {
   }
 
   isInRange(day) {
-    let start = this.rangeStart() ? this.rangeStart().clone().subtract(1, 'd') : null;
-    let end = this.rangeEnd() ? this.rangeEnd().clone().add(1, 'd') : null;
-    return day.isBetween(start, end);
+    let inRange = day.isBetween(this.rangeStart(), this.rangeEnd());
+    inRange = inRange || day.isSame(this.rangeStart(), 'day');
+    inRange = inRange || day.isSame(this.rangeEnd(), 'day');
+    return inRange;
   }
 
   daySelected(day) {

@@ -10,6 +10,7 @@ angular.module('ngDateRangePicker', [])
   .config(config)
 
   .controller('MainController', MainController)
+
   .directive('dateRangePicker', DateRangePicker)
   .directive('calendar', Calendar);
 

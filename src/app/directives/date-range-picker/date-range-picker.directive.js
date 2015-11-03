@@ -4,7 +4,9 @@ export function DateRangePicker() {
   let directive = {
     restrict: 'E',
     scope: {
-      'weekStart': '&'
+      weekStart: '&',
+      range: '=',
+      format: '&'
     },
     templateUrl: 'app/directives/date-range-picker/date-range-picker.html',
     controller: DateRangePickerController,
@@ -16,16 +18,32 @@ export function DateRangePicker() {
 }
 
 class DateRangePickerController {
+
   constructor(moment) {
     'ngInject';
 
     this.Moment = moment;
+    this.setConfigurations();
     this.startCalendar = this.Moment();
     this.endCalendar = this.Moment().add(1, 'M');
-    this.rangeStart = null;
-    this.rangeEnd = null;
-    this.daysSelected = 0;
     this.setInterceptors();
+  }
+
+  setConfigurations() {
+    this.range = this.range || {};
+    this.format = this.format() || 'MM-DD-YYYY';
+    let start = this.Moment(this.range.start, this.format);
+    let end = this.Moment(this.range.end, this.format);
+    end = end.diff(start) >= 0 ? end : start.clone();
+    this.rangeStart = start;
+    this.rangeEnd = end;
+    this.daysSelected = 2;
+    this.updateRange();
+  }
+
+  updateRange() {
+    this.range.start = this.rangeStart ? this.rangeStart.format(this.format) : null;
+    this.range.end = this.rangeEnd ? this.rangeEnd.format(this.format) : null;
   }
 
   setInterceptors() {
@@ -79,7 +97,7 @@ class DateRangePickerController {
         this.daysSelected = 1;
         break;
       case 1:
-        if(day.diff(this.rangeStart, 'days') < 0) {
+        if (day.diff(this.rangeStart, 'days') < 0) {
           this.rangeStart = day;
         } else {
           this.rangeEnd = day;
@@ -92,6 +110,8 @@ class DateRangePickerController {
         this.rangeEnd = null;
         break;
     }
+
+    this.updateRange();
   }
 
   moveCalenders(month) {
