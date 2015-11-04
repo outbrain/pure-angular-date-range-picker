@@ -1,4 +1,8 @@
 calendar {
+  width: calc(30px * 7);
+  display: inline-block;
+  box-sizing: border-box;
+
   .cell {
     display: inline-block;
     height: 30px;
