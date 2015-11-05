@@ -27,6 +27,7 @@ class DateRangePickerController {
     this.startCalendar = this.Moment();
     this.endCalendar = this.Moment().add(1, 'M');
     this.setInterceptors();
+    this.minDay = this.Moment().subtract(1, 'd');
   }
 
   setConfigurations() {

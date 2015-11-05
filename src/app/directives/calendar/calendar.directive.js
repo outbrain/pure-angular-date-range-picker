@@ -9,7 +9,8 @@ export function Calendar() {
       month: '=',
       interceptors: '&',
       rangeStart: '&',
-      rangeEnd: '&'
+      rangeEnd: '&',
+      minClickableDay: '&'
     },
     templateUrl: 'app/directives/calendar/calendar.html',
     controller: CalendarController,
@@ -45,22 +46,26 @@ class CalendarController {
     this.Scope.$watch(() => {
       return this.rangeStart();
     }, () => {
-      this.updateDaysInRange(this.calendar.monthWeeks);
+      this.updateDaysProperties(this.calendar.monthWeeks);
     });
 
     this.Scope.$watch(() => {
       return this.rangeEnd();
     }, () => {
-      this.updateDaysInRange(this.calendar.monthWeeks);
+      this.updateDaysProperties(this.calendar.monthWeeks);
     });
   }
 
-  updateDaysInRange(monthWeeks) {
+  updateDaysProperties(monthWeeks) {
     monthWeeks.forEach((week) => {
       week.forEach((day) => {
         day.inRange = this.isInRange(day.mo);
         day.rangeStart = day.mo.isSame(this.rangeStart(), 'day');
         day.rangeEnd = day.mo.isSame(this.rangeEnd(), 'day');
+        let minClickableDay = this.minClickableDay();
+        if(minClickableDay) {
+          day.disabled = day.mo.diff(minClickableDay) <= 0;
+        }
       });
     });
   }
@@ -108,7 +113,7 @@ class CalendarController {
       }
     }
 
-    this.updateDaysInRange(monthWeeks);
+    this.updateDaysProperties(monthWeeks);
 
     return  {
       currentCalendar: date,
@@ -156,10 +161,12 @@ class CalendarController {
   }
 
   daySelected(day) {
-    if (this.interceptors.daySelected) {
-      this.interceptors.daySelected.call(this.interceptors.context, day.mo);
-    } else {
-      this.selectedDay = day;
+    if(!day.disabled) {
+      if (this.interceptors.daySelected) {
+        this.interceptors.daySelected.call(this.interceptors.context, day.mo);
+      } else {
+        this.selectedDay = day;
+      }
     }
   }
 }
