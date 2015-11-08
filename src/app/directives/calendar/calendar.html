@@ -1,12 +1,12 @@
-<div class="header" ng-class="{'pull-left': month.left, 'pull-right': month.right}">
-  <button ng-if="month.left" ng-click="month.moveToPrev()"><<</button>
+<div class="header">
+  <span class="arrow-btn left" ng-if="month.left" ng-click="month.moveToPrev()">◀</span>
   <span class="date">{{month.calendar.year}}, {{month.calendar.month}}</span>
-  <button ng-if="month.right" ng-click="month.moveToNext(1)">>></button>
+  <span class="arrow-btn right" ng-if="month.right" ng-click="month.moveToNext(1)">▶</span>
 </div>
 
 <div class="board">
   <div class="days-of-week">
-    <span ng-repeat="day in month.daysOfWeek track by $index">{{day}}</span>
+    <span class="day-name" ng-repeat="day in month.daysName track by $index">{{day}}</span>
   </div>
 
   <div class="weeks">

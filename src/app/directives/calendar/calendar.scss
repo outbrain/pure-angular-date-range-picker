@@ -1,26 +1,18 @@
+$cellWidth: 30px;
+$cellHeight: 30px;
+$mainColor: #30708F;
+$borderColor: #C4BFB9;
+
 calendar {
-  width: calc(30px * 7);
-  display: inline-block;
-  box-sizing: border-box;
-
-  .cell {
-    display: inline-block;
-    height: 30px;
-    width: 30px;
-    line-height: 30px;
-    text-align: center;
-  }
-
-  .pull-right {
-    text-align: right;
-  }
-
-  .pull-left {
-    text-align: left;
-  }
+  font-family: Helvetica Neue, Helvetica, Arial;
 
   .header {
     position: relative;
+    height: $cellHeight;
+    background: $mainColor;
+    color: #FFFFFF;
+    border: 1px solid $borderColor;
+    border-radius: 2px 2px 0 0;
 
     .date {
       position: absolute;
@@ -28,43 +20,84 @@ calendar {
       left: 50%;
       transform: translate(-50%, -50%);
       white-space: nowrap;
+      font-size: 12px;
+    }
+
+    .arrow-btn {
+      position: absolute;
+      top: 0;
+      font-size: 10px;
+      width: $cellWidth;
+      height: $cellHeight;
+      line-height: $cellHeight;
+      text-align: center;
+
+      &.left {
+        left: 0;
+        border-right: 1px solid $borderColor;
+      }
+
+      &.right {
+        right: 0;
+        border-left: 1px solid $borderColor;
+      }
     }
   }
 
-  .days-of-week {
-    span {
+  .board {
+    position: relative;
+    top: -1px;
+    white-space: nowrap;
+
+    border: 1px solid $borderColor;
+    border-radius: 0 0 2px 2px;
+
+    .cell {
+      display: inline-block;
+      height: $cellHeight;
+      width: $cellWidth;
+      line-height: $cellHeight;
+      text-align: center;
+      font-size: 10px;
+    }
+
+    .days-of-week {
+      .day-name {
+        @extend .cell;
+        font-size: 10px;
+        text-transform: uppercase;
+      }
+    }
+
+    .day {
       @extend .cell;
-    }
-  }
+      &.current:not(.other-month) {
+        background: #00ffff;
+      }
 
-  .day {
-    @extend .cell;
-    &.current:not(.other-month) {
-      background: #00ffff;
-    }
+      &.other-month {
+        color: #CCCCCC;
+      }
 
-    &.other-month {
-      color: #CCCCCC;
-    }
+      &.in-range:not(.other-month) {
+        background: #92ebe6;
+      }
 
-    &.in-range:not(.other-month) {
-      background: #92ebe6;
-    }
+      &.range-start:not(.other-month) {
+        background: #87ceeb;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+      }
 
-    &.range-start:not(.other-month) {
-      background: #87ceeb;
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px;
-    }
+      &.range-end:not(.other-month) {
+        background: #87ceeb;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
 
-    &.range-end:not(.other-month) {
-      background: #87ceeb;
-      border-top-right-radius: 4px;
-      border-bottom-right-radius: 4px;
-    }
-
-    &.disabled {
-      opacity: 0.2;
+      &.disabled {
+        opacity: 0.2;
+      }
     }
   }
 }

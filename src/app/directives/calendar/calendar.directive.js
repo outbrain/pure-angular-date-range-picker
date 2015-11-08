@@ -10,7 +10,8 @@ export function Calendar() {
       interceptors: '&',
       rangeStart: '&',
       rangeEnd: '&',
-      minClickableDay: '&'
+      minClickableDay: '&',
+      weekDaysName: '&'
     },
     templateUrl: 'app/directives/calendar/calendar.html',
     controller: CalendarController,
@@ -27,6 +28,7 @@ class CalendarController {
 
     this.Moment = moment;
     this.Scope = $scope;
+    this.defaultWeekDaysNames = this.weekDaysName() || ['Sun', 'Mon', 'Tus', 'Wen', 'The', 'Fri', 'Sat'];
 
     this.firstDayOfWeek = this.weekStart() || 'su';
     this.daysOfWeek = this.buildWeek(this.firstDayOfWeek);
@@ -34,6 +36,27 @@ class CalendarController {
     this.interceptors = this.interceptors ? this.interceptors() : {};
     this.setPosition();
     this.setListeners();
+    this.daysName = this.setWeekDaysNames(this.daysOfWeek);
+  }
+
+  setWeekDaysNames(weekDays, daysName = this.defaultWeekDaysNames) {
+    let weekDayNames = [];
+    let defPosMap = {
+      'su': 0,
+      'mo': 1,
+      'tu': 2,
+      'we': 3,
+      'th': 4,
+      'fr': 5,
+      'sa': 6
+    };
+
+    weekDays.forEach((day, index) => {
+      let defPos = defPosMap[day];
+      weekDayNames[index] = daysName[defPos];
+    });
+
+    return weekDayNames;
   }
 
   setListeners() {
