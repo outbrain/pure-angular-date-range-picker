@@ -1,6 +1,9 @@
 date-range-picker {
   .calendar {
     display: inline-block;
-    margin: 10px;
+
+    &:first-child {
+      margin-right: 10px;
+    }
   }
 }

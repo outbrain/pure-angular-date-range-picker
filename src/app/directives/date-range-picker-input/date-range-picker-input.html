@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="picker-dropdown" ng-class="{'open': input.isPickerVisible}" ng-click="input.togglePicker()">Pick a Range</div>
+  <div class="picker" ng-class="{'open': input.isPickerVisible}" ng-show="input.isPickerVisible">
+    <div class="date-range">
+      <date-range-picker week-start="'mo'" range="main.range" format="'MM-DD-YYYY'"></date-range-picker>
+    </div>
+
+    <div class="ranges-actions">
+      <div class="ranges">
+        <div>Last 2</div>
+        <div>Last 3</div>
+      </div>
+
+      <div class="actions">
+        <button>Apply</button>
+        <button>Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
