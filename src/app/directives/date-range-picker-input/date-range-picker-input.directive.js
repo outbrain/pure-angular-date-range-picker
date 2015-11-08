@@ -32,7 +32,7 @@ class DateRangePickerInputController {
   setOpenCloseLogic() {
     this.isPickerVisible = false;
 
-    this.pickerPopup = angular.element(this.Element[0].querySelector('picker'));
+    this.pickerPopup = angular.element(this.Element[0].querySelector('.picker'));
     this.elemClickFlag = false;
   }
 
