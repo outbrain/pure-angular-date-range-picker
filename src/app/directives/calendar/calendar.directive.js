@@ -29,7 +29,6 @@ class CalendarController {
     this.Moment = moment;
     this.Scope = $scope;
     this.defaultWeekDaysNames = this.weekDaysName() || ['Sun', 'Mon', 'Tus', 'Wen', 'The', 'Fri', 'Sat'];
-
     this.firstDayOfWeek = this.weekStart() || 'su';
     this.daysOfWeek = this.buildWeek(this.firstDayOfWeek);
     this.calendar = this.buildCalendar(this.month);
@@ -66,15 +65,11 @@ class CalendarController {
       this.calendar = this.buildCalendar(newMonth);
     });
 
-    this.Scope.$watch(() => {
+    this.Scope.$watchGroup([() => {
       return this.rangeStart();
     }, () => {
-      this.updateDaysProperties(this.calendar.monthWeeks);
-    });
-
-    this.Scope.$watch(() => {
       return this.rangeEnd();
-    }, () => {
+    }], () => {
       this.updateDaysProperties(this.calendar.monthWeeks);
     });
   }

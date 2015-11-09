@@ -24,8 +24,9 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <date-range-picker week-start="'mo'" range="main.range" format="'MM-DD-YYYY'"></date-range-picker>
-    <date-range-picker-input></date-range-picker-input>
+    <!--<date-range-picker week-start="'mo'" range="main.range" format="'MM-DD-YYYY'"></date-range-picker>-->
+    <div style="margin-left: 500px;"><date-range-picker-input ranges="main.ranges" range="main.range" format="main.format"></date-range-picker-input></div>
+
     <pre>{{main.range | json}}</pre>
 
     <!-- build:js(src) scripts/vendor.js -->

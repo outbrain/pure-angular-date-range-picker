@@ -58,19 +58,24 @@ calendar {
       width: $cellWidth;
       line-height: $cellHeight;
       text-align: center;
-      font-size: 10px;
+      font-size: 12px;
     }
 
     .days-of-week {
       .day-name {
         @extend .cell;
-        font-size: 10px;
+        font-size: 12px;
         text-transform: uppercase;
       }
     }
 
     .day {
       @extend .cell;
+
+      &:hover {
+        cursor: pointer;
+      }
+
       &.current:not(.other-month) {
         background: #00ffff;
       }

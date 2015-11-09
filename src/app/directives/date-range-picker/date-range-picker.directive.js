@@ -6,7 +6,8 @@ export function DateRangePicker() {
     scope: {
       weekStart: '&',
       range: '=',
-      format: '&'
+      format: '&',
+      minClickableDay: '&'
     },
     templateUrl: 'app/directives/date-range-picker/date-range-picker.html',
     controller: DateRangePickerController,
@@ -19,22 +20,44 @@ export function DateRangePicker() {
 
 class DateRangePickerController {
 
-  constructor(moment) {
+  constructor(moment, $scope) {
     'ngInject';
 
     this.Moment = moment;
+    this.Scope = $scope;
+
+    this.range = this.range || {};
+    this.format = this.format() || 'MM-DD-YYYY';
     this.setConfigurations();
     this.startCalendar = this.Moment();
     this.endCalendar = this.Moment().add(1, 'M');
+    this.minDay = this.minClickableDay();
     this.setInterceptors();
-    this.minDay = this.Moment().subtract(1, 'd');
+    this.setListeners();
+  }
+
+  setListeners() {
+    this.Scope.$watchGroup([() => {
+      return this.range.start;
+    }, () => {
+      return this.range.end;
+    }], (newRange) => {
+      if(newRange[0] && newRange[1]) {
+        this.setConfigurations();
+      }
+    });
   }
 
   setConfigurations() {
-    this.range = this.range || {};
-    this.format = this.format() || 'MM-DD-YYYY';
-    let start = this.Moment(this.range.start, this.format);
-    let end = this.Moment(this.range.end, this.format);
+    let start, end;
+    if(this.isMomentRange(this.range)) {
+      start = this.range.start;
+      end = this.range.end;
+    } else {
+      start = this.Moment(this.range.start, this.format);
+      end = this.Moment(this.range.end, this.format);
+    }
+
     end = end.diff(start) >= 0 ? end : start.clone();
     this.rangeStart = start;
     this.rangeEnd = end;
@@ -43,8 +66,13 @@ class DateRangePickerController {
   }
 
   updateRange() {
-    this.range.start = this.rangeStart ? this.rangeStart.format(this.format) : null;
-    this.range.end = this.rangeEnd ? this.rangeEnd.format(this.format) : null;
+    if(this.isMomentRange(this.range)) {
+      this.range.start = this.rangeStart;
+      this.range.end = this.rangeEnd;
+    } else {
+      this.range.start = this.rangeStart ? this.rangeStart.format(this.format) : null;
+      this.range.end = this.rangeEnd ? this.rangeEnd.format(this.format) : null;
+    }
   }
 
   setInterceptors() {
@@ -118,5 +146,14 @@ class DateRangePickerController {
   moveCalenders(month) {
     this.startCalendar = this.startCalendar.clone().add(month, 'M');
     this.endCalendar = this.endCalendar.clone().add(month, 'M');
+  }
+
+  isMomentRange(range) {
+    let isRange = false;
+    if(range && range.start && range.end) {
+      isRange = this.Moment.isMoment(this.range.start) & this.Moment.isMoment(this.range.end)
+    }
+
+    return isRange;
   }
 }
