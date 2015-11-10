@@ -1,12 +1,33 @@
 $cellWidth: 30px;
 $cellHeight: 30px;
+$mainFontSize: 12px;
 $mainColor: #30708F;
 $borderColor: #C4BFB9;
+$inputBorderRadius: #93908C;
 $disabledColor: #E2DFDE;
 $rangeColor: #97B7C7;
+$mainTextColor: #565154;
 
 calendar {
   font-family: Helvetica Neue, Helvetica, Arial;
+  color: $mainTextColor;
+
+  .input-container {
+    label {
+      color: $mainTextColor;
+      font-size: $mainFontSize;
+    }
+
+    input {
+      box-sizing: border-box;
+      width: 100px;
+      height: 20px;
+      font-size: $mainFontSize;
+      outline: none;
+      border: 1px solid $inputBorderRadius;
+      border-radius: 2px;
+    }
+  }
 
   .header {
     position: relative;
@@ -22,7 +43,6 @@ calendar {
       left: 50%;
       transform: translate(-50%, -50%);
       white-space: nowrap;
-      font-size: 12px;
     }
 
     .arrow-btn {
@@ -65,13 +85,13 @@ calendar {
       width: $cellWidth;
       line-height: $cellHeight;
       text-align: center;
-      font-size: 12px;
+      font-size: $mainFontSize;
     }
 
     .days-of-week {
       .day-name {
         @extend .cell;
-        font-size: 12px;
+        font-size: $mainFontSize;
         text-transform: uppercase;
       }
     }

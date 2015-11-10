@@ -11,7 +11,8 @@ export function Calendar() {
       rangeStart: '&',
       rangeEnd: '&',
       minClickableDay: '&',
-      weekDaysName: '&'
+      weekDaysName: '&',
+      format: '&',
     },
     templateUrl: 'app/directives/calendar/calendar.html',
     controller: CalendarController,
@@ -23,11 +24,12 @@ export function Calendar() {
 }
 
 class CalendarController {
-  constructor(moment, $scope) {
+  constructor(moment, $scope, $attrs) {
     'ngInject';
 
     this.Moment = moment;
     this.Scope = $scope;
+    this.Attrs = $attrs;
     this.defaultWeekDaysNames = this.weekDaysName() || ['Sun', 'Mon', 'Tus', 'Wen', 'The', 'Fri', 'Sat'];
     this.firstDayOfWeek = this.weekStart() || 'su';
     this.daysOfWeek = this.buildWeek(this.firstDayOfWeek);
@@ -36,6 +38,15 @@ class CalendarController {
     this.setPosition();
     this.setListeners();
     this.daysName = this.setWeekDaysNames(this.daysOfWeek);
+
+  }
+
+  setValue() {
+    if(this.position === 'left' && this.rangeStart()) {
+      this.value = this.rangeStart().format(this.getFormat());
+    } else if (this.position === 'right' && this.rangeEnd()) {
+      this.value = this.rangeEnd().format(this.getFormat());
+    }
   }
 
   setWeekDaysNames(weekDays, daysName = this.defaultWeekDaysNames) {
@@ -70,6 +81,7 @@ class CalendarController {
     }, () => {
       return this.rangeEnd();
     }], () => {
+      this.setValue();
       this.updateDaysProperties(this.calendar.monthWeeks);
     });
   }
@@ -186,5 +198,17 @@ class CalendarController {
         this.selectedDay = day;
       }
     }
+  }
+
+  dateInputChanged(value) {
+    let day  = this.Moment(value, this.getFormat(), true);
+
+    if(day.isValid()) {
+      this.daySelected({mo: day});
+    }
+  }
+
+  getFormat() {
+    return this.format() || 'MM-DD-YYYY';
   }
 }

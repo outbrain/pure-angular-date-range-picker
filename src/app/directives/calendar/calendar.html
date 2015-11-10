@@ -1,3 +1,11 @@
+<div class="input-container">
+  <label>{{month.Attrs.label || 'Date'}}</label>
+  <input type="text"
+         ng-model="month.value"
+         ng-change="month.dateInputChanged(month.value)"
+         ng-model-options="{ debounce: 500 }"/>
+</div>
+
 <div class="header">
   <span class="arrow-btn left" ng-if="month.left" ng-click="month.moveToPrev()">◀</span>
   <span class="date">{{month.calendar.year}}, {{month.calendar.month}}</span>

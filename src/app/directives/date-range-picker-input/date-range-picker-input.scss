@@ -1,6 +1,7 @@
 $mainColor: #30708F;
-$borderColor: #C4BFB9;
+$borderColor: #93908C;
 $actionBtnColor: #565154;
+$dropdownHeight: 30px;
 
 date-range-picker-input {
   display: inline-block;
@@ -14,7 +15,7 @@ date-range-picker-input {
       box-sizing: border-box;
       position: relative;
       width: 290px;
-      height: 30px;
+      height: $dropdownHeight;
       line-height:30px;
       border: 1px solid $borderColor;
       border-radius: 2px;
@@ -47,14 +48,15 @@ date-range-picker-input {
       white-space: nowrap;
       overflow: visible;
       right: 0px;
-      top: 30px;
+      top: $dropdownHeight - 1px;
       z-index: 10;
       background: white;
       border: 1px solid $borderColor;
       border-radius: 2px;
 
       &.open {
-        border-radius: 0 0 2px 2px;
+
+        border-radius: 2px 0 2px 2px;
       }
 
       .date-range {

@@ -83,6 +83,12 @@ class DateRangePickerInputController {
     this.pickerPopup.bind('click', () => {
       this.elemClickFlag = true;
     });
+    this.Document.bind('keydown', (e) => {
+      if (e.keyCode == 27) {
+        this.hidePicker();
+        this.Scope.$apply();
+      }
+    });
   }
 
   togglePicker() {
