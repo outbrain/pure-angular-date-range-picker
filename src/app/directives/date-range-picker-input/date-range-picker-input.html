@@ -4,7 +4,10 @@
   </div>
   <div class="picker" ng-class="{'open': input.isPickerVisible}" ng-show="input.isPickerVisible">
     <div class="date-range">
-      <date-range-picker week-start="'mo'" range="input._range" format="input.format"></date-range-picker>
+      <date-range-picker
+        week-start="input.weekStart()"
+        range="input._range"
+        format="input.format" min-clickable-day="input.minClickableDay()"></date-range-picker>
     </div>
 
     <div class="ranges-actions">
@@ -13,8 +16,8 @@
       </div>
 
       <div class="actions">
-        <button>Cancel</button>
-        <button>Apply</button>
+        <div class="btn cancel" ng-click="input.discardChanges()">Cancel</div>
+        <div class="btn apply" ng-click="input.applyChanges()">APPLY</div>
       </div>
     </div>
   </div>

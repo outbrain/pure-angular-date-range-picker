@@ -3,8 +3,8 @@ export class MainController {
     'ngInject';
 
     this.range = {
-      start: '15-11-2015',
-      end: '15-11-2015'
+      start: moment(),
+      end: moment()
     };
 
     this.format = 'DD-MM-YYYY';
@@ -19,6 +19,11 @@ export class MainController {
         name: 'Yesterday',
         start: moment().subtract(1, 'd'),
         end: moment().subtract(1, 'd')
+      },
+      {
+        name: 'Current Month',
+        start: moment().startOf('month'),
+        end: moment()
       }
     ];
 

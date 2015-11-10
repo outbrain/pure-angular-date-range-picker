@@ -42,6 +42,7 @@ class DateRangePickerInputController {
     this.value = 'Select a Range';
     this.setOpenCloseLogic();
     this.setWatchers();
+    this.setRange();
   }
 
   setWatchers() {
@@ -53,8 +54,9 @@ class DateRangePickerInputController {
       if (!this.selfChange) {
         if (start && end) {
           let format = this.getFormat();
-          let name = `${start.format(format)} - ${end.format(format)}`;
-          this.setRange({name: name, start: start, end: end});
+          this.value = `${start.format(format)} - ${end.format(format)}`;
+          this._range.start = start;
+          this._range.end = end;
         }
       }
 
@@ -75,6 +77,7 @@ class DateRangePickerInputController {
         this.elemClickFlag = false;
       } else {
         this.hidePicker();
+        this.Scope.$apply();
       }
     });
     this.pickerPopup.bind('click', () => {
@@ -96,11 +99,10 @@ class DateRangePickerInputController {
     this.isPickerVisible = false;
     this.pickerPopup.unbind('click');
     this.Document.unbind('click');
-    this.Scope.$apply();
+
   }
 
-  setRange(range) {
-    this.value = range.name;
+  setRange(range = this._range) {
     if (this.toFormat) {
       this.range.start = range.start.format(this.getFormat());
       this.range.end = range.end.format(this.getFormat());
@@ -112,12 +114,25 @@ class DateRangePickerInputController {
 
   predefinedRangeSelected(range) {
     this.selfChange = true;
+    this.value = range.name;
     this._range.start = range.start;
     this._range.end = range.end;
-    this.setRange(range);
   }
 
   getFormat() {
     return this.format() || 'MM-DD-YYYY';
+  }
+
+  discardChanges() {
+    let format = this.getFormat();
+    let start = this.Moment(this.range.start, format);
+    let end = this.Moment(this.range.end, format);
+    this.value = `${start.format(format)} - ${end.format(format)}`;
+    this.hidePicker();
+  }
+
+  applyChanges() {
+    this.setRange();
+    this.hidePicker();
   }
 }

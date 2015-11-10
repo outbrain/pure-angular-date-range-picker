@@ -130,8 +130,8 @@ class DateRangePickerController {
         } else {
           this.rangeEnd = day;
           this.daysSelected = 2;
+          this.updateRange();
         }
-        this.updateRange();
         break;
       case 2:
         this.daysSelected = 1;

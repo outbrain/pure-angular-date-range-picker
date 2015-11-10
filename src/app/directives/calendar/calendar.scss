@@ -2,6 +2,8 @@ $cellWidth: 30px;
 $cellHeight: 30px;
 $mainColor: #30708F;
 $borderColor: #C4BFB9;
+$disabledColor: #E2DFDE;
+$rangeColor: #97B7C7;
 
 calendar {
   font-family: Helvetica Neue, Helvetica, Arial;
@@ -31,6 +33,7 @@ calendar {
       height: $cellHeight;
       line-height: $cellHeight;
       text-align: center;
+      cursor: pointer;
 
       &.left {
         left: 0;
@@ -40,6 +43,10 @@ calendar {
       &.right {
         right: 0;
         border-left: 1px solid $borderColor;
+      }
+
+      &:hover {
+
       }
     }
   }
@@ -81,27 +88,28 @@ calendar {
       }
 
       &.other-month {
-        color: #CCCCCC;
+        color: $disabledColor;
       }
 
       &.in-range:not(.other-month) {
-        background: #92ebe6;
+        background: $rangeColor;
+        color: #FFFFFF;
       }
 
       &.range-start:not(.other-month) {
-        background: #87ceeb;
-        border-top-left-radius: 4px;
-        border-bottom-left-radius: 4px;
+        background: $mainColor;
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
       }
 
       &.range-end:not(.other-month) {
-        background: #87ceeb;
-        border-top-right-radius: 4px;
-        border-bottom-right-radius: 4px;
+        background: $mainColor;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
       }
 
       &.disabled {
-        opacity: 0.2;
+        color: $disabledColor;
       }
     }
   }
