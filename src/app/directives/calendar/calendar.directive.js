@@ -81,7 +81,7 @@ class CalendarController {
         day.rangeStart = day.mo.isSame(this.rangeStart(), 'day');
         day.rangeEnd = day.mo.isSame(this.rangeEnd(), 'day');
         let minClickableDay = this.minClickableDay();
-        if(minClickableDay) {
+        if (minClickableDay) {
           day.disabled = day.mo.diff(minClickableDay) <= 0;
         }
       });
@@ -133,7 +133,7 @@ class CalendarController {
 
     this.updateDaysProperties(monthWeeks);
 
-    return  {
+    return {
       currentCalendar: date,
       selectedDate: date,
       year: date.year(),
@@ -179,7 +179,7 @@ class CalendarController {
   }
 
   daySelected(day) {
-    if(!day.disabled) {
+    if (!day.disabled) {
       if (this.interceptors.daySelected) {
         this.interceptors.daySelected.call(this.interceptors.context, day.mo);
       } else {

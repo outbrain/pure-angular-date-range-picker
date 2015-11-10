@@ -28,12 +28,17 @@ class DateRangePickerInputController {
     this.Scope = $scope;
     this.Moment = moment;
     this.range = this.range || {};
-    this._range = Object.assign({}, this.range);
+
     this.preRanges = this.ranges();
     if (this.format()) {
       this.toFormat = true;
+      this._range = {
+        start: this.Moment(this.range.start, this.getFormat()),
+        end: this.Moment(this.range.end, this.getFormat())
+      };
+    } else {
+      this._range = Object.assign({}, this.range);
     }
-    this.format = this.format() || 'MM-DD-YYYY';
     this.value = 'Select a Range';
     this.setOpenCloseLogic();
     this.setWatchers();
@@ -45,11 +50,11 @@ class DateRangePickerInputController {
     }, () => {
       return this._range.end;
     }], ([start, end]) => {
-      if(!this.selfChange) {
+      if (!this.selfChange) {
         if (start && end) {
-          start = this.Moment(start, this.format);
-          end = this.Moment(end, this.format);
-          this.setRange({start: start, end: end})
+          let format = this.getFormat();
+          let name = `${start.format(format)} - ${end.format(format)}`;
+          this.setRange({name: name, start: start, end: end});
         }
       }
 
@@ -97,8 +102,8 @@ class DateRangePickerInputController {
   setRange(range) {
     this.value = range.name;
     if (this.toFormat) {
-      this.range.start = range.start.format(this.format);
-      this.range.end = range.end.format(this.format);
+      this.range.start = range.start.format(this.getFormat());
+      this.range.end = range.end.format(this.getFormat());
     } else {
       this.range.start = range.start;
       this.range.end = range.end;
@@ -110,5 +115,9 @@ class DateRangePickerInputController {
     this._range.start = range.start;
     this._range.end = range.end;
     this.setRange(range);
+  }
+
+  getFormat() {
+    return this.format() || 'MM-DD-YYYY';
   }
 }

@@ -27,7 +27,6 @@ class DateRangePickerController {
     this.Scope = $scope;
 
     this.range = this.range || {};
-    this.format = this.format() || 'MM-DD-YYYY';
     this.setConfigurations();
     this.startCalendar = this.Moment();
     this.endCalendar = this.Moment().add(1, 'M');
@@ -42,7 +41,7 @@ class DateRangePickerController {
     }, () => {
       return this.range.end;
     }], (newRange) => {
-      if(newRange[0] && newRange[1]) {
+      if (newRange[0] && newRange[1]) {
         this.setConfigurations();
       }
     });
@@ -50,12 +49,12 @@ class DateRangePickerController {
 
   setConfigurations() {
     let start, end;
-    if(this.isMomentRange(this.range)) {
+    if (this.isMomentRange(this.range)) {
       start = this.range.start;
       end = this.range.end;
     } else {
-      start = this.Moment(this.range.start, this.format);
-      end = this.Moment(this.range.end, this.format);
+      start = this.Moment(this.range.start, this.getFormat());
+      end = this.Moment(this.range.end, this.getFormat());
     }
 
     end = end.diff(start) >= 0 ? end : start.clone();
@@ -66,12 +65,12 @@ class DateRangePickerController {
   }
 
   updateRange() {
-    if(this.isMomentRange(this.range)) {
+    if (this.isMomentRange(this.range)) {
       this.range.start = this.rangeStart;
       this.range.end = this.rangeEnd;
     } else {
-      this.range.start = this.rangeStart ? this.rangeStart.format(this.format) : null;
-      this.range.end = this.rangeEnd ? this.rangeEnd.format(this.format) : null;
+      this.range.start = this.rangeStart ? this.rangeStart.format(this.getFormat()) : null;
+      this.range.end = this.rangeEnd ? this.rangeEnd.format(this.getFormat()) : null;
     }
   }
 
@@ -132,6 +131,7 @@ class DateRangePickerController {
           this.rangeEnd = day;
           this.daysSelected = 2;
         }
+        this.updateRange();
         break;
       case 2:
         this.daysSelected = 1;
@@ -139,8 +139,6 @@ class DateRangePickerController {
         this.rangeEnd = null;
         break;
     }
-
-    this.updateRange();
   }
 
   moveCalenders(month) {
@@ -150,10 +148,14 @@ class DateRangePickerController {
 
   isMomentRange(range) {
     let isRange = false;
-    if(range && range.start && range.end) {
+    if (range && range.start && range.end) {
       isRange = this.Moment.isMoment(this.range.start) & this.Moment.isMoment(this.range.end)
     }
 
     return isRange;
+  }
+
+  getFormat() {
+    return this.format() || 'MM-DD-YYYY';
   }
 }
