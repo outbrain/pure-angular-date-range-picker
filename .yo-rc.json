@@ -24,7 +24,7 @@
         "extension": "scss"
       },
       "jsPreprocessor": {
-        "key": "traceur",
+        "key": "babel",
         "extension": "js",
         "srcExtension": "es6"
       },
