@@ -12,7 +12,7 @@ export function Calendar() {
       rangeEnd: '&',
       minClickableDay: '&',
       weekDaysName: '&',
-      format: '&',
+      format: '&'
     },
     templateUrl: 'app/directives/calendar/calendar.html',
     controller: CalendarController,
