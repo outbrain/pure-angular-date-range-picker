@@ -42,7 +42,7 @@ class CalendarController {
   }
 
   setValue() {
-    if(this.position === 'left' && this.rangeStart()) {
+    if (this.position === 'left' && this.rangeStart()) {
       this.value = this.rangeStart().format(this.getFormat());
     } else if (this.position === 'right' && this.rangeEnd()) {
       this.value = this.rangeEnd().format(this.getFormat());
@@ -200,11 +200,17 @@ class CalendarController {
     }
   }
 
-  dateInputChanged(value) {
-    let day  = this.Moment(value, this.getFormat(), true);
+  dateInputSelected(e, value) {
+    if (e.keyCode == 13) {
+      let day = this.Moment(value, this.getFormat(), true);
 
-    if(day.isValid()) {
-      this.daySelected({mo: day});
+      if (day.isValid() && !day.disabled) {
+        if(this.interceptors.inputSelected) {
+          this.interceptors.inputSelected(day);
+        } else {
+          this.daySelected({mo: day});
+        }
+      }
     }
   }
 
