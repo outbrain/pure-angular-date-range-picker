@@ -36,6 +36,7 @@ class DateRangePickerInputController {
       name: 'Custom',
       isCustom: true
     });
+
     if (this.format()) {
       this.toFormat = true;
       this._range = {
@@ -44,6 +45,15 @@ class DateRangePickerInputController {
       };
     } else {
       this._range = Object.assign({}, this.range);
+    }
+
+    if (this._range.start && this._range.end) {
+      this._range.start = this.Moment();
+      this._range.end = this.Moment();
+    } else if (this.preRanges.length > 1) {
+      let firstPreRange = this.preRanges[0];
+      this._range.start = firstPreRange.start;
+      this._range.end = firstPreRange.end;
     }
 
     this.value = 'Select a Range';
@@ -62,7 +72,7 @@ class DateRangePickerInputController {
       if (!this.selfChange) {
         if (start && end) {
           let format = this.getFormat();
-          this.value = `${start.format(format)} - ${end.format(format)}`;
+          this.value = this.getRangeValue();
           this._range.start = start;
           this._range.end = end;
           this.preRanges[this.preRanges.length - 1].start = start;
@@ -115,7 +125,6 @@ class DateRangePickerInputController {
     this.isPickerVisible = false;
     this.pickerPopup.unbind('click');
     this.Document.unbind('click');
-
   }
 
   setRange(range = this._range) {
@@ -129,7 +138,7 @@ class DateRangePickerInputController {
   }
 
   predefinedRangeSelected(range, index) {
-    if(!range.isCustom) {
+    if (!range.isCustom) {
       this.selfChange = true;
       this.selectedRengeIndex = index;
       this.value = range.name;
@@ -149,7 +158,7 @@ class DateRangePickerInputController {
     let format = this.getFormat();
     let start = this.Moment(this.range.start, format);
     let end = this.Moment(this.range.end, format);
-    this.value = `${start.format(format)} - ${end.format(format)}`;
+    this.value = this.getRangeValue();
     this._range.start = start;
     this._range.end = end;
     this.pickerApi.setCalendarPosition(start);
@@ -160,6 +169,21 @@ class DateRangePickerInputController {
     this.selectedRengeIndex = this.preRanges.findIndex((range) => {
       return (start.isSame(range.start, 'day') && end.isSame(range.end, 'day'));
     });
+  }
+
+  getRangeValue() {
+    let value;
+    let index = this.preRanges.findIndex((range) => {
+      return (this._range.start.isSame(range.start, 'day') && this._range.end.isSame(range.end, 'day'));
+    });
+
+    if(this.preRanges[index].isCustom) {
+      value = `${start.format(format)} - ${end.format(format)}`;
+    } else {
+      value = this.preRanges[index].name;
+    }
+
+    return value;
   }
 
   applyChanges() {
