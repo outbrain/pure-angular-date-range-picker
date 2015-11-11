@@ -200,16 +200,20 @@ class CalendarController {
     }
   }
 
-  dateInputSelected(e, value) {
+  dateInputEntered(e, value) {
     if (e.keyCode == 13) {
-      let day = this.Moment(value, this.getFormat(), true);
+      this.dateInputSelected(value);
+    }
+  }
 
-      if (day.isValid() && !day.disabled) {
-        if(this.interceptors.inputSelected) {
-          this.interceptors.inputSelected(day);
-        } else {
-          this.daySelected({mo: day});
-        }
+  dateInputSelected(value) {
+    let day = this.Moment(value, this.getFormat(), true);
+
+    if (day.isValid() && !day.disabled) {
+      if (this.interceptors.inputSelected) {
+        this.interceptors.inputSelected(day);
+      } else {
+        this.daySelected({mo: day});
       }
     }
   }

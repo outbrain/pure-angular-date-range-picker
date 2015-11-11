@@ -2,7 +2,8 @@
   <label>{{month.Attrs.label || 'Date'}}</label>
   <input type="text"
          ng-model="month.value"
-         ng-keypress="month.dateInputSelected($event, month.value)" />
+         ng-keypress="month.dateInputEntered($event, month.value)"
+         ng-blur="month.dateInputSelected(month.value)"/>
 </div>
 
 <div class="header">
