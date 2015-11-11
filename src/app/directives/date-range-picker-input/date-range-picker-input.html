@@ -5,6 +5,7 @@
   <div class="picker" ng-class="{'open': input.isPickerVisible}" ng-show="input.isPickerVisible">
     <div class="date-range">
       <date-range-picker
+        api="input.pickerApi"
         week-start="input.weekStart()"
         range="input._range"
         format="input.format" min-clickable-day="input.minClickableDay()"></date-range-picker>

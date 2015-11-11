@@ -28,6 +28,7 @@ class DateRangePickerInputController {
     this.Scope = $scope;
     this.Moment = moment;
     this.range = this.range || {};
+    this.pickerApi = {};
 
     this.preRanges = this.ranges() || [];
     this.preRanges.push({
@@ -146,6 +147,7 @@ class DateRangePickerInputController {
     this.value = `${start.format(format)} - ${end.format(format)}`;
     this._range.start = start;
     this._range.end = end;
+    this.pickerApi.setCalendarPosition(start);
     this.hidePicker();
   }
 

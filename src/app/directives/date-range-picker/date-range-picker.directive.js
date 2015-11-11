@@ -7,7 +7,8 @@ export function DateRangePicker() {
       weekStart: '&',
       range: '=',
       format: '&',
-      minClickableDay: '&'
+      minClickableDay: '&',
+      api: '&'
     },
     templateUrl: 'app/directives/date-range-picker/date-range-picker.html',
     controller: DateRangePickerController,
@@ -28,11 +29,22 @@ class DateRangePickerController {
 
     this.range = this.range || {};
     this.setConfigurations();
-    this.startCalendar = this.Moment();
-    this.endCalendar = this.Moment().add(1, 'M');
+    this.startCalendar = this.range.start || this.Moment();
+    this.endCalendar = this.startCalendar.clone().add(1, 'M');
     this.minDay = this.minClickableDay();
     this.setInterceptors();
     this.setListeners();
+    this.setApi();
+  }
+
+  setApi() {
+    let api = this.api() || {};
+    Object.assign(api, {
+      setCalendarPosition: (start) => {
+        this.startCalendar = start;
+        this.endCalendar = this.startCalendar.clone().add(1, 'M');
+      }
+    });
   }
 
   setListeners() {
@@ -56,6 +68,9 @@ class DateRangePickerController {
       start = this.Moment(this.range.start, this.getFormat());
       end = this.Moment(this.range.end, this.getFormat());
     }
+
+    //this.startCalendar = start;
+    //this.endCalendar = this.startCalendar.clone().add(1, 'M');
 
     end = end.diff(start) >= 0 ? end : start.clone();
     this.rangeStart = start;
@@ -106,13 +121,16 @@ class DateRangePickerController {
     switch (this.daysSelected) {
       case 0:
       case 1:
+        this.moveCalenders(day.diff(this.startCalendar, 'months'));
         this.rangeStart = day;
         this.daysSelected = 1;
         break;
       case 2:
         if (day.diff(this.rangeStart, 'days') < 0) {
+          this.moveCalenders(day.diff(this.startCalendar, 'months'));
           this.rangeStart = day;
-        } else if (day.diff(this.rangeEnd, 'days') > 0) {
+        } else if (day.diff(this.rangeEnd, 'days') >= 0) {
+          this.moveCalenders(day.diff(this.startCalendar, 'months'));
           this.rangeStart = day;
           this.rangeEnd = day;
         }
@@ -125,15 +143,18 @@ class DateRangePickerController {
   inputInEndSelected(day) {
     switch (this.daysSelected) {
       case 0:
+        this.moveCalenders(day.diff(this.startCalendar, 'months'));
         this.rangeStart = day;
         this.daysSelected = 1;
         break;
       case 1:
       case 2:
-        if (day.diff(this.rangeStart, 'days') < 0) {
+        if (day.diff(this.rangeStart, 'days') <= 0) {
+          this.moveCalenders(day.diff(this.startCalendar, 'months'));
           this.rangeStart = day;
           this.rangeEnd = day;
-        } else {
+        } else if (!day.isSame(this.endCalendar, 'months')) {
+          this.moveCalenders(day.diff(this.endCalendar, 'months') + 1);
           this.rangeEnd = day;
         }
         this.daysSelected = 2;
