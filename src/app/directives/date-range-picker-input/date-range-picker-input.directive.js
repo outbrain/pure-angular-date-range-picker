@@ -29,6 +29,7 @@ class DateRangePickerInputController {
     this.Moment = moment;
     this.range = this.range || {};
     this.pickerApi = {};
+    this.isCustomVisable = false;
 
     this.preRanges = this.ranges() || [];
     this.preRanges.push({
@@ -44,6 +45,7 @@ class DateRangePickerInputController {
     } else {
       this._range = Object.assign({}, this.range);
     }
+
     this.value = 'Select a Range';
     this.setOpenCloseLogic();
     this.setWatchers();
@@ -133,6 +135,9 @@ class DateRangePickerInputController {
       this.value = range.name;
       this._range.start = range.start;
       this._range.end = range.end;
+      this.isCustomVisable = false;
+    } else {
+      this.isCustomVisable = true;
     }
   }
 

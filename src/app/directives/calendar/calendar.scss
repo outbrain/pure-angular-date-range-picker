@@ -1,4 +1,4 @@
-$cellWidth: 30px;
+$cellWidth: 38px;
 $cellHeight: 30px;
 $mainFontSize: 12px;
 $mainColor: #30708F;
@@ -9,18 +9,22 @@ $rangeColor: #97B7C7;
 $mainTextColor: #565154;
 
 calendar {
-  font-family: Helvetica Neue, Helvetica, Arial;
+  font-family: "Open Sans";
   color: $mainTextColor;
 
   .input-container {
     label {
+      display: inline-block;
       color: $mainTextColor;
       font-size: $mainFontSize;
+      margin-bottom: 5px;
+      vertical-align: middle;
     }
 
     input {
       box-sizing: border-box;
-      width: 100px;
+      width: 200px;
+      float: right;
       height: 20px;
       font-size: $mainFontSize;
       outline: none;
@@ -104,7 +108,7 @@ calendar {
       }
 
       &.current:not(.other-month) {
-        background: #00ffff;
+        font-weight: bold;
       }
 
       &.other-month {

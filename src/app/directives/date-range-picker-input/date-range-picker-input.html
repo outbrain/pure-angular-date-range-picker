@@ -3,7 +3,7 @@
     <span>{{input.value}}</span>
   </div>
   <div class="picker" ng-class="{'open': input.isPickerVisible}" ng-show="input.isPickerVisible">
-    <div class="date-range">
+    <div class="date-range" ng-show="input.isCustomVisable">
       <date-range-picker
         api="input.pickerApi"
         week-start="input.weekStart()"
@@ -11,7 +11,7 @@
         format="input.format" min-clickable-day="input.minClickableDay()"></date-range-picker>
     </div>
 
-    <div class="ranges-actions">
+    <div class="ranges-actions" ng-class="{'custom-open': input.isCustomVisable}">
       <div class="ranges">
         <div class="range"
              ng-repeat="range in input.preRanges track by $index"

@@ -44,6 +44,8 @@ date-range-picker-input {
     }
 
     .picker {
+      box-sizing: border-box;
+      height: 288px;
       position: absolute;
       white-space: nowrap;
       overflow: visible;
@@ -55,64 +57,70 @@ date-range-picker-input {
       border-radius: 2px;
 
       &.open {
-
         border-radius: 2px 0 2px 2px;
+      }
+
+      .ranges-actions {
+        display: inline-block;
+        vertical-align: top;
+        height: 100%;
+        width: 150px;
+        box-sizing: border-box;
+        padding: 10px;
+        font-size: 12px;
+
+        .ranges {
+          .range {
+            height: 27px;
+            line-height: 27px;
+            cursor: pointer;
+            border-radius: 2px;
+            padding: 0 5px;
+            margin-bottom: 5px;
+
+            &:hover, &.selected {
+              background: $mainColor;
+              color: #FFFFFF;
+            }
+          }
+        }
+
+        .actions {
+          width: 150px;
+          padding: 0 3px;
+          margin-top: 10px;
+          position: absolute;
+          bottom: 10px;
+
+          .btn {
+            height: 27px;
+            line-height: 27px;
+            cursor: pointer;
+            width: 60px;
+            display: inline-block;
+            text-align: center;
+
+            &.cancel {
+              text-decoration: underline;
+              color: $actionBtnColor;
+            }
+
+            &.apply {
+              background: $actionBtnColor;
+              color: #FFFFFF;
+              border-radius: 2px;
+            }
+          }
+        }
+
+        &.custom-open {
+          border-left: 1px solid $borderColor;
+        }
       }
 
       .date-range {
         padding: 10px;
         display: inline-block;
-        border-right: 1px solid $borderColor;
-      }
-    }
-
-    .ranges-actions {
-      display: inline-block;
-      vertical-align: top;
-      padding: 10px;
-      font-size: 12px;
-
-      .ranges {
-        .range {
-          height: 27px;
-          line-height: 27px;
-          cursor: pointer;
-          border-radius: 2px;
-          padding: 0 5px;
-
-          &:hover, &.selected {
-            background: $mainColor;
-            color: #FFFFFF;
-          }
-        }
-      }
-
-      .actions {
-        width: 150px;
-        padding: 0 3px;
-        margin-top: 10px;
-
-        .btn {
-          height: 27px;
-          line-height: 27px;
-          cursor: pointer;
-          width: 70px;
-          display: inline-block;
-          text-align: center;
-
-          &.cancel {
-            text-decoration: underline;
-            color: $actionBtnColor;
-            margin-right: 5px;
-          }
-
-          &.apply {
-            background: $actionBtnColor;
-            color: #FFFFFF;
-            border-radius: 2px;
-            margin-left: 5px;
-          }
-        }
       }
     }
   }
