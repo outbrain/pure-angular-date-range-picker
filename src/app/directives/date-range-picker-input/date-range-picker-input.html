@@ -12,7 +12,10 @@
 
     <div class="ranges-actions">
       <div class="ranges">
-        <div class="range" ng-repeat="range in input.preRanges track by $index" ng-click="input.predefinedRangeSelected(range)">{{range.name}}</div>
+        <div class="range"
+             ng-repeat="range in input.preRanges track by $index"
+             ng-class="{'selected': input.selectedRengeIndex === $index}"
+             ng-click="input.predefinedRangeSelected(range, $index)">{{range.name}}</div>
       </div>
 
       <div class="actions">

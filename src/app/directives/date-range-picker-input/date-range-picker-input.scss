@@ -80,7 +80,7 @@ date-range-picker-input {
           border-radius: 2px;
           padding: 0 5px;
 
-          &:hover {
+          &:hover, &.selected {
             background: $mainColor;
             color: #FFFFFF;
           }

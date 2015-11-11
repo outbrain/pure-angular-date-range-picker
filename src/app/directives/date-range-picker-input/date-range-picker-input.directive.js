@@ -29,7 +29,11 @@ class DateRangePickerInputController {
     this.Moment = moment;
     this.range = this.range || {};
 
-    this.preRanges = this.ranges();
+    this.preRanges = this.ranges() || [];
+    this.preRanges.push({
+      name: 'Custom',
+      isCustom: true
+    });
     if (this.format()) {
       this.toFormat = true;
       this._range = {
@@ -43,6 +47,7 @@ class DateRangePickerInputController {
     this.setOpenCloseLogic();
     this.setWatchers();
     this.setRange();
+    this.markPredefined(this._range.start, this._range.end);
   }
 
   setWatchers() {
@@ -57,13 +62,15 @@ class DateRangePickerInputController {
           this.value = `${start.format(format)} - ${end.format(format)}`;
           this._range.start = start;
           this._range.end = end;
+          this.preRanges[this.preRanges.length - 1].start = start;
+          this.preRanges[this.preRanges.length - 1].end = end;
+          this.markPredefined(start, end);
         }
       }
 
       this.selfChange = false;
     });
   }
-
 
   setOpenCloseLogic() {
     this.isPickerVisible = false;
@@ -118,11 +125,14 @@ class DateRangePickerInputController {
     }
   }
 
-  predefinedRangeSelected(range) {
-    this.selfChange = true;
-    this.value = range.name;
-    this._range.start = range.start;
-    this._range.end = range.end;
+  predefinedRangeSelected(range, index) {
+    if(!range.isCustom) {
+      this.selfChange = true;
+      this.selectedRengeIndex = index;
+      this.value = range.name;
+      this._range.start = range.start;
+      this._range.end = range.end;
+    }
   }
 
   getFormat() {
@@ -137,6 +147,12 @@ class DateRangePickerInputController {
     this._range.start = start;
     this._range.end = end;
     this.hidePicker();
+  }
+
+  markPredefined(start, end) {
+    this.selectedRengeIndex = this.preRanges.findIndex((range) => {
+      return (start.isSame(range.start, 'day') && end.isSame(range.end, 'day'));
+    });
   }
 
   applyChanges() {
