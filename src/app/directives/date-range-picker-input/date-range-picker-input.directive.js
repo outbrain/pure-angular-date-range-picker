@@ -76,7 +76,7 @@ class DateRangePickerInputController {
       if (this.elemClickFlag) {
         this.elemClickFlag = false;
       } else {
-        this.hidePicker();
+        this.discardChanges();
         this.Scope.$apply();
       }
     });
@@ -85,7 +85,7 @@ class DateRangePickerInputController {
     });
     this.Document.bind('keydown', (e) => {
       if (e.keyCode == 27) {
-        this.hidePicker();
+        this.discardChanges();
         this.Scope.$apply();
       }
     });
@@ -134,6 +134,8 @@ class DateRangePickerInputController {
     let start = this.Moment(this.range.start, format);
     let end = this.Moment(this.range.end, format);
     this.value = `${start.format(format)} - ${end.format(format)}`;
+    this._range.start = start;
+    this._range.end = end;
     this.hidePicker();
   }
 
