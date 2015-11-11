@@ -84,7 +84,7 @@ class DateRangePickerController {
         this.daySelected(day);
       },
       inputSelected: (day) => {
-        this.inputInDayStartSelected(day);
+        this.inputInStartSelected(day);
       }
     };
 
@@ -97,17 +97,14 @@ class DateRangePickerController {
         this.daySelected(day);
       },
       inputSelected: (day) => {
-        this.inputInDayEndSelected(day);
+        this.inputInEndSelected(day);
       }
     }
   }
 
-  inputInDayStartSelected(day) {
+  inputInStartSelected(day) {
     switch (this.daysSelected) {
       case 0:
-        this.rangeStart = day;
-        this.daysSelected = 1;
-        break;
       case 1:
         this.rangeStart = day;
         this.daysSelected = 1;
@@ -125,7 +122,7 @@ class DateRangePickerController {
     }
   }
 
-  inputInDayEndSelected(day) {
+  inputInEndSelected(day) {
     switch (this.daysSelected) {
       case 0:
         this.rangeStart = day;
@@ -153,11 +150,6 @@ class DateRangePickerController {
       this.moveCalenders(-1);
     } else if (day.isSame(nextMonth, 'month')) {
       this.dayInEndSelected(day);
-    } else if (day.diff(nextMonth, 'month') > 0) {
-      this.moveCalenders(day.diff(nextMonth, 'month'));
-      this.dayInEndSelected(day);
-    } else if (day.diff(prevMonth, 'month') < 0) {
-      this.moveCalenders(day.diff(prevMonth, 'month') - 1);
     }
   }
 
@@ -169,11 +161,6 @@ class DateRangePickerController {
       this.dayInStartSelected(day);
     } else if (day.isSame(nextMonth, 'month')) {
       this.moveCalenders(1);
-    } else if (day.diff(nextMonth, 'month') > 0) {
-      this.moveCalenders(day.diff(nextMonth, 'month') + 1);
-    } else if (day.diff(prevMonth, 'month') < 0) {
-      this.moveCalenders(day.diff(prevMonth, 'month'));
-      this.dayInStartSelected(day);
     }
   }
 
