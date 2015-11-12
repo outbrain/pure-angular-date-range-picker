@@ -1,20 +1,24 @@
 <calendar class="calendar"
-          min-clickable-day="picker.minClickableDay()"
+          min-day="picker.minDay()"
+          max-day="picker.maxDay()"
           week-start="picker.weekStart()"
           month="picker.startCalendar"
           interceptors="picker.startCalendarInterceptors"
           range-start="picker.rangeStart"
           range-end="picker.rangeEnd"
           position="left"
-          label="Start Date">
+          label="Start Date"
+          format="picker.format()">
 </calendar>
 <calendar class="calendar"
-          min-clickable-day="picker.minClickableDay()"
+          min-day="picker.minDay()"
+          max-day="picker.maxDay()"
           week-start="picker.weekStart()"
           month="picker.endCalendar"
           interceptors="picker.endCalendarInterceptors"
           range-start="picker.rangeStart"
           range-end="picker.rangeEnd"
           position="right"
-          label="End Date">
+          label="End Date"
+          format="picker.format()">
 </calendar>

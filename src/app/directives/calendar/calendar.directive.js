@@ -10,7 +10,8 @@ export function Calendar() {
       interceptors: '&',
       rangeStart: '&',
       rangeEnd: '&',
-      minClickableDay: '&',
+      minDay: '&',
+      maxDay: '&',
       weekDaysName: '&',
       format: '&'
     },
@@ -92,9 +93,13 @@ class CalendarController {
         day.inRange = this.isInRange(day.mo);
         day.rangeStart = day.mo.isSame(this.rangeStart(), 'day');
         day.rangeEnd = day.mo.isSame(this.rangeEnd(), 'day');
-        let minClickableDay = this.minClickableDay();
-        if (minClickableDay) {
-          day.disabled = day.mo.diff(minClickableDay) <= 0;
+        let minDay = this.minDay();
+        if (minDay) {
+          day.disabled = day.mo.diff(minDay) <= 0;
+        }
+        let maxDay = this.maxDay();
+        if (maxDay) {
+          day.disabled = day.mo.diff(minDay) >= 0;
         }
       });
     });

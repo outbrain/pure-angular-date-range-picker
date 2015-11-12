@@ -7,7 +7,7 @@ export function DateRangePicker() {
       weekStart: '&',
       range: '=',
       format: '&',
-      minClickableDay: '&',
+      minDay: '&',
       api: '&'
     },
     templateUrl: 'app/directives/date-range-picker/date-range-picker.html',
@@ -31,7 +31,7 @@ class DateRangePickerController {
     this.setConfigurations();
     this.startCalendar = this.range.start || this.Moment();
     this.endCalendar = this.startCalendar.clone().add(1, 'M');
-    this.minDay = this.minClickableDay();
+    this.minDay = this.minDay();
     this.setInterceptors();
     this.setListeners();
     this.setApi();

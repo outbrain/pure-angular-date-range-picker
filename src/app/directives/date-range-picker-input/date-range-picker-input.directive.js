@@ -7,7 +7,9 @@ export function DateRangePickerInput() {
       weekStart: '&',
       range: '=',
       format: '&',
-      ranges: '&'
+      ranges: '&',
+      minDay: '&',
+      maxDay: '&'
     },
     controller: DateRangePickerInputController,
     templateUrl: 'app/directives/date-range-picker-input/date-range-picker-input.html',
@@ -72,11 +74,11 @@ class DateRangePickerInputController {
       if (!this.selfChange) {
         if (start && end) {
           let format = this.getFormat();
-          this.value = this.getRangeValue();
           this._range.start = start;
           this._range.end = end;
           this.preRanges[this.preRanges.length - 1].start = start;
           this.preRanges[this.preRanges.length - 1].end = end;
+          this.value = this.getRangeValue();
           this.markPredefined(start, end);
         }
       }
@@ -145,6 +147,7 @@ class DateRangePickerInputController {
       this._range.start = range.start;
       this._range.end = range.end;
       this.isCustomVisable = false;
+      this.applyChanges();
     } else {
       this.isCustomVisable = true;
     }
@@ -158,9 +161,9 @@ class DateRangePickerInputController {
     let format = this.getFormat();
     let start = this.Moment(this.range.start, format);
     let end = this.Moment(this.range.end, format);
-    this.value = this.getRangeValue();
     this._range.start = start;
     this._range.end = end;
+    this.value = this.getRangeValue();
     this.pickerApi.setCalendarPosition(start);
     this.hidePicker();
   }
@@ -178,7 +181,8 @@ class DateRangePickerInputController {
     });
 
     if(this.preRanges[index].isCustom) {
-      value = `${start.format(format)} - ${end.format(format)}`;
+      let format = this.getFormat();
+      value = `${this.preRanges[index].start.format(format)} - ${this.preRanges[index].end.format(format)}`;
     } else {
       value = this.preRanges[index].name;
     }
