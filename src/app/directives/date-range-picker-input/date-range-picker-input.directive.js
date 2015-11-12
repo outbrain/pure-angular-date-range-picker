@@ -193,5 +193,6 @@ class DateRangePickerInputController {
   applyChanges() {
     this.setRange();
     this.hidePicker();
+    this.pickerApi.setCalendarPosition(this._range.start);
   }
 }
