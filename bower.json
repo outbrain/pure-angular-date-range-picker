@@ -1,13 +1,13 @@
 {
-  "name": "ngDateRangePicker",
+  "name": "obDateRangePicker",
   "version": "0.0.0",
+  "main": [
+    "scripts/ob-daterangepicker.js",
+    "styles/ob-daterangepicker.css"
+  ],
   "dependencies": {
-    "traceur-runtime": "~0.0.90",
     "moment": "~2.10.6",
     "angular": "~1.4.2"
-  },
-  "devDependencies": {
-    "angular-mocks": "~1.4.2"
   },
   "resolutions": {
     "angular": "~1.4.2"

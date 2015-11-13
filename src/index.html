@@ -1,8 +1,8 @@
 <!doctype html>
-<html ng-app="ngDateRangePicker" ng-strict-di>
+<html ng-app="obDateRangePicker" ng-strict-di>
   <head>
     <meta charset="utf-8">
-    <title>ngDateRangePicker</title>
+    <title>obDateRangePicker</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -25,11 +25,13 @@
     <![endif]-->
 
     <!--<date-range-picker week-start="'mo'" range="main.range" format="'MM-DD-YYYY'"></date-range-picker>-->
-    <div style="margin-left: 500px;"><date-range-picker-input
-      ranges="main.ranges"
-      range="main.range"
-      format="main.format"
-      week-start="'mo'"></date-range-picker-input></div>
+    <div style="margin-left: 500px;">
+      <ob-daterangepicker
+        ranges="main.ranges"
+        range="main.range"
+        format="main.format"
+        week-start="'mo'"></ob-daterangepicker>
+    </div>
 
     <pre>{{main.range | json}}</pre>
 

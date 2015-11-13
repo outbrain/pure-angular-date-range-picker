@@ -8,7 +8,7 @@ describe('directive malarkey', function() {
   let vm;
   let element;
 
-  beforeEach(angular.mock.module('ngDateRangePicker'));
+  beforeEach(angular.mock.module('obDateRangePicker'));
 
   beforeEach(inject(($compile, $rootScope, githubContributor, $q) => {
     spyOn(githubContributor, 'getContributors').and.callFake(() => {

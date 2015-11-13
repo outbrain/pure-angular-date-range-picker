@@ -19,7 +19,7 @@ gulp.task('partials', function () {
       quotes: true
     }))
     .pipe($.angularTemplatecache('templateCacheHtml.js', {
-      module: 'ngDateRangePicker',
+      module: 'obDateRangePicker',
       root: 'app'
     }))
     .pipe(gulp.dest(conf.paths.tmp + '/partials/'));

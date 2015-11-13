@@ -34,7 +34,7 @@ module.exports = function(config) {
 
     ngHtml2JsPreprocessor: {
       stripPrefix: conf.paths.src + '/',
-      moduleName: 'ngDateRangePicker'
+      moduleName: 'obDateRangePicker'
     },
 
     logLevel: 'WARN',

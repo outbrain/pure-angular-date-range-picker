@@ -1,7 +1,7 @@
 describe('controllers', () => {
   let vm;
 
-  beforeEach(angular.mock.module('ngDateRangePicker'));
+  beforeEach(angular.mock.module('obDateRangePicker'));
 
   beforeEach(inject(($controller, webDevTec, toastr) => {
     spyOn(webDevTec, 'getTec').and.returnValue([{}, {}, {}, {}, {}]);

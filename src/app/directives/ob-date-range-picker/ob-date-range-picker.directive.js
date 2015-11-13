@@ -1,4 +1,4 @@
-export function DateRangePickerInput() {
+export function ObDateRangePicker() {
   'ngInject';
 
   let directive = {
@@ -14,8 +14,8 @@ export function DateRangePickerInput() {
       monthFormat: '&',
       inputFormat: '&'
     },
-    controller: DateRangePickerInputController,
-    templateUrl: 'app/directives/date-range-picker-input/date-range-picker-input.html',
+    controller: ObDateRangePickerController,
+    templateUrl: 'app/directives/ob-date-range-picker/ob-date-range-picker.html',
     controllerAs: 'input',
     bindToController: true
   };
@@ -23,7 +23,7 @@ export function DateRangePickerInput() {
   return directive;
 }
 
-class DateRangePickerInputController {
+class ObDateRangePickerController {
 
   constructor($document, $element, $scope, moment) {
     'ngInject';
