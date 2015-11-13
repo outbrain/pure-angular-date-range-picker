@@ -8,7 +8,10 @@ export function DateRangePicker() {
       range: '=',
       format: '&',
       minDay: '&',
-      api: '&'
+      api: '&',
+      monthFormat: '&',
+      inputFormat: '&',
+      weekDaysName: '&',
     },
     templateUrl: 'app/directives/date-range-picker/date-range-picker.html',
     controller: DateRangePickerController,

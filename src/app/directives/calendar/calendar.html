@@ -8,7 +8,7 @@
 
 <div class="header">
   <span class="arrow-btn left" ng-if="month.left" ng-click="month.moveToPrev()">◀</span>
-  <span class="date">{{month.calendar.year}}, {{month.calendar.month}}</span>
+  <span class="date">{{month.getFormattedMonth(month.calendar.currentCalendar)}}</span>
   <span class="arrow-btn right" ng-if="month.right" ng-click="month.moveToNext(1)">▶</span>
 </div>
 

@@ -6,10 +6,13 @@ export function DateRangePickerInput() {
     scope: {
       weekStart: '&',
       range: '=',
+      weekDaysName: '&',
       format: '&',
       ranges: '&',
       minDay: '&',
-      maxDay: '&'
+      maxDay: '&',
+      monthFormat: '&',
+      inputFormat: '&'
     },
     controller: DateRangePickerInputController,
     templateUrl: 'app/directives/date-range-picker-input/date-range-picker-input.html',
@@ -181,7 +184,7 @@ class DateRangePickerInputController {
     });
 
     if(this.preRanges[index].isCustom) {
-      let format = this.getFormat();
+      let format = this.getInputFormat();
       value = `${this.preRanges[index].start.format(format)} - ${this.preRanges[index].end.format(format)}`;
     } else {
       value = this.preRanges[index].name;
@@ -194,5 +197,9 @@ class DateRangePickerInputController {
     this.setRange();
     this.hidePicker();
     this.pickerApi.setCalendarPosition(this._range.start);
+  }
+
+  getInputFormat() {
+    return this.inputFormat() || 'MMM D, YYYY';
   }
 }

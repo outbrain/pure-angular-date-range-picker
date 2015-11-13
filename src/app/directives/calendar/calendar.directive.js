@@ -4,16 +4,18 @@ export function Calendar() {
   let directive = {
     restrict: 'E',
     scope: {
+      minDay: '&',
+      maxDay: '&',
       weekStart: '&',
-      position: '@',
       month: '=',
       interceptors: '&',
       rangeStart: '&',
       rangeEnd: '&',
-      minDay: '&',
-      maxDay: '&',
+      position: '@',
       weekDaysName: '&',
-      format: '&'
+      format: '&',
+      monthFormat: '&',
+      inputFormat: '&'
     },
     templateUrl: 'app/directives/calendar/calendar.html',
     controller: CalendarController,
@@ -31,7 +33,7 @@ class CalendarController {
     this.Moment = moment;
     this.Scope = $scope;
     this.Attrs = $attrs;
-    this.defaultWeekDaysNames = this.weekDaysName() || ['Sun', 'Mon', 'Tus', 'Wen', 'The', 'Fri', 'Sat'];
+    this.defaultWeekDaysNames = this.weekDaysName() || ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     this.firstDayOfWeek = this.weekStart() || 'su';
     this.daysOfWeek = this.buildWeek(this.firstDayOfWeek);
     this.calendar = this.buildCalendar(this.month);
@@ -44,9 +46,9 @@ class CalendarController {
 
   setValue() {
     if (this.position === 'left' && this.rangeStart()) {
-      this.value = this.rangeStart().format(this.getFormat());
+      this.value = this.rangeStart().format(this.getInputFormat());
     } else if (this.position === 'right' && this.rangeEnd()) {
-      this.value = this.rangeEnd().format(this.getFormat());
+      this.value = this.rangeEnd().format(this.getInputFormat());
     }
   }
 
@@ -153,8 +155,6 @@ class CalendarController {
     return {
       currentCalendar: date,
       selectedDate: date,
-      year: date.year(),
-      month: date.format('MMMM'),
       firstDayOfMonth: monthRange.start.format('D'),
       lastDayOfMonth: monthRange.end.format('D'),
       monthWeeks: monthWeeks
@@ -212,7 +212,7 @@ class CalendarController {
   }
 
   dateInputSelected(value) {
-    let day = this.Moment(value, this.getFormat(), true);
+    let day = this.Moment(value, this.getInputFormat(), true);
 
     if (day.isValid() && !day.disabled) {
       if (this.interceptors.inputSelected) {
@@ -223,7 +223,19 @@ class CalendarController {
     }
   }
 
+  getFormattedMonth(day) {
+    return this.Moment(day).format(this.getMonthFormat());
+  }
+
   getFormat() {
     return this.format() || 'MM-DD-YYYY';
+  }
+
+  getMonthFormat() {
+    return this.monthFormat() || 'MMMM YYYY';
+  }
+
+  getInputFormat() {
+    return this.inputFormat() || 'MMM D, YYYY';
   }
 }

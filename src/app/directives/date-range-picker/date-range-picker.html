@@ -7,8 +7,11 @@
           range-start="picker.rangeStart"
           range-end="picker.rangeEnd"
           position="left"
-          label="Start Date"
-          format="picker.format()">
+          week-days-name="picker.weekDaysName()"
+          format="picker.format()"
+          month-format="picker.monthFormat()"
+          input-format="picker.inputFormat()"
+          label="Start Date">
 </calendar>
 <calendar class="calendar"
           min-day="picker.minDay()"
@@ -19,6 +22,9 @@
           range-start="picker.rangeStart"
           range-end="picker.rangeEnd"
           position="right"
-          label="End Date"
-          format="picker.format()">
+          week-days-name="picker.weekDaysName()"
+          format="picker.format() "
+          month-format="picker.monthFormat()"
+          input-format="picker.inputFormat()"
+          label="End Date">
 </calendar>
