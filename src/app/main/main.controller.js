@@ -1,6 +1,8 @@
 export class MainController {
-  constructor ($scope, moment) {
+  constructor ($scope, moment, $log) {
     'ngInject';
+
+    this.Log = $log;
 
     this.range = {
       start: moment(),
@@ -27,10 +29,15 @@ export class MainController {
       }
     ];
 
+
     $scope.$watch(() => {
       return this.range;
     }, () => {
       this.value = `${this.range.start || ''} : ${this.range.end || ''}`;
     }, true);
+  }
+
+  rangeApplied(start, end) {
+    this.Log.info(start, end);
   }
 }

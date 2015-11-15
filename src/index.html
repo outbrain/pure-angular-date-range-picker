@@ -27,6 +27,7 @@
     <!--<date-range-picker week-start="'mo'" range="main.range" format="'MM-DD-YYYY'"></date-range-picker>-->
     <div style="margin-left: 500px;">
       <ob-daterangepicker
+        on-apply="main.rangeApplied(start, end)"
         ranges="main.ranges"
         range="main.range"
         format="main.format"

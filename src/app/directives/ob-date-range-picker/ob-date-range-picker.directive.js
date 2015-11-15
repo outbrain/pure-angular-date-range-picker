@@ -12,7 +12,8 @@ export function ObDateRangePicker() {
       minDay: '&',
       maxDay: '&',
       monthFormat: '&',
-      inputFormat: '&'
+      inputFormat: '&',
+      onApply: '&'
     },
     controller: ObDateRangePickerController,
     templateUrl: 'app/directives/ob-date-range-picker/ob-date-range-picker.html',
@@ -196,6 +197,9 @@ class ObDateRangePickerController {
     this.setRange();
     this.hidePicker();
     this.pickerApi.setCalendarPosition(this._range.start);
+    if(this.onApply) {
+      this.onApply({start: this._range.start, end: this._range.end});
+    }
   }
 
   getInputFormat() {
