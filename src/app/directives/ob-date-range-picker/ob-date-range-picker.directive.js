@@ -76,7 +76,6 @@ class ObDateRangePickerController {
     }], ([start, end]) => {
       if (!this.selfChange) {
         if (start && end) {
-          let format = this.getFormat();
           this._range.start = start;
           this._range.end = end;
           this.preRanges[this.preRanges.length - 1].start = start;

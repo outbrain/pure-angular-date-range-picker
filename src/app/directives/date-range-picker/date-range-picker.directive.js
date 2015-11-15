@@ -11,7 +11,7 @@ export function DateRangePicker() {
       api: '&',
       monthFormat: '&',
       inputFormat: '&',
-      weekDaysName: '&',
+      weekDaysName: '&'
     },
     templateUrl: 'app/directives/date-range-picker/date-range-picker.html',
     controller: DateRangePickerController,
@@ -132,8 +132,12 @@ class DateRangePickerController {
         if (day.diff(this.rangeStart, 'days') < 0) {
           this.moveCalenders(day.diff(this.startCalendar, 'months'));
           this.rangeStart = day;
+        } else if (day.isBetween(this.rangeStart, this.rangeEnd)) {
+          this.rangeStart = day;
         } else if (day.diff(this.rangeEnd, 'days') >= 0) {
-          this.moveCalenders(day.diff(this.startCalendar, 'months'));
+          if(!day.isSame(this.rangeStart) && !day.isSame(this.rangeEnd)) {
+            this.moveCalenders(day.diff(this.startCalendar, 'months'));
+          }
           this.rangeStart = day;
           this.rangeEnd = day;
         }
@@ -156,10 +160,13 @@ class DateRangePickerController {
           this.moveCalenders(day.diff(this.startCalendar, 'months'));
           this.rangeStart = day;
           this.rangeEnd = day;
+        } else if (day.isSame(this.startCalendar, 'months') || day.isSame(this.endCalendar, 'months')) {
+          this.rangeEnd = day;
         } else if (!day.isSame(this.endCalendar, 'months')) {
           this.moveCalenders(day.diff(this.endCalendar, 'months') + 1);
           this.rangeEnd = day;
         }
+
         this.daysSelected = 2;
         this.updateRange();
         break;
