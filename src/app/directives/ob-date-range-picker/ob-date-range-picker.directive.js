@@ -37,25 +37,26 @@ class ObDateRangePickerController {
     this.pickerApi = {};
     this.isCustomVisable = false;
 
+    this._range = {
+      start: this.Moment(),
+      end: this.Moment()
+    };
     this.preRanges = this.ranges() || [];
     this.preRanges.push({
       name: 'Custom',
       isCustom: true
     });
 
-    if (this.format()) {
-      this.toFormat = true;
+    if (this.range.start && this.range.end && !this.Moment.isMoment(this.range.start) && !this.Moment.isMoment(this.range.end) && this.format()) {
       this._range = {
         start: this.Moment(this.range.start, this.getFormat()),
         end: this.Moment(this.range.end, this.getFormat())
       };
-    } else {
-      this._range = Object.assign({}, this.range);
-    }
-
-    if (this._range.start && this._range.end) {
-      this._range.start = this.Moment();
-      this._range.end = this.Moment();
+    } else if (this.Moment.isMoment(this.range.start) && this.Moment.isMoment(this.range.end)) {
+      this._range = {
+        start: this.range.start,
+        end: this.range.end
+      };
     } else if (this.preRanges.length > 1) {
       let firstPreRange = this.preRanges[0];
       this._range.start = firstPreRange.start;
@@ -133,7 +134,7 @@ class ObDateRangePickerController {
   }
 
   setRange(range = this._range) {
-    if (this.toFormat) {
+    if (this.format()) {
       this.range.start = range.start.format(this.getFormat());
       this.range.end = range.end.format(this.getFormat());
     } else {
@@ -183,7 +184,7 @@ class ObDateRangePickerController {
       return (this._range.start.isSame(range.start, 'day') && this._range.end.isSame(range.end, 'day'));
     });
 
-    if(this.preRanges[index].isCustom) {
+    if (this.preRanges[index].isCustom) {
       let format = this.getInputFormat();
       value = `${this.preRanges[index].start.format(format)} - ${this.preRanges[index].end.format(format)}`;
     } else {
@@ -197,7 +198,7 @@ class ObDateRangePickerController {
     this.setRange();
     this.hidePicker();
     this.pickerApi.setCalendarPosition(this._range.start);
-    if(this.onApply) {
+    if (this.onApply) {
       this.onApply({start: this._range.start, end: this._range.end});
     }
   }
