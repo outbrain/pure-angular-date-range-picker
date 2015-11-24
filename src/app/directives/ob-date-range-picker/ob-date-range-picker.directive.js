@@ -13,7 +13,8 @@ export function ObDateRangePicker() {
       maxDay: '&',
       monthFormat: '&',
       inputFormat: '&',
-      onApply: '&'
+      onApply: '&',
+      api: '='
     },
     controller: ObDateRangePickerController,
     templateUrl: 'app/directives/ob-date-range-picker/ob-date-range-picker.html',
@@ -67,6 +68,9 @@ class ObDateRangePickerController {
     this.setWatchers();
     this.setRange();
     this.markPredefined(this._range.start, this._range.end);
+    this.api = {
+      setDateRange: this.setDateRange.bind(this)
+    }
   }
 
   setWatchers() {
@@ -193,16 +197,22 @@ class ObDateRangePickerController {
     return value;
   }
 
-  applyChanges() {
+  applyChanges(callApply = true) {
     this.setRange();
     this.hidePicker();
     this.pickerApi.setCalendarPosition(this._range.start);
-    if(this.onApply) {
+    if(callApply && this.onApply) {
       this.onApply({start: this._range.start, end: this._range.end});
     }
   }
 
   getInputFormat() {
     return this.inputFormat() || 'MMM D, YYYY';
+  }
+
+  setDateRange(range) {
+    this._range.start = range.start;
+    this._range.end = range.end;
+    this.applyChanges(false);
   }
 }

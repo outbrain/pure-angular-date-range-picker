@@ -27,12 +27,14 @@
     <!--<date-range-picker week-start="'mo'" range="main.range" format="'MM-DD-YYYY'"></date-range-picker>-->
     <div style="margin-left: 500px;">
       <ob-daterangepicker
+        api="main.dateRangeApi"
         on-apply="main.rangeApplied(start, end)"
         ranges="main.ranges"
         range="main.range"
         format="main.format"
         week-start="'mo'"></ob-daterangepicker>
     </div>
+    <button ng-click="main.setDateRange()">Set date range</button>
 
     <pre>{{main.range | json}}</pre>
 

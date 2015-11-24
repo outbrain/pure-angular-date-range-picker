@@ -3,6 +3,7 @@ export class MainController {
     'ngInject';
 
     this.Log = $log;
+    this.dateRangeApi = {};
 
     this.range = {
       start: moment(),
@@ -39,5 +40,12 @@ export class MainController {
 
   rangeApplied(start, end) {
     this.Log.info(start, end);
+  }
+
+  setDateRange() {
+    this.dateRangeApi.setDateRange({
+      start: moment(),
+      end: moment().add(2, 'd')
+    });
   }
 }
