@@ -69,9 +69,10 @@ class ObDateRangePickerController {
     this.setWatchers();
     this.setRange();
     this.markPredefined(this._range.start, this._range.end);
-    this.api = {
+
+    this.api && Object.assign(this.api, {
       setDateRange: this.setDateRange.bind(this)
-    }
+    });
   }
 
   setWatchers() {
