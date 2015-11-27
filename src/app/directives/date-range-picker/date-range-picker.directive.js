@@ -11,7 +11,8 @@ export function DateRangePicker() {
       api: '&',
       monthFormat: '&',
       inputFormat: '&',
-      weekDaysName: '&'
+      weekDaysName: '&',
+      linkedCalendars: '&'
     },
     templateUrl: 'app/directives/date-range-picker/date-range-picker.html',
     controller: DateRangePickerController,
@@ -44,9 +45,14 @@ class DateRangePickerController {
   setApi() {
     let api = this.api() || {};
     Object.assign(api, {
-      setCalendarPosition: (start) => {
+      setCalendarPosition: (start, end) => {
         this.startCalendar = start;
-        this.endCalendar = this.startCalendar.clone().add(1, 'M');
+        if(this.linkedCalendars() && end) {
+          this.endCalendar = end;
+        } else {
+          this.endCalendar = this.startCalendar.clone().add(1, 'M');
+        }
+
       },
       render: () => {
         this.startCalendarApi.render();
@@ -97,7 +103,7 @@ class DateRangePickerController {
   setInterceptors() {
     this.startCalendarInterceptors = {
       moveToPrevClicked: () => {
-        this.moveCalenders(-1);
+        this.moveCalenders(-1, 'start');
       },
       daySelected: (day) => {
         this.dayInStartSelected(day);
@@ -110,7 +116,7 @@ class DateRangePickerController {
 
     this.endCalendarInterceptors = {
       moveToNextClicked: () => {
-        this.moveCalenders(1)
+        this.moveCalenders(1, 'end')
       },
       daySelected: (day) => {
         this.dayInEndSelected(day);
@@ -123,22 +129,23 @@ class DateRangePickerController {
   }
 
   inputInStartSelected(day) {
+    let calendar = 'start';
     switch (this.daysSelected) {
       case 0:
       case 1:
-        this.moveCalenders(day.diff(this.startCalendar, 'months'));
+        this.moveCalenders(day.diff(this.startCalendar, 'months'), calendar);
         this.rangeStart = day;
         this.daysSelected = 1;
         break;
       case 2:
         if (day.diff(this.rangeStart, 'days') < 0) {
-          this.moveCalenders(day.diff(this.startCalendar, 'months'));
+          this.moveCalenders(day.diff(this.startCalendar, 'months'), calendar);
           this.rangeStart = day;
         } else if (day.isBetween(this.rangeStart, this.rangeEnd)) {
           this.rangeStart = day;
         } else if (day.diff(this.rangeEnd, 'days') >= 0) {
           if(!day.isSame(this.rangeStart) && !day.isSame(this.rangeEnd)) {
-            this.moveCalenders(day.diff(this.startCalendar, 'months'));
+            this.moveCalenders(day.diff(this.startCalendar, 'months'), calendar);
           }
           this.rangeStart = day;
           this.rangeEnd = day;
@@ -150,22 +157,23 @@ class DateRangePickerController {
   }
 
   inputInEndSelected(day) {
+    let calendar = 'end';
     switch (this.daysSelected) {
       case 0:
-        this.moveCalenders(day.diff(this.startCalendar, 'months'));
+        this.moveCalenders(day.diff(this.startCalendar, 'months'), calendar);
         this.rangeStart = day;
         this.daysSelected = 1;
         break;
       case 1:
       case 2:
         if (day.diff(this.rangeStart, 'days') <= 0) {
-          this.moveCalenders(day.diff(this.startCalendar, 'months'));
+          this.moveCalenders(day.diff(this.startCalendar, 'months'), calendar);
           this.rangeStart = day;
           this.rangeEnd = day;
         } else if (day.isSame(this.startCalendar, 'months') || day.isSame(this.endCalendar, 'months')) {
           this.rangeEnd = day;
         } else if (!day.isSame(this.endCalendar, 'months')) {
-          this.moveCalenders(day.diff(this.endCalendar, 'months') + 1);
+          this.moveCalenders(day.diff(this.endCalendar, 'months') + 1, calendar);
           this.rangeEnd = day;
         }
 
@@ -177,23 +185,29 @@ class DateRangePickerController {
 
   dayInStartSelected(day) {
     let prevMonth = this.startCalendar.clone().subtract(1, 'M');
-    let nextMonth = this.endCalendar;
+    let nextMonth = this.startCalendar.clone().add(1, 'M');
 
     if (day.isSame(prevMonth, 'month')) {
-      this.moveCalenders(-1);
+      this.moveCalenders(-1, 'start');
     } else if (day.isSame(nextMonth, 'month')) {
+      if(!nextMonth.isSame(this.endCalendar)) {
+        this.moveCalenders(nextMonth.diff(this.endCalendar, 'months'), 'end');
+      }
       this.dayInEndSelected(day);
     }
   }
 
   dayInEndSelected(day) {
-    let prevMonth = this.startCalendar;
+    let prevMonth =  this.endCalendar.clone().subtract(1, 'M');
     let nextMonth = this.endCalendar.clone().add(1, 'M');
 
     if (day.isSame(prevMonth, 'month')) {
+      if(!prevMonth.isSame(this.endCalendar)) {
+        this.moveCalenders(prevMonth.diff(this.endCalendar, 'months'), 'end');
+      }
       this.dayInStartSelected(day);
     } else if (day.isSame(nextMonth, 'month')) {
-      this.moveCalenders(1);
+      this.moveCalenders(1, 'end');
     }
   }
 
@@ -220,17 +234,29 @@ class DateRangePickerController {
     }
   }
 
-  moveCalenders(month) {
-    this.startCalendar = this.startCalendar.clone().add(month, 'M');
-    this.endCalendar = this.endCalendar.clone().add(month, 'M');
+  moveCalenders(month, calendar) {
+    if(this.areCalendarsLinked() && calendar) {
+      this.startCalendar = this.startCalendar.clone().add(month, 'M');
+      this.endCalendar = this.endCalendar.clone().add(month, 'M');
+    } else {
+      if(calendar === 'start') {
+        this.startCalendar = this.startCalendar.clone().add(month, 'M');
+      } else {
+        this.endCalendar = this.endCalendar.clone().add(month, 'M');
+      }
+    }
   }
 
   isMomentRange(range) {
     let isRange = false;
     if (range && range.start && range.end) {
-      isRange = this.Moment.isMoment(this.range.start) & this.Moment.isMoment(this.range.end)
+      isRange = this.Moment.isMoment(this.range.start) && this.Moment.isMoment(this.range.end)
     }
 
     return isRange;
+  }
+
+  areCalendarsLinked() {
+    return this.linkedCalendars() !== undefined ? this.linkedCalendars() : false;
   }
 }

@@ -11,8 +11,8 @@ export class MainController {
     };
 
     this.format = 'DD-MM-YYYY';
-    this.min = '15/11/2015';
-    this.max = '16/11/2015';
+    //this.min = '15/11/2015';
+    //this.max = '16/11/2015';
 
     this.ranges = [
       {
