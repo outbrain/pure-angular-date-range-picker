@@ -90,16 +90,16 @@ class CalendarController {
   }
 
   updateDaysProperties(monthWeeks) {
+    let minDay = this.minDay();
+    let maxDay = this.maxDay();
     monthWeeks.forEach((week) => {
       week.forEach((day) => {
         day.inRange = this.isInRange(day.mo);
         day.rangeStart = day.mo.isSame(this.rangeStart(), 'day');
         day.rangeEnd = day.mo.isSame(this.rangeEnd(), 'day');
-        let minDay = this.minDay();
         if (minDay) {
           day.disabled = day.mo.diff(minDay) <= 0;
         }
-        let maxDay = this.maxDay();
         if (maxDay) {
           day.disabled = day.mo.diff(minDay) >= 0;
         }

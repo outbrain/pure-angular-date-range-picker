@@ -8,6 +8,7 @@ export function DateRangePicker() {
       range: '=',
       format: '&',
       minDay: '&',
+      maxDay: '&',
       api: '&',
       monthFormat: '&',
       inputFormat: '&',
@@ -38,6 +39,7 @@ class DateRangePickerController {
     this.setInterceptors();
     this.setListeners();
     this.setApi();
+    debugger;
   }
 
   setApi() {

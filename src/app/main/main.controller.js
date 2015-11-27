@@ -10,6 +10,8 @@ export class MainController {
       end: moment()
     };
 
+    this.max = moment().add(1, 'd');
+
     this.format = 'DD-MM-YYYY';
 
     this.ranges = [
@@ -29,7 +31,6 @@ export class MainController {
         end: moment()
       }
     ];
-
 
     $scope.$watch(() => {
       return this.range;
