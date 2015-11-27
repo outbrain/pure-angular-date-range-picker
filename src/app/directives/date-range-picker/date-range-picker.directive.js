@@ -39,7 +39,6 @@ class DateRangePickerController {
     this.setInterceptors();
     this.setListeners();
     this.setApi();
-    debugger;
   }
 
   setApi() {
