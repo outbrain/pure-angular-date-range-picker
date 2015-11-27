@@ -10,7 +10,8 @@ export class MainController {
       end: moment()
     };
 
-    this.max = moment().add(1, 'd');
+    this.min = '15/11/2015';
+    this.max = '28/11/2015';
 
     this.format = 'DD-MM-YYYY';
 

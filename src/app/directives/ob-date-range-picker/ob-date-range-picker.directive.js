@@ -48,6 +48,14 @@ class ObDateRangePickerController {
       isCustom: true
     });
 
+    if(this.minDay()) {
+      this._minDay = this.Moment(this.minDay(), this.getFormat());
+    }
+
+    if(this.maxDay()) {
+      this._maxDay = this.Moment(this.maxDay(), this.getFormat());
+    }
+
     if (this.range.start && this.range.end && !this.Moment.isMoment(this.range.start) && !this.Moment.isMoment(this.range.end) && this.format()) {
       this._range = {
         start: this.Moment(this.range.start, this.getFormat()),
@@ -203,7 +211,7 @@ class ObDateRangePickerController {
     this.setRange();
     this.hidePicker();
     this.pickerApi.setCalendarPosition(this._range.start);
-    if(callApply && this.onApply) {
+    if (callApply && this.onApply) {
       this.onApply({start: this._range.start, end: this._range.end});
     }
   }

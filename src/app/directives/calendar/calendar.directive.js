@@ -98,10 +98,10 @@ class CalendarController {
         day.rangeStart = day.mo.isSame(this.rangeStart(), 'day');
         day.rangeEnd = day.mo.isSame(this.rangeEnd(), 'day');
         if (minDay) {
-          day.disabled = day.mo.diff(minDay) <= 0;
+          day.disabled = day.mo.isBefore(minDay, 'd');
         }
-        if (maxDay) {
-          day.disabled = day.mo.diff(minDay) >= 0;
+        if (maxDay && !day.disabled) {
+          day.disabled = day.mo.isAfter(maxDay, 'd');
         }
       });
     });
@@ -214,7 +214,12 @@ class CalendarController {
   dateInputSelected(value) {
     let day = this.Moment(value, this.getInputFormat(), true);
 
-    if (day.isValid() && !day.disabled) {
+    if (day.isValid()) {
+      let minDay = this.minDay();
+      let maxDay = this.maxDay();
+      day = minDay && day.isBefore(minDay, 'd') ? minDay : day;
+      day = maxDay && day.isAfter(maxDay, 'd') ? maxDay : day;
+
       if (this.interceptors.inputSelected) {
         this.interceptors.inputSelected(day);
       } else {
@@ -237,5 +242,11 @@ class CalendarController {
 
   getInputFormat() {
     return this.inputFormat() || 'MMM D, YYYY';
+  }
+
+  checkIfDayDisabled(day) {
+    let minDay = this.minDay();
+    let maxDay = this.maxDay();
+    return ((minDay && day.isBefore(minDay, 'd')) || (maxDay && day.isAfter(maxDay, 'd')));
   }
 }
