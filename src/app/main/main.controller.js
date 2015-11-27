@@ -10,10 +10,9 @@ export class MainController {
       end: moment()
     };
 
-    this.min = '15/11/2015';
-    this.max = '28/11/2015';
-
     this.format = 'DD-MM-YYYY';
+    this.min = '15/11/2015';
+    this.max = '16/11/2015';
 
     this.ranges = [
       {
@@ -49,5 +48,13 @@ export class MainController {
       start: moment(),
       end: moment().add(2, 'd')
     });
+  }
+
+  render(e) {
+    if(e) {
+      e.keyCode == 13 && this.dateRangeApi.render();
+    } else {
+      this.dateRangeApi.render()
+    }
   }
 }

@@ -73,14 +73,19 @@ ob-daterangepicker {
           .range {
             height: 27px;
             line-height: 27px;
-            cursor: pointer;
             border-radius: 2px;
             padding: 0 5px;
             margin-bottom: 5px;
 
-            &:hover, &.selected {
+            &:hover:not(.disabled), &.selected {
+              cursor: pointer;
               background: $mainColor;
               color: #FFFFFF;
+            }
+
+            &.disabled {
+              background: #CCCCCC;
+              opacity: 0.7;
             }
           }
         }

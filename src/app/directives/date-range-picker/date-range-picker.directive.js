@@ -6,7 +6,6 @@ export function DateRangePicker() {
     scope: {
       weekStart: '&',
       range: '=',
-      format: '&',
       minDay: '&',
       maxDay: '&',
       api: '&',
@@ -35,6 +34,8 @@ class DateRangePickerController {
     this.setConfigurations();
     this.startCalendar = this.range.start || this.Moment();
     this.endCalendar = this.startCalendar.clone().add(1, 'M');
+    this.startCalendarApi = {};
+    this.endCalendarApi = {};
     this.setInterceptors();
     this.setListeners();
     this.setApi();
@@ -46,6 +47,10 @@ class DateRangePickerController {
       setCalendarPosition: (start) => {
         this.startCalendar = start;
         this.endCalendar = this.startCalendar.clone().add(1, 'M');
+      },
+      render: () => {
+        this.startCalendarApi.render();
+        this.endCalendarApi.render();
       }
     });
   }
@@ -71,9 +76,6 @@ class DateRangePickerController {
       start = this.Moment(this.range.start, this.getFormat());
       end = this.Moment(this.range.end, this.getFormat());
     }
-
-    //this.startCalendar = start;
-    //this.endCalendar = this.startCalendar.clone().add(1, 'M');
 
     end = end.diff(start) >= 0 ? end : start.clone();
     this.rangeStart = start;
@@ -230,9 +232,5 @@ class DateRangePickerController {
     }
 
     return isRange;
-  }
-
-  getFormat() {
-    return this.format() || 'MM-DD-YYYY';
   }
 }

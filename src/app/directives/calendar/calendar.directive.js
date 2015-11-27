@@ -8,14 +8,14 @@ export function Calendar() {
       maxDay: '&',
       weekStart: '&',
       month: '=',
-      interceptors: '&',
+      interceptors: '=',
       rangeStart: '&',
       rangeEnd: '&',
       position: '@',
       weekDaysName: '&',
-      format: '&',
       monthFormat: '&',
-      inputFormat: '&'
+      inputFormat: '&',
+      api: '='
     },
     templateUrl: 'app/directives/calendar/calendar.html',
     controller: CalendarController,
@@ -33,15 +33,25 @@ class CalendarController {
     this.Moment = moment;
     this.Scope = $scope;
     this.Attrs = $attrs;
+    this.api && this.setApi();
+    this.render();
+  }
+
+  setApi() {
+    Object.assign(this.api, {
+      render: this.render.bind(this)
+    });
+  }
+
+  render() {
     this.defaultWeekDaysNames = this.weekDaysName() || ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     this.firstDayOfWeek = this.weekStart() || 'su';
     this.daysOfWeek = this.buildWeek(this.firstDayOfWeek);
     this.calendar = this.buildCalendar(this.month);
-    this.interceptors = this.interceptors ? this.interceptors() : {};
+    this.interceptors = this.interceptors || {};
     this.setPosition();
     this.setListeners();
     this.daysName = this.setWeekDaysNames(this.daysOfWeek);
-
   }
 
   setValue() {
@@ -230,10 +240,6 @@ class CalendarController {
 
   getFormattedMonth(day) {
     return this.Moment(day).format(this.getMonthFormat());
-  }
-
-  getFormat() {
-    return this.format() || 'MM-DD-YYYY';
   }
 
   getMonthFormat() {

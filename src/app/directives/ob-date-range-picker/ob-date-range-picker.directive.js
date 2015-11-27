@@ -18,7 +18,7 @@ export function ObDateRangePicker() {
     },
     controller: ObDateRangePickerController,
     templateUrl: 'app/directives/ob-date-range-picker/ob-date-range-picker.html',
-    controllerAs: 'input',
+    controllerAs: 'obDateRangePicker',
     bindToController: true
   };
 
@@ -38,23 +38,32 @@ class ObDateRangePickerController {
     this.pickerApi = {};
     this.isCustomVisable = false;
 
-    this._range = {
-      start: this.Moment(),
-      end: this.Moment()
-    };
+    this.setOpenCloseLogic();
+    this.setWatchers();
+    this.value = 'Select a Range';
+
+    this.api && Object.assign(this.api, {
+      setDateRange: this.setDateRange.bind(this),
+      render: () => {
+        this.render();
+        this.pickerApi.render();
+      }
+    });
     this.preRanges = this.ranges() || [];
     this.preRanges.push({
       name: 'Custom',
       isCustom: true
     });
 
-    if(this.minDay()) {
-      this._minDay = this.Moment(this.minDay(), this.getFormat());
-    }
+    this.render();
+  }
 
-    if(this.maxDay()) {
-      this._maxDay = this.Moment(this.maxDay(), this.getFormat());
-    }
+  render() {
+    this._range = {
+      start: this.Moment(),
+      end: this.Moment()
+    };
+    this.setPredefinedStatus();
 
     if (this.range.start && this.range.end && !this.Moment.isMoment(this.range.start) && !this.Moment.isMoment(this.range.end) && this.format()) {
       this._range = {
@@ -72,15 +81,41 @@ class ObDateRangePickerController {
       this._range.end = firstPreRange.end;
     }
 
-    this.value = 'Select a Range';
-    this.setOpenCloseLogic();
-    this.setWatchers();
+    this.applyMinMaxDaysToRange();
     this.setRange();
     this.markPredefined(this._range.start, this._range.end);
+  }
 
-    this.api && Object.assign(this.api, {
-      setDateRange: this.setDateRange.bind(this)
-    });
+  applyMinMaxDaysToRange() {
+    if(this.minDay()) {
+      let minDay = this._getMinDay();
+      this._range.start = this._range.start.isBefore(minDay, 'd') ? minDay : this._range.start;
+      this._range.end = this._range.end.isBefore(minDay, 'd') ? minDay : this._range.end;
+    }
+
+    if(this.maxDay()) {
+      let maxDay = this._getMaxDay();
+      this._range.start = this._range.start.isAfter(maxDay) ? maxDay : this._range.start;
+      this._range.end = this._range.end.isAfter(maxDay) ? maxDay : this._range.end;
+    }
+  }
+
+  setPredefinedStatus() {
+    this.preRanges.forEach((range) => {
+      if(!range.isCustom) {
+        range.disabled = false;
+
+        if(this.minDay()) {
+          let minDay = this._getMinDay();
+          range.disabled = range.start.isBefore(minDay, 'd');
+        }
+
+        if(!range.disabled && this.maxDay()) {
+          let maxDay = this._getMaxDay();
+          range.disabled = range.start.isAfter(maxDay, 'd');
+        }
+      }
+    })
   }
 
   setWatchers() {
@@ -157,16 +192,18 @@ class ObDateRangePickerController {
   }
 
   predefinedRangeSelected(range, index) {
-    if (!range.isCustom) {
-      this.selfChange = true;
-      this.selectedRengeIndex = index;
-      this.value = range.name;
-      this._range.start = range.start;
-      this._range.end = range.end;
-      this.isCustomVisable = false;
-      this.applyChanges();
-    } else {
-      this.isCustomVisable = true;
+    if(!range.disabled) {
+      if (!range.isCustom) {
+        this.selfChange = true;
+        this.selectedRengeIndex = index;
+        this.value = range.name;
+        this._range.start = range.start;
+        this._range.end = range.end;
+        this.isCustomVisable = false;
+        this.applyChanges();
+      } else {
+        this.isCustomVisable = true;
+      }
     }
   }
 
@@ -224,5 +261,13 @@ class ObDateRangePickerController {
     this._range.start = range.start;
     this._range.end = range.end;
     this.applyChanges(false);
+  }
+
+  _getMinDay() {
+    return this.minDay() ? this.Moment(this.minDay(), this.getFormat()) : undefined;
+  }
+
+  _getMaxDay() {
+    return this.maxDay() ? this.Moment(this.maxDay(), this.getFormat()) : undefined;
   }
 }

@@ -115,18 +115,18 @@ calendar {
         color: $disabledColor;
       }
 
-      &.in-range:not(.other-month) {
+      &.in-range:not(.other-month):not(.disabled) {
         background: $rangeColor;
         color: #FFFFFF;
       }
 
-      &.range-start:not(.other-month) {
+      &.range-start:not(.other-month):not(.disabled) {
         background: $mainColor;
         border-top-left-radius: 2px;
         border-bottom-left-radius: 2px;
       }
 
-      &.range-end:not(.other-month) {
+      &.range-end:not(.other-month):not(.disabled) {
         background: $mainColor;
         border-top-right-radius: 2px;
         border-bottom-right-radius: 2px;

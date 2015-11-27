@@ -1,32 +1,31 @@
 <div class="picker-dropdown-container">
-  <div class="picker-dropdown" ng-class="{'open': input.isPickerVisible}" ng-click="input.togglePicker()">
-    <span>{{input.value}}</span>
+  <div class="picker-dropdown" ng-class="{'open': obDateRangePicker.isPickerVisible}" ng-click="obDateRangePicker.togglePicker()">
+    <span>{{obDateRangePicker.value}}</span>
   </div>
-  <div class="picker" ng-class="{'open': input.isPickerVisible}" ng-show="input.isPickerVisible">
-    <div class="date-range" ng-show="input.isCustomVisable">
+  <div class="picker" ng-class="{'open': obDateRangePicker.isPickerVisible}" ng-show="obDateRangePicker.isPickerVisible">
+    <div class="date-range" ng-show="obDateRangePicker.isCustomVisable">
       <date-range-picker
-        api="input.pickerApi"
-        week-start="input.weekStart()"
-        range="input._range"
-        week-days-name="input.weekDaysName()"
-        format="input.format()"
-        min-day="input._minDay"
-        max-day="input._maxDay"
-        month-format="input.monthFormat()"
-        input-format="input.inputFormat()"></date-range-picker>
+        api="obDateRangePicker.pickerApi"
+        week-start="obDateRangePicker.weekStart()"
+        range="obDateRangePicker._range"
+        week-days-name="obDateRangePicker.weekDaysName()"
+        min-day="obDateRangePicker._getMinDay()"
+        max-day="obDateRangePicker._getMaxDay()"
+        month-format="obDateRangePicker.monthFormat()"
+        input-format="obDateRangePicker.inputFormat()"></date-range-picker>
     </div>
 
-    <div class="ranges-actions" ng-class="{'custom-open': input.isCustomVisable}">
+    <div class="ranges-actions" ng-class="{'custom-open': obDateRangePicker.isCustomVisable}">
       <div class="ranges">
         <div class="range"
-             ng-repeat="range in input.preRanges track by $index"
-             ng-class="{'selected': input.selectedRengeIndex === $index}"
-             ng-click="input.predefinedRangeSelected(range, $index)">{{range.name}}</div>
+             ng-repeat="range in obDateRangePicker.preRanges track by $index"
+             ng-class="{'selected': obDateRangePicker.selectedRengeIndex === $index, 'disabled': range.disabled}"
+             ng-click="obDateRangePicker.predefinedRangeSelected(range, $index)">{{range.name}}</div>
       </div>
 
       <div class="actions">
-        <div class="btn cancel" ng-click="input.discardChanges()">Cancel</div>
-        <div class="btn apply" ng-click="input.applyChanges()">APPLY</div>
+        <div class="btn cancel" ng-click="obDateRangePicker.discardChanges()">Cancel</div>
+        <div class="btn apply" ng-click="obDateRangePicker.applyChanges()">APPLY</div>
       </div>
     </div>
   </div>
