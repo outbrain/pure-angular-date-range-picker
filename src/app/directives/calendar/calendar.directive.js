@@ -56,8 +56,10 @@ class CalendarController {
 
   setValue() {
     if (this.position === 'left' && this.rangeStart()) {
+      this.selectedDay = this.rangeStart();
       this.value = this.rangeStart().format(this.getInputFormat());
     } else if (this.position === 'right' && this.rangeEnd()) {
+      this.selectedDay = this.rangeEnd();
       this.value = this.rangeEnd().format(this.getInputFormat());
     }
   }
@@ -209,8 +211,6 @@ class CalendarController {
     if (!day.disabled) {
       if (this.interceptors.daySelected) {
         this.interceptors.daySelected.call(this.interceptors.context, day.mo);
-      } else {
-        this.selectedDay = day;
       }
     }
   }
@@ -230,10 +230,12 @@ class CalendarController {
       day = minDay && day.isBefore(minDay, 'd') ? minDay : day;
       day = maxDay && day.isAfter(maxDay, 'd') ? maxDay : day;
 
-      if (this.interceptors.inputSelected) {
-        this.interceptors.inputSelected(day);
-      } else {
-        this.daySelected({mo: day});
+      if(!this.selectedDay.isSame(day, 'd')) {
+        if (this.interceptors.inputSelected) {
+          this.interceptors.inputSelected(day);
+        } else {
+          this.daySelected({mo: day});
+        }
       }
     }
   }
