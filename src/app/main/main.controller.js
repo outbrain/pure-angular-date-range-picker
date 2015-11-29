@@ -1,3 +1,4 @@
+/* global moment:false */
 export class MainController {
   constructor ($scope, moment, $log) {
     'ngInject';

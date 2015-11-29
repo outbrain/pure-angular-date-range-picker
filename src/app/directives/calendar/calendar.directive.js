@@ -17,7 +17,6 @@ export function Calendar() {
       weekDaysName: '&',
       monthFormat: '&',
       inputFormat: '&',
-      linkedCalendars: '&',
       api: '='
     },
     templateUrl: 'app/directives/calendar/calendar.html',

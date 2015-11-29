@@ -18,9 +18,10 @@ function listFiles() {
 
   return wiredep(wiredepOptions).js
     .concat([
-      path.join(conf.paths.tmp, '/serve/app/index.module.js'),
+      path.join(conf.paths.tmp, '/serve/app/index.module.js')
     ])
-    .concat(pathSrcHtml);
+    .concat(pathSrcHtml)
+    .concat(['./node_modules/phantomjs-polyfill/bind-polyfill.js']);
 }
 
 module.exports = function(config) {

@@ -1,41 +1,70 @@
-/**
- * @todo Complete the test
- * This example is not perfect.
- * The `link` function is not tested.
- * (malarkey usage, addClass, $watch, $destroy)
- */
-describe('directive malarkey', function() {
-  let vm;
-  let element;
+describe('directive date-range-picker', function() {
+  var element, moment, defaultOptions, $compile, $scope, $rootScope, format = 'DD-MM-YYYY', picker, elem;
 
   beforeEach(angular.mock.module('obDateRangePicker'));
 
-  beforeEach(inject(($compile, $rootScope, githubContributor, $q) => {
-    spyOn(githubContributor, 'getContributors').and.callFake(() => {
-      return $q.when([{}, {}, {}, {}, {}, {}]);
-    });
+  beforeEach(inject((_$compile_, _$rootScope_, _moment_) => {
+    $compile = _$compile_;
+    $rootScope = _$rootScope_;
+    moment = _moment_;
+    $scope = $rootScope.$new();
+    defaultOptions = {
+      range: {
+        start: moment('10-11-2015', format),
+        end: moment('14-11-2015', format)
+      }
+    };
+  }));
 
+  function prepare(options) {
+    $scope.picker = options;
     element = angular.element(`
-      <acme-malarkey extra-values="['Poney', 'Monkey']"></acme-malarkey>
+      <date-range-picker
+        api="picker.pickerApi"
+        linked-calendars="picker.linkedCalendars()"
+        week-start="picker.weekStart"
+        range="picker.range"
+        week-days-name="picker.weekDaysName"
+        min-day="picker.getMinDay()"
+        max-day="picker.getMaxDay()"
+        month-format="picker.monthFormat"
+        input-format="picker.inputFormat()">
+      </date-range-picker>
     `);
 
-    $compile(element)($rootScope.$new());
+    $compile(element)($scope);
     $rootScope.$digest();
-    vm = element.isolateScope().vm;
-  }));
+    picker = element.isolateScope().picker;
+    elem = element[0];
+  }
 
-  it('should be compiled', () => {
-    expect(element.html()).not.toEqual(null);
+  /* range tests */
+  it('should show correct initial range', () => {
+    prepare(defaultOptions);
+    let inRange = elem.querySelectorAll('.in-range');
+
+    expect(inRange.length).toEqual(5);
   });
 
-  it('should have isolate scope object with instanciate members', () => {
-    expect(vm).toEqual(jasmine.any(Object));
+  it('should show correct range with calendar clicks day click (start == end)', () => {
+    prepare(defaultOptions);
+    picker.startCalendarInterceptors.daySelected(moment('10-11-2015', format));
+    picker.startCalendarInterceptors.daySelected(moment('10-11-2015', format));
+    $rootScope.$digest();
+    let inRange = elem.querySelectorAll('.in-range');
 
-    expect(vm.contributors).toEqual(jasmine.any(Array));
-    expect(vm.contributors.length).toEqual(6);
+    expect(inRange.length).toEqual(1);
+    expect(inRange[0].innerText.trim()).toEqual('10');
   });
 
-  it('should log a info', inject($log => {
-    expect($log.info.logs).toEqual(jasmine.stringMatching('Activated Contributors View'));
-  }));
+  it('should change start day', () => {
+    prepare(defaultOptions);
+    picker.startCalendarInterceptors.daySelected(moment('09-11-2015', format));
+    $rootScope.$digest();
+    let startRange = elem.querySelector('.in-range.range-start');
+    let rangeEnd = elem.querySelector('.range-end');
+
+    expect(startRange.innerText.trim()).toEqual('9');
+    expect(rangeEnd).toEqual(null);
+  });
 });

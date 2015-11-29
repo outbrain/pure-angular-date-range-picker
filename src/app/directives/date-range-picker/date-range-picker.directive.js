@@ -33,8 +33,6 @@ class DateRangePickerController {
 
     this.range = this.range || {};
     this.setConfigurations();
-    //this.startCalendar = this.range.start || this.Moment();
-    //this.endCalendar = this.startCalendar.clone().add(1, 'M');
     this.startCalendarApi = {};
     this.endCalendarApi = {};
     this.setInterceptors();
@@ -288,6 +286,6 @@ class DateRangePickerController {
   }
 
   areCalendarsLinked() {
-    return angular.isUndefined(this.linkedCalendars()) ? this.linkedCalendars() : false;
+    return angular.isDefined(this.linkedCalendars()) ? this.linkedCalendars() : false;
   }
 }
