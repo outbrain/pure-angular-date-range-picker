@@ -82,6 +82,12 @@ class ObDateRangePickerController {
       this._range.end = firstPreRange.end;
     }
 
+    if(this._range.start.isAfter(this._range.end)) {
+      this._range.start = this._range.end.clone();
+    } else if(this._range.end.isBefore(this._range.start)) {
+      this._range.end = this._range.start.clone();
+    }
+
     this.applyMinMaxDaysToRange();
     this.setRange();
     this.markPredefined(this._range.start, this._range.end);
@@ -113,7 +119,7 @@ class ObDateRangePickerController {
 
         if(!range.disabled && this.maxDay()) {
           let maxDay = this._getMaxDay();
-          range.disabled = range.start.isAfter(maxDay, 'd');
+          range.disabled = range.end.isAfter(maxDay, 'd');
         }
       }
     })

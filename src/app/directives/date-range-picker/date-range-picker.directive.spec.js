@@ -38,7 +38,7 @@ describe('directive date-range-picker', function() {
     elem = element[0];
   }
 
-  /* range tests */
+  /* range (linked) tests */
   it('should show correct initial range', () => {
     prepare(defaultOptions);
     let inRange = elem.querySelectorAll('.in-range');
@@ -66,5 +66,23 @@ describe('directive date-range-picker', function() {
 
     expect(startRange.innerText.trim()).toEqual('9');
     expect(rangeEnd).toEqual(null);
+  });
+
+  it('should change switch calendars when prev month\'s day clicked', () => {
+    prepare(defaultOptions);
+    picker.startCalendarInterceptors.daySelected(moment('29-10-2015', format));
+    $rootScope.$digest();
+
+    expect(picker.startCalendar.month()).toEqual(9);
+    expect(picker.endCalendar.month()).toEqual(10);
+  });
+
+  it('should change switch calendars when next month\'s day clicked', () => {
+    prepare(defaultOptions);
+    picker.endCalendarInterceptors.daySelected(moment('01-11-2015', format));
+    $rootScope.$digest();
+
+    expect(picker.startCalendar.month()).toEqual(10);
+    expect(picker.endCalendar.month()).toEqual(11);
   });
 });
