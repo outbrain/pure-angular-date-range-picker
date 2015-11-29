@@ -57,7 +57,7 @@ describe('directive date-range-picker', function() {
     expect(inRange[0].innerText.trim()).toEqual('10');
   });
 
-  it('should change start day', () => {
+  it('should change start day if before current start was selected', () => {
     prepare(defaultOptions);
     picker.startCalendarInterceptors.daySelected(moment('09-11-2015', format));
     $rootScope.$digest();
@@ -68,7 +68,29 @@ describe('directive date-range-picker', function() {
     expect(rangeEnd).toEqual(null);
   });
 
-  it('should change switch calendars when prev month\'s day clicked', () => {
+  it('should change start day if same as current start was selected', () => {
+    prepare(defaultOptions);
+    picker.startCalendarInterceptors.daySelected(moment('10-11-2015', format));
+    $rootScope.$digest();
+    let startRange = elem.querySelector('.in-range.range-start');
+    let rangeEnd = elem.querySelector('.range-end');
+
+    expect(startRange.innerText.trim()).toEqual('10');
+    expect(rangeEnd).toEqual(null);
+  });
+
+  it('should change start day if after current start was selected', () => {
+    prepare(defaultOptions);
+    picker.startCalendarInterceptors.daySelected(moment('11-11-2015', format));
+    $rootScope.$digest();
+    let startRange = elem.querySelector('.in-range.range-start');
+    let rangeEnd = elem.querySelector('.range-end');
+
+    expect(startRange.innerText.trim()).toEqual('11');
+    expect(rangeEnd).toEqual(null);
+  });
+
+  it('should change calendars when prev month\'s day clicked', () => {
     prepare(defaultOptions);
     picker.startCalendarInterceptors.daySelected(moment('29-10-2015', format));
     $rootScope.$digest();
@@ -77,7 +99,7 @@ describe('directive date-range-picker', function() {
     expect(picker.endCalendar.month()).toEqual(10);
   });
 
-  it('should change switch calendars when next month\'s day clicked', () => {
+  it('should change calendars when next month\'s day clicked', () => {
     prepare(defaultOptions);
     picker.endCalendarInterceptors.daySelected(moment('01-11-2015', format));
     $rootScope.$digest();
