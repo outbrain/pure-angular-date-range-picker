@@ -14,6 +14,8 @@ export class MainController {
     //this.min = '15/11/2015';
     //this.max = '16/11/2015';
 
+    this.linked = true;
+
     this.ranges = [
       {
         name: 'Today',

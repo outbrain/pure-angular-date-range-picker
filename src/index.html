@@ -24,6 +24,12 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
+    <style>
+      label {
+        font-weight: bold;
+      }
+    </style>
+
     <div class="config">
       <div>
         <label>format</label>
@@ -49,11 +55,18 @@
         <label>Max-Day</label>
         <input ng-model="main.max" placeholder="{{main.format}}" ng-blur="main.render()" ng-keypress="main.render($event)">
       </div>
+
+      <div>
+        <label>Linked Calendars</label>
+        true: <input type="radio" name="link" ng-model="main.linked" ng-value="true" ng-change="main.render()">
+        false: <input type="radio" name="link" ng-model="main.linked" ng-value="false" ng-change="main.render()">
+      </div>
     </div>
-    <div style="width100%; float: right">
+    <div style="float: right">
       <ob-daterangepicker
         min-day="main.min"
         max-day="main.max"
+        linked-calendars="main.linked"
         api="main.dateRangeApi"
         on-apply="main.rangeApplied(start, end)"
         ranges="main.ranges"

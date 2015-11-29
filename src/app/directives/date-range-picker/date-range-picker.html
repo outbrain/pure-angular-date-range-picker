@@ -7,10 +7,12 @@
           interceptors="picker.startCalendarInterceptors"
           range-start="picker.rangeStart"
           range-end="picker.rangeEnd"
-          position="left"
+          selected-day="picker.rangeStart"
+          max-month="picker.endCalendar"
           week-days-name="picker.weekDaysName()"
           month-format="picker.monthFormat()"
           input-format="picker.inputFormat()"
+          linked-calendars="picker.linkedCalendars()"
           label="Start Date">
 </calendar>
 <calendar class="calendar"
@@ -22,9 +24,11 @@
           interceptors="picker.endCalendarInterceptors"
           range-start="picker.rangeStart"
           range-end="picker.rangeEnd"
-          position="right"
+          selected-day="picker.rangeEnd"
+          min-month="picker.startCalendar"
           week-days-name="picker.weekDaysName()"
           month-format="picker.monthFormat()"
           input-format="picker.inputFormat()"
+          linked-calendars="picker.linkedCalendars()"
           label="End Date">
 </calendar>

@@ -11,10 +11,13 @@ export function Calendar() {
       interceptors: '=',
       rangeStart: '&',
       rangeEnd: '&',
-      position: '@',
+      selectedDay: '&',
+      minMonth: '&',
+      maxMonth: '&',
       weekDaysName: '&',
       monthFormat: '&',
       inputFormat: '&',
+      linkedCalendars: '&',
       api: '='
     },
     templateUrl: 'app/directives/calendar/calendar.html',
@@ -55,13 +58,9 @@ class CalendarController {
   }
 
   setValue() {
-    if (this.position === 'left' && this.rangeStart()) {
-      this.selectedDay = this.rangeStart();
-      this.value = this.rangeStart().format(this.getInputFormat());
-    } else if (this.position === 'right' && this.rangeEnd()) {
-      this.selectedDay = this.rangeEnd();
-      this.value = this.rangeEnd().format(this.getInputFormat());
-    }
+      if(this.selectedDay()) {
+        this.value = this.selectedDay().format(this.getInputFormat());
+      }
   }
 
   setWeekDaysNames(weekDays, daysName = this.defaultWeekDaysNames) {
@@ -230,7 +229,7 @@ class CalendarController {
       day = minDay && day.isBefore(minDay, 'd') ? minDay : day;
       day = maxDay && day.isAfter(maxDay, 'd') ? maxDay : day;
 
-      if(!this.selectedDay.isSame(day, 'd')) {
+      if(!this.selectedDay().isSame(day, 'd')) {
         if (this.interceptors.inputSelected) {
           this.interceptors.inputSelected(day);
         } else {
@@ -256,5 +255,13 @@ class CalendarController {
     let minDay = this.minDay();
     let maxDay = this.maxDay();
     return ((minDay && day.isBefore(minDay, 'd')) || (maxDay && day.isAfter(maxDay, 'd')));
+  }
+
+  showLeftArrow() {
+    return this.minMonth() ? !this.minMonth().isSame(this.month.clone().subtract(1, 'M'), 'M') : true;
+  }
+
+  showRightArrow() {
+    return this.maxMonth() ? !this.maxMonth().isSame(this.month.clone().add(1, 'M'), 'M') : true;
   }
 }

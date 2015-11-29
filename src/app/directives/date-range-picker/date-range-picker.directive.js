@@ -106,6 +106,9 @@ class DateRangePickerController {
       moveToPrevClicked: () => {
         this.moveCalenders(-1, 'start');
       },
+      moveToNextClicked: () => {
+        this.moveCalenders(1, 'start')
+      },
       daySelected: (day) => {
         this.dayInStartSelected(day);
         this.daySelected(day);
@@ -116,6 +119,9 @@ class DateRangePickerController {
     };
 
     this.endCalendarInterceptors = {
+      moveToPrevClicked: () => {
+        this.moveCalenders(-1, 'end');
+      },
       moveToNextClicked: () => {
         this.moveCalenders(1, 'end')
       },
@@ -130,7 +136,6 @@ class DateRangePickerController {
   }
 
   inputInStartSelected(day) {
-    let calendar = 'start';
     switch (this.daysSelected) {
       case 0:
       case 1:
@@ -153,7 +158,6 @@ class DateRangePickerController {
   }
 
   inputInEndSelected(day) {
-    let calendar = 'end';
     switch (this.daysSelected) {
       case 0:
         this.rangeStart = day;
@@ -186,7 +190,6 @@ class DateRangePickerController {
 
   dayInEndSelected(day) {
     let prevMonth = this.endCalendar.clone().subtract(1, 'M');
-    let nextMonth = this.endCalendar.clone().add(1, 'M');
 
     if (day.isSame(prevMonth, 'month')) {
       this.dayInStartSelected(day);
@@ -267,11 +270,24 @@ class DateRangePickerController {
           this.startCalendar = newEnd;
           this.endCalendar = newEnd.clone().add(1, 'M');
         }
+
+      } else {
+        if (!(newStart.isSame(this.startCalendar, 'M') || newStart.isSame(this.endCalendar, 'M'))) {
+          if(newStart.isBefore(this.startCalendar, 'M')) {
+            this.startCalendar = newStart;
+          } else if(newStart.isAfter(this.endCalendar)) {
+            this.startCalendar = newStart;
+            this.endCalendar = newStart.clone().add(1, 'M');
+          }
+        } else if (newEnd && newEnd.isAfter(this.endCalendar, 'M')) {
+          this.startCalendar = newEnd;
+          this.endCalendar = newEnd.clone().add(1, 'M');
+        }
       }
     })
   }
 
   areCalendarsLinked() {
-    return this.linkedCalendars() !== undefined ? this.linkedCalendars() : true;
+    return angular.isUndefined(this.linkedCalendars()) ? this.linkedCalendars() : false;
   }
 }

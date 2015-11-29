@@ -14,6 +14,7 @@ export function ObDateRangePicker() {
       monthFormat: '&',
       inputFormat: '&',
       onApply: '&',
+      linkedCalendars: '&',
       api: '='
     },
     controller: ObDateRangePickerController,
