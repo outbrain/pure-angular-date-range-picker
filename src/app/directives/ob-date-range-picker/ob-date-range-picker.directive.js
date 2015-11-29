@@ -113,7 +113,7 @@ class ObDateRangePickerController {
 
         if(!range.disabled && this.maxDay()) {
           let maxDay = this._getMaxDay();
-          range.disabled = range.start.isAfter(maxDay, 'd');
+          range.disabled = range.end.isAfter(maxDay, 'd');
         }
       }
     })
