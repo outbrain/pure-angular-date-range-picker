@@ -4,4 +4,16 @@
       label {
         font-weight: bold;
       }
-    </style><div class="config"><div><label>format</label> <input ng-model="main.format"></div><div><label>Start-Day</label> <input ng-model="main.range.start" placeholder="{{main.format}}" ng-blur="main.render()" ng-keypress="main.render($event)"></div><div><label>End-Day</label> <input ng-model="main.range.end" placeholder="{{main.format}}" ng-blur="main.render()" ng-keypress="main.render($event)"></div><div><label>Min-Day</label> <input ng-model="main.min" placeholder="{{main.format}}" ng-blur="main.render()" ng-keypress="main.render($event)"></div><div><label>Max-Day</label> <input ng-model="main.max" placeholder="{{main.format}}" ng-blur="main.render()" ng-keypress="main.render($event)"></div><div><label>Linked Calendars</label> true: <input type="radio" name="link" ng-model="main.linked" ng-value="true" ng-change="main.render()"> false: <input type="radio" name="link" ng-model="main.linked" ng-value="false" ng-change="main.render()"></div></div><div style="float: right"><ob-daterangepicker min-day="main.min" max-day="main.max" linked-calendars="main.linked" api="main.dateRangeApi" on-apply="main.rangeApplied(start, end)" ranges="main.ranges" range="main.range" format="main.format" week-start="'mo'"></ob-daterangepicker></div><br><pre>{{main.range | json}}</pre><script src="scripts/vendor.js"></script><script src="scripts/ob-daterangepicker.js"></script></body></html>
+
+      .ob-datepicker-container {
+        position: relative;
+        padding-top: 200px;
+      }
+
+      ob-daterangepicker{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+    </style><div class="config"><div><label>format</label> <input ng-model="main.format"></div><div><label>Start-Day</label> <input ng-model="main.range.start" placeholder="{{main.format}}" ng-blur="main.render()" ng-keypress="main.render($event)"></div><div><label>End-Day</label> <input ng-model="main.range.end" placeholder="{{main.format}}" ng-blur="main.render()" ng-keypress="main.render($event)"></div><div><label>Min-Day</label> <input ng-model="main.min" placeholder="{{main.format}}" ng-blur="main.render()" ng-keypress="main.render($event)"></div><div><label>Max-Day</label> <input ng-model="main.max" placeholder="{{main.format}}" ng-blur="main.render()" ng-keypress="main.render($event)"></div><div><label>Linked Calendars</label> true: <input type="radio" name="link" ng-model="main.linked" ng-value="true" ng-change="main.render()"> false: <input type="radio" name="link" ng-model="main.linked" ng-value="false" ng-change="main.render()"></div></div><div class="ob-datepicker-container"><ob-daterangepicker min-day="main.min" max-day="main.max" linked-calendars="main.linked" api="main.dateRangeApi" on-apply="main.rangeApplied(start, end)" ranges="main.ranges" range="main.range" format="main.format" week-start="'mo'"></ob-daterangepicker></div><br><pre>{{main.range | json}}</pre><script src="scripts/vendor.js"></script><script src="scripts/ob-daterangepicker.js"></script></body></html>

@@ -37,7 +37,7 @@ class ObDateRangePickerController {
     this.Moment = moment;
     this.range = this.range || {};
     this.pickerApi = {};
-    this.isCustomVisable = false;
+    this.isCustomVisible = false;
 
     this.setOpenCloseLogic();
     this.setWatchers();
@@ -206,10 +206,10 @@ class ObDateRangePickerController {
         this.value = range.name;
         this._range.start = range.start;
         this._range.end = range.end;
-        this.isCustomVisable = false;
+        this.isCustomVisible = false;
         this.applyChanges();
       } else {
-        this.isCustomVisable = true;
+        this.isCustomVisible = true;
       }
     }
   }
