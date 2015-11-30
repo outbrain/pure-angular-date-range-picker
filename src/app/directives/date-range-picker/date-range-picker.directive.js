@@ -258,8 +258,8 @@ class DateRangePickerController {
       if (this.areCalendarsLinked()) {
         if (!(newStart.isSame(this.startCalendar, 'M') || newStart.isSame(this.endCalendar, 'M'))) {
           if (newStart.isSame(oldStart, 'M') && newEnd && !newEnd.isSame(oldEnd, 'M')) {
-            this.endCalendar = newEnd;
             this.startCalendar = newEnd.clone().subtract(1, 'M');
+            this.endCalendar = newEnd;
           } else {
             this.startCalendar = newStart;
             this.endCalendar = newStart.clone().add(1, 'M');
@@ -273,19 +273,26 @@ class DateRangePickerController {
         if (!(newStart.isSame(this.startCalendar, 'M') || newStart.isSame(this.endCalendar, 'M'))) {
           if(newStart.isBefore(this.startCalendar, 'M')) {
             this.startCalendar = newStart;
+
+            if(newEnd && !newEnd.isSame(this.endCalendar, 'M')) {
+              if(newStart.isSame(newEnd, 'M')) {
+                this.endCalendar = newStart.clone().add(1, "M");
+              } else {
+                this.endCalendar = newEnd;
+              }
+            }
           } else if(newStart.isAfter(this.endCalendar)) {
             this.startCalendar = newStart;
             this.endCalendar = newStart.clone().add(1, 'M');
           }
         } else if (newEnd && newEnd.isAfter(this.endCalendar, 'M')) {
-          this.startCalendar = newEnd;
-          this.endCalendar = newEnd.clone().add(1, 'M');
+          this.endCalendar = newEnd;
         }
       }
     })
   }
 
   areCalendarsLinked() {
-    return angular.isDefined(this.linkedCalendars()) ? this.linkedCalendars() : false;
+    return angular.isDefined(this.linkedCalendars()) ? this.linkedCalendars() : true;
   }
 }

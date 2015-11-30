@@ -37,7 +37,7 @@ class ObDateRangePickerController {
     this.Moment = moment;
     this.range = this.range || {};
     this.pickerApi = {};
-    this.isCustomVisable = false;
+    this.isCustomVisible = false;
 
     this.setOpenCloseLogic();
     this.setWatchers();
@@ -80,6 +80,12 @@ class ObDateRangePickerController {
       let firstPreRange = this.preRanges[0];
       this._range.start = firstPreRange.start;
       this._range.end = firstPreRange.end;
+    }
+
+    if(this._range.start.isAfter(this._range.end)) {
+      this._range.start = this._range.end.clone();
+    } else if(this._range.end.isBefore(this._range.start)) {
+      this._range.end = this._range.start.clone();
     }
 
     this.applyMinMaxDaysToRange();
@@ -200,10 +206,10 @@ class ObDateRangePickerController {
         this.value = range.name;
         this._range.start = range.start;
         this._range.end = range.end;
-        this.isCustomVisable = false;
+        this.isCustomVisible = false;
         this.applyChanges();
       } else {
-        this.isCustomVisable = true;
+        this.isCustomVisible = true;
       }
     }
   }

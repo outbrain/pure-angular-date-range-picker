@@ -28,6 +28,18 @@
       label {
         font-weight: bold;
       }
+
+      .ob-datepicker-container {
+        position: relative;
+        padding-top: 200px;
+      }
+
+      ob-daterangepicker{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
     </style>
 
     <div class="config">
@@ -62,7 +74,7 @@
         false: <input type="radio" name="link" ng-model="main.linked" ng-value="false" ng-change="main.render()">
       </div>
     </div>
-    <div style="float: right">
+    <div class="ob-datepicker-container">
       <ob-daterangepicker
         min-day="main.min"
         max-day="main.max"
