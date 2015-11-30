@@ -73,6 +73,13 @@
         true: <input type="radio" name="link" ng-model="main.linked" ng-value="true" ng-change="main.render()">
         false: <input type="radio" name="link" ng-model="main.linked" ng-value="false" ng-change="main.render()">
       </div>
+
+
+      <div>
+        <label>Week Starts At</label>
+        Su: <input type="radio" name="start" ng-model="main.weekStart" value="su" ng-change="main.render()">
+        Mo: <input type="radio" name="start" ng-model="main.weekStart" value="mo" ng-change="main.render()">
+      </div>
     </div>
     <div class="ob-datepicker-container">
       <ob-daterangepicker

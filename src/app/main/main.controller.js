@@ -5,6 +5,7 @@ export class MainController {
 
     this.Log = $log;
     this.dateRangeApi = {};
+    this.weekStart = 'su';
 
     this.range = {
       start: moment(),

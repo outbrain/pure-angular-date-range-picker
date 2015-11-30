@@ -267,6 +267,9 @@ class DateRangePickerController {
         } else if (newEnd && newEnd.isAfter(this.endCalendar, 'M')) {
           this.startCalendar = newEnd;
           this.endCalendar = newEnd.clone().add(1, 'M');
+        } else {
+          this.startCalendar = newStart;
+          this.endCalendar = newStart.clone().add(1, 'M');
         }
 
       } else {
