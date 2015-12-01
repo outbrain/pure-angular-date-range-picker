@@ -32,8 +32,6 @@ Usage
 ```
 	<ob-daterangepicker range="vm.range"></ob-daterangepicker>
 ```
-
-
 ----------
 
 Configurations
@@ -135,4 +133,14 @@ html:
 	<ob-daterangepicker on-apply="vm.onApply(start, end)"></ob-daterangepicker>
 ```  
 **Note:**  
-You must to provide the `start` and `end` parameters as seen in the above example.  
+You must to provide the `start` and `end` parameters as seen in the above example. 
+ 
+----------
+
+Contribution
+-------------
+ - Fork the project in your account and create a branch with your fix:
+   `some-great-feature` or `some-issue-fix`.
+ - Commit your changes in that branch, don't forget to add tests.  
+ - Open a pull request, and reference the initial issue in the pull request message (e.g. *fixes #<your-issue-number>*). Write a good description and title, so everybody will know what is fixed/improved.  
+ - Finally, your contributions will be merged! Contributions are more than welcome!
