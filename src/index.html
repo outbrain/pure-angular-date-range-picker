@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="obDateRangePicker" ng-strict-di>
+<html ng-app="demo" ng-strict-di>
   <head>
     <meta charset="utf-8">
     <title>obDateRangePicker</title>
@@ -19,7 +19,7 @@
     <!-- endinject -->
     <!-- endbuild -->
   </head>
-  <body ng-controller="MainController as main">
+  <body ng-controller="DemoController as main">
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -135,6 +135,63 @@
     <!-- angular templates will be automatically converted in js and inserted here -->
     <!-- endinject -->
     <!-- endbuild -->
+
+    <script>
+      angular.module('demo', ['obDateRangePicker'])
+        .controller('DemoController', DemoCtrl);
+
+      function DemoCtrl() {
+        this.weekStart = 'su';
+
+        this.range = {
+          start: moment(),
+          end: moment()
+        };
+
+        this.format = 'DD-MM-YYYY';
+        //this.min = '15/11/2015';
+        //this.max = '16/11/2015';
+
+        this.linked = true;
+
+        this.ranges = [
+          {
+            name: 'Today',
+            start: moment(),
+            end: moment()
+          },
+          {
+            name: 'Yesterday',
+            start: moment().subtract(1, 'd'),
+            end: moment().subtract(1, 'd')
+          },
+          {
+            name: 'Current Month',
+            start: moment().startOf('month'),
+            end: moment()
+          }
+        ];
+
+        this.rangeApplied = function(start, end) {
+          this.Log.info(start, end);
+        };
+
+        this.setDateRange = function() {
+          this.dateRangeApi.setDateRange({
+            start: moment(),
+            end: moment().add(2, 'd')
+          });
+        };
+
+        this.render = function(e) {
+          if(e) {
+            e.keyCode == 13 && this.dateRangeApi.render();
+          } else {
+            this.dateRangeApi.render()
+          }
+        }
+      }
+    </script>
 
   </body>
 </html>
