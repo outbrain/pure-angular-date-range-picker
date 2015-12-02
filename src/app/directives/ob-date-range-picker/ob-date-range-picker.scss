@@ -129,4 +129,19 @@ ob-daterangepicker {
       }
     }
   }
+
+  &.center {
+    .picker {
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  &.left {
+    .picker {
+      right: auto;
+      left: 0;
+    }
+  }
 }

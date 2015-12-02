@@ -107,6 +107,7 @@
 
     <div class="ob-datepicker-container">
       <ob-daterangepicker
+        class="left"
         min-day="main.min"
         max-day="main.max"
         linked-calendars="main.linked"
@@ -141,7 +142,9 @@
         .controller('DemoController', DemoCtrl);
 
       function DemoCtrl() {
+        var _this = this;
         this.weekStart = 'su';
+        this.dateRangeApi = {};
 
         this.range = {
           start: moment(),
@@ -173,11 +176,11 @@
         ];
 
         this.rangeApplied = function(start, end) {
-          this.Log.info(start, end);
+          console.log(start, end);
         };
 
         this.setDateRange = function() {
-          this.dateRangeApi.setDateRange({
+          _this.dateRangeApi.setDateRange({
             start: moment(),
             end: moment().add(2, 'd')
           });
@@ -187,7 +190,7 @@
           if(e) {
             e.keyCode == 13 && this.dateRangeApi.render();
           } else {
-            this.dateRangeApi.render()
+            _this.dateRangeApi.render()
           }
         }
       }

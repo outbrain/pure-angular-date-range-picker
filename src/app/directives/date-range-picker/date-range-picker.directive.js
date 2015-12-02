@@ -46,10 +46,10 @@ class DateRangePickerController {
     Object.assign(api, {
       setCalendarPosition: (start, end) => {
         this.startCalendar = start;
-        if (this.linkedCalendars() && end) {
-          this.endCalendar = end;
-        } else {
+        if (this.linkedCalendars() || start.isSame(end, 'M')) {
           this.endCalendar = this.startCalendar.clone().add(1, 'M');
+        } else {
+          this.endCalendar = end;
         }
 
       },
