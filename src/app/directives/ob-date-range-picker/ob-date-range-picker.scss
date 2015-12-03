@@ -49,7 +49,7 @@ ob-daterangepicker {
       position: absolute;
       white-space: nowrap;
       overflow: visible;
-      right: 0px;
+      right: 0;
       top: $dropdownHeight - 1px;
       z-index: 10;
       background: white;
@@ -138,10 +138,39 @@ ob-daterangepicker {
     }
   }
 
-  &.left {
+  &.right {
     .picker {
       right: auto;
       left: 0;
+    }
+  }
+
+  &.up {
+    .picker-dropdown.open {
+      border-radius: 0 0 2px 2px;
+    }
+
+    .picker {
+      top: 1px;
+      transform: translateY(-100%);
+
+      &.open {
+        border-radius: 2px 2px 0 2px;
+      }
+    }
+
+    &.center {
+      .picker {
+        transform: translate(-50%, -100%);
+      }
+    }
+
+    &.right {
+      .picker {
+        &.open {
+          border-radius: 2px 2px 2px 0;
+        }
+      }
     }
   }
 }

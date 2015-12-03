@@ -102,12 +102,26 @@
           <span class="radio-label">Su:</span> <input type="radio" class="input" name="start" ng-model="main.weekStart" value="su" ng-change="main.render()">
           <span class="radio-label">Mo:</span> <input type="radio" class="input" name="start" ng-model="main.weekStart" value="mo" ng-change="main.render()">
         </div>
+
+        <div class="config">
+          <div class="label">Drops to</div>
+          <span class="radio-label">Up</span> <input type="radio" class="input" name="drop" ng-model="main.dropsUp" ng-value="true">
+          <span class="radio-label">Down</span> <input type="radio" class="input" name="drop" ng-model="main.dropsUp" ng-value="false">
+        </div>
+
+        <div class="config">
+          <div class="label">Opens To</div>
+          <span class="radio-label">Left</span> <input type="radio" class="input" name="opens" ng-model="main.opens" value="left">
+          <span class="radio-label">Center</span> <input type="radio" class="input" name="opens" ng-model="main.opens" value="center">
+          <span class="radio-label">Right</span> <input type="radio" class="input" name="opens" ng-model="main.opens" value="right">
+        </div>
       </div>
     </div>
 
     <div class="ob-datepicker-container">
       <ob-daterangepicker
-        class=""
+        ng-class="{'up': main.dropsUp}"
+        class="{{main.opens}}"
         min-day="main.min"
         max-day="main.max"
         linked-calendars="main.linked"
@@ -145,6 +159,8 @@
         var _this = this;
         this.weekStart = 'su';
         this.dateRangeApi = {};
+        this.dropsUp = false;
+        this.opens = 'left';
 
         this.range = {
           start: moment(),

@@ -137,6 +137,40 @@ You must to provide the `start` and `end` parameters as seen in the above exampl
  
 ----------
 
+Position - Configurations
+-------------
+The picker position can be set by **css classes**, here are the available configurations:
+
+#### **drops:**  
+Whether the picker appears below or above the `ob-daterangepicker` directive. Has to be one of following `up` or  `down`    
+**type:**    
+css class   
+**default:**  
+`down`   
+ **example:**  
+```
+<ob-daterangepicker range="vm.range" class="up"></ob-daterangepicker>
+```  
+
+#### **opens:**  
+Whether the picker appears aligned to the left, to the right, or centered relative to the `ob-daterangepicker` directive. Has to be one of following `right`, `left` or `center`  
+**type:**    
+css class   
+**default:**    
+`left`   
+ **example:**    
+```
+<ob-daterangepicker range="vm.range" class="left"></ob-daterangepicker>
+``` 
+
+**Note:**  
+You can combine the class to achieve combined positioning. For example:  
+```
+<ob-daterangepicker range="vm.range" class="up center"></ob-daterangepicker>
+``` 
+
+----------
+
 Contribution
 -------------
  - Fork the project in your account and create a branch with your fix:
