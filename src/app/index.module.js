@@ -11,4 +11,3 @@ angular.module('obDateRangePicker', [])
   .directive('dateRangePicker', DateRangePicker)
   .directive('obDaterangepicker', ObDateRangePicker)
   .directive('calendar', Calendar);
-

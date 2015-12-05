@@ -51,10 +51,14 @@ class ObDateRangePickerController {
       }
     });
     this.preRanges = this.ranges() || [];
-    this.preRanges.push({
-      name: 'Custom',
-      isCustom: true
-    });
+    if(this.preRanges.length) {
+      this.preRanges.push({
+        name: 'Custom',
+        isCustom: true
+      });
+    } else {
+      this.isCustomVisible = true;
+    }
 
     this.render();
   }
@@ -135,10 +139,12 @@ class ObDateRangePickerController {
         if (start && end) {
           this._range.start = start;
           this._range.end = end;
-          this.preRanges[this.preRanges.length - 1].start = start;
-          this.preRanges[this.preRanges.length - 1].end = end;
+          if(this.preRanges.length) {
+            this.preRanges[this.preRanges.length - 1].start = start;
+            this.preRanges[this.preRanges.length - 1].end = end;
+            this.markPredefined(start, end);
+          }
           this.value = this.getRangeValue();
-          this.markPredefined(start, end);
         }
       }
 
@@ -237,15 +243,19 @@ class ObDateRangePickerController {
 
   getRangeValue() {
     let value;
-    let index = this.preRanges.findIndex((range) => {
-      return (this._range.start.isSame(range.start, 'day') && this._range.end.isSame(range.end, 'day'));
-    });
+    let format = this.getInputFormat();
+    if(this.preRanges.length) {
+      let index = this.preRanges.findIndex((range) => {
+        return (this._range.start.isSame(range.start, 'day') && this._range.end.isSame(range.end, 'day'));
+      });
 
-    if (this.preRanges[index].isCustom) {
-      let format = this.getInputFormat();
-      value = `${this.preRanges[index].start.format(format)} - ${this.preRanges[index].end.format(format)}`;
+      if (this.preRanges[index].isCustom) {
+        value = `${this.preRanges[index].start.format(format)} - ${this.preRanges[index].end.format(format)}`;
+      } else {
+        value = this.preRanges[index].name;
+      }
     } else {
-      value = this.preRanges[index].name;
+      value = `${this._range.start.format(format)} - ${this._range.end.format(format)}`;
     }
 
     return value;

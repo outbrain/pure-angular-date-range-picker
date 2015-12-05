@@ -142,7 +142,7 @@ Position - Configurations
 The picker position can be set by **css classes**, here are the available configurations:
 
 #### **drops:**  
-Whether the picker appears below or above the `ob-daterangepicker` directive. Has to be one of following `up` or  `down`    
+Whether the picker appears below or above the `ob-daterangepicker` directive. Has to be one of following `up` or  `down`.    
 **type:**    
 css class   
 **default:**  
@@ -153,7 +153,7 @@ css class
 ```  
 
 #### **opens:**  
-Whether the picker appears aligned to the left, to the right, or centered relative to the `ob-daterangepicker` directive. Has to be one of following `right`, `left` or `center`  
+Whether the picker appears aligned to the left, to the right, or centered relative to the `ob-daterangepicker` directive. Has to be one of following `right`, `left` or `center`.  
 **type:**    
 css class   
 **default:**    
