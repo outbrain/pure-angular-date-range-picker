@@ -228,7 +228,7 @@ class CalendarController {
       day = minDay && day.isBefore(minDay, 'd') ? minDay : day;
       day = maxDay && day.isAfter(maxDay, 'd') ? maxDay : day;
 
-      if(!this.selectedDay().isSame(day, 'd')) {
+      if(!this.selectedDay() || !this.selectedDay().isSame(day, 'd')) {
         if (this.interceptors.inputSelected) {
           this.interceptors.inputSelected(day);
         } else {
