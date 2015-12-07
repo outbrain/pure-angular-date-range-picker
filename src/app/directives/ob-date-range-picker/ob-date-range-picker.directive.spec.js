@@ -11,8 +11,8 @@ describe('directive ob-date-range-picker', function() {
     $scope = $rootScope.$new();
     defaultOptions = {
       range: {
-        start: moment('10-11-2015', format),
-        end: moment('14-11-2015', format)
+        start: moment(),
+        end: moment()
       },
       ranges: [
         {
@@ -79,5 +79,24 @@ describe('directive ob-date-range-picker', function() {
     $rootScope.$digest();
 
     expect(picker.value).toEqual('Yesterday');
+  });
+
+  it('should not show the custom range picker by default', () => {
+    prepare(defaultOptions);
+    picker.togglePicker();
+    $rootScope.$digest();
+
+    expect(picker.isPickerVisible).toEqual(false);
+  });
+
+  it('should not show any pre-defined date ranges and custom should be visible', () => {
+    let options = Object.assign({}, defaultOptions);
+    options.ranges = undefined;
+    prepare(options);
+    picker.togglePicker();
+    $rootScope.$digest();
+
+    expect(picker.preRanges.length).toEqual(0);
+    expect(picker.isPickerVisible).toEqual(true);
   });
 });
