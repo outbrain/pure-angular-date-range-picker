@@ -86,7 +86,7 @@ describe('directive ob-date-range-picker', function() {
     picker.togglePicker();
     $rootScope.$digest();
 
-    expect(picker.isPickerVisible).toEqual(false);
+    expect(picker.isCustomVisible).toEqual(false);
   });
 
   it('should not show any pre-defined date ranges and custom should be visible', () => {

@@ -107,4 +107,40 @@ describe('directive date-range-picker', function() {
     expect(picker.startCalendar.month()).toEqual(10);
     expect(picker.endCalendar.month()).toEqual(11);
   });
+
+  it('should change both calendars position when input in start changed', () => {
+    prepare(defaultOptions);
+    picker.startCalendarInterceptors.inputSelected(moment('05-05-2015', format));
+    $rootScope.$digest();
+
+    expect(picker.startCalendar.month()).toEqual(4);
+    expect(picker.endCalendar.month()).toEqual(5);
+  });
+
+  it('should change both calendars position when input in end changed', () => {
+    prepare(defaultOptions);
+    picker.endCalendarInterceptors.inputSelected(moment('05-05-2015', format));
+    $rootScope.$digest();
+
+    expect(picker.startCalendar.month()).toEqual(4);
+    expect(picker.endCalendar.month()).toEqual(5);
+  });
+
+  it('should change only the start date when start input is changed', () => {
+    prepare(defaultOptions);
+    picker.startCalendarInterceptors.inputSelected(moment('05-05-2015', format));
+    $rootScope.$digest();
+
+    expect(picker.range.start.format(format)).toEqual('05-05-2015');
+    expect(picker.range.end.format(format)).toEqual('14-11-2015');
+  });
+
+  it('should change range start and end if the date in input is after the current range end', () => {
+    prepare(defaultOptions);
+    picker.startCalendarInterceptors.inputSelected(moment('17-11-2015', format));
+    $rootScope.$digest();
+
+    expect(picker.range.start.format(format)).toEqual('17-11-2015');
+    expect(picker.range.end.format(format)).toEqual('17-11-2015');
+  });
 });
