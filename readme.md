@@ -19,18 +19,18 @@ Usage
 
 1. Add the directive js & css to your index.html file:  
 ```
-     <link rel="stylesheet" href="bower_components/ob-daterangepicker/dist/styles/ob-daterangepicker.css">
-     <script src="bower_components/ob-daterangepicker/dist/scripts/ob-daterangepicker.js"></script>
+  <link rel="stylesheet" href="bower_components/ob-daterangepicker/dist/styles/ob-daterangepicker.css">
+  <script src="bower_components/ob-daterangepicker/dist/scripts/ob-daterangepicker.js"></script>
 ```
 
 2. Inject `obDateRangePicker` to your main module:  
 ```
-	angular.module('yourModule', ['obDateRangePicker'])
+  angular.module('yourModule', ['obDateRangePicker'])
 ```
 
 3. Add the `ob-daterange-picker` directive to your html:  
 ```
-	<ob-daterangepicker range="vm.range"></ob-daterangepicker>
+  <ob-daterangepicker range="vm.range"></ob-daterangepicker>
 ```
 ----------
 
@@ -56,7 +56,7 @@ Sets the initial range that would be displayed on the date-range-picker. When, r
 	}
 ```
 **Note:**  
-If `start` and `end` have to be of same type (`Moment` object or a `String`). If you choose to provide the attributes as `String` you will have to provide the [format](#format) of the date, for example:  
+`start` and `end` have to be of same type (`Moment` object or a `String`). If you choose to provide the attributes as strings, then you will have to provide the [format](#format) of the date, for example:  
 JS:  
 ```
  	this.range = {
@@ -173,8 +173,7 @@ You can combine the class to achieve combined positioning. For example:
 
 Contribution
 -------------
- - Fork the project in your account and create a branch with your fix:
-   `some-great-feature` or `some-issue-fix`.
+ - Fork the project in your account and create a branch with your fix: `some-great-feature` or `some-issue-fix`.
  - Commit your changes in that branch, don't forget to add tests.  
  - Open a pull request, and reference the initial issue in the pull request message (e.g. *fixes #<your-issue-number>*). Write a good description and title, so everybody will know what is fixed/improved.  
  - Finally, your contributions will be merged! Contributions are more than welcome!
