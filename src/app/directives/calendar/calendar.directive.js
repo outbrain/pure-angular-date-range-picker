@@ -250,12 +250,6 @@ class CalendarController {
     return this.inputFormat() || 'MMM D, YYYY';
   }
 
-  checkIfDayDisabled(day) {
-    let minDay = this.minDay();
-    let maxDay = this.maxDay();
-    return ((minDay && day.isBefore(minDay, 'd')) || (maxDay && day.isAfter(maxDay, 'd')));
-  }
-
   showLeftArrow() {
     return this.minMonth() ? !this.minMonth().isSame(this.month.clone().subtract(1, 'M'), 'M') : true;
   }
