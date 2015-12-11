@@ -1,4 +1,4 @@
-describe('directive date-range-picker', function() {
+describe('directive date-range-picker', function () {
   var element, moment, defaultOptions, $compile, $scope, $rootScope, format = 'DD-MM-YYYY', picker, elem;
 
   beforeEach(angular.mock.module('obDateRangePicker'));
@@ -21,7 +21,7 @@ describe('directive date-range-picker', function() {
     element = angular.element(`
       <date-range-picker
         api="picker.pickerApi"
-        linked-calendars="picker.linkedCalendars()"
+        linked-calendars="picker.linkedCalendars"
         week-start="picker.weekStart"
         range="picker.range"
         week-days-name="picker.weekDaysName"
@@ -142,5 +142,85 @@ describe('directive date-range-picker', function() {
 
     expect(picker.range.start.format(format)).toEqual('17-11-2015');
     expect(picker.range.end.format(format)).toEqual('17-11-2015');
+  });
+
+  /* range (non-linked) tests */
+  it('should show start next to end calendar on startup when calendars are not linked but sharing same month', () => {
+    let options = Object.assign({
+      linkedCalendars: false
+    }, defaultOptions);
+    prepare(options);
+    $rootScope.$digest();
+
+    expect(picker.startCalendar.month()).toEqual(10);
+    expect(picker.endCalendar.month()).toEqual(11);
+  });
+
+  it('should show start next to end calendar on correct months', () => {
+    let options = {
+      range: {
+        start: moment('10-05-2015', format),
+        end: moment('14-11-2015', format)
+      },
+      linkedCalendars: false
+    };
+    prepare(options);
+    $rootScope.$digest();
+
+    expect(picker.startCalendar.month()).toEqual(4);
+    expect(picker.endCalendar.month()).toEqual(10);
+  });
+
+  it('should show changed start calendar when prev month selected but leave the endCalendar the same', () => {
+    let options = Object.assign({
+      linkedCalendars: false
+    }, defaultOptions);
+    prepare(options);
+    $rootScope.$digest();
+    picker.startCalendarInterceptors.daySelected(moment('29-10-2015', format));
+    $rootScope.$digest();
+
+    expect(picker.startCalendar.month()).toEqual(9);
+    expect(picker.endCalendar.month()).toEqual(11);
+  });
+
+  it('should show changed end calendar when next month selected but leave the startCalendar the same', () => {
+    let options = Object.assign({
+      linkedCalendars: false
+    }, defaultOptions);
+    prepare(options);
+    $rootScope.$digest();
+    picker.startCalendarInterceptors.daySelected(moment('14-11-2015', format));
+    picker.endCalendarInterceptors.daySelected(moment('01-01-2016', format));
+    $rootScope.$digest();
+
+    expect(picker.startCalendar.month()).toEqual(10);
+    expect(picker.endCalendar.month()).toEqual(0);
+  });
+
+  it('should show changed start calendar when past month selected but leave the endCalendar the same - input change', () => {
+    let options = Object.assign({
+      linkedCalendars: false
+    }, defaultOptions);
+    prepare(options);
+    $rootScope.$digest();
+    picker.startCalendarInterceptors.inputSelected(moment('14-05-2015', format));
+    $rootScope.$digest();
+
+    expect(picker.startCalendar.month()).toEqual(4);
+    expect(picker.endCalendar.month()).toEqual(10);
+  });
+
+  it('should show changed end calendar when future month selected but leave the startCalendar the same - input change', () => {
+    let options = Object.assign({
+      linkedCalendars: false
+    }, defaultOptions);
+    prepare(options);
+    $rootScope.$digest();
+    picker.endCalendarInterceptors.inputSelected(moment('14-01-2016', format));
+    $rootScope.$digest();
+
+    expect(picker.startCalendar.month()).toEqual(10);
+    expect(picker.endCalendar.month()).toEqual(0);
   });
 });
