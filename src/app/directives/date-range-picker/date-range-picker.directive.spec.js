@@ -25,8 +25,8 @@ describe('directive date-range-picker', function () {
         week-start="picker.weekStart"
         range="picker.range"
         week-days-name="picker.weekDaysName"
-        min-day="picker.getMinDay()"
-        max-day="picker.getMaxDay()"
+        min-day="picker.minDay"
+        max-day="picker.maxDay"
         month-format="picker.monthFormat"
         input-format="picker.inputFormat()">
       </date-range-picker>
@@ -250,5 +250,61 @@ describe('directive date-range-picker', function () {
     expect(picker.startCalendar.month()).toEqual(4);
     expect(picker.endCalendar.month()).toEqual(5);
     expect(picker.range.start.isSame(picker.range.end)).toEqual(true);
+  });
+
+  it('should not changed dates when selected day in input is before min date - start input', () => {
+    let options = Object.assign({
+      linkedCalendars: false,
+      minDay: moment('09-11-2015', format)
+    }, defaultOptions);
+    prepare(options);
+    $rootScope.$digest();
+    picker.startCalendarInterceptors.inputSelected(moment('05-11-2015', format));
+    $rootScope.$digest();
+
+    expect(picker.range.start.isSame(options.range.start)).toEqual(true);
+    expect(picker.range.end.isSame(options.range.end)).toEqual(true);
+  });
+
+  it('should not changed dates when selected day in input is before min date - end input', () => {
+    let options = Object.assign({
+      linkedCalendars: false,
+      minDay: moment('09-11-2015', format)
+    }, defaultOptions);
+    prepare(options);
+    $rootScope.$digest();
+    picker.endCalendarInterceptors.inputSelected(moment('05-11-2015', format));
+    $rootScope.$digest();
+
+    expect(picker.range.start.isSame(options.range.start)).toEqual(true);
+    expect(picker.range.end.isSame(options.range.end)).toEqual(true);
+  });
+
+  it('should not changed dates when selected day in input is after max date - start input', () => {
+    let options = Object.assign({
+      linkedCalendars: false,
+      maxDay: moment('20-11-2015', format)
+    }, defaultOptions);
+    prepare(options);
+    $rootScope.$digest();
+    picker.startCalendarInterceptors.inputSelected(moment('21-11-2015', format));
+    $rootScope.$digest();
+
+    expect(picker.range.start.isSame(options.range.start)).toEqual(true);
+    expect(picker.range.end.isSame(options.range.end)).toEqual(true);
+  });
+
+  it('should not changed dates when selected day in input is after max date - end input', () => {
+    let options = Object.assign({
+      linkedCalendars: false,
+      maxDay: moment('20-11-2015', format)
+    }, defaultOptions);
+    prepare(options);
+    $rootScope.$digest();
+    picker.endCalendarInterceptors.inputSelected(moment('21-11-2015', format));
+    $rootScope.$digest();
+
+    expect(picker.range.start.isSame(options.range.start)).toEqual(true);
+    expect(picker.range.end.isSame(options.range.end)).toEqual(true);
   });
 });
