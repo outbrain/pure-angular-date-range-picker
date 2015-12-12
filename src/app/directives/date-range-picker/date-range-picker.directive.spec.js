@@ -223,4 +223,32 @@ describe('directive date-range-picker', function () {
     expect(picker.startCalendar.month()).toEqual(10);
     expect(picker.endCalendar.month()).toEqual(0);
   });
+
+  it('should change end and start if start date is after the end date', () => {
+    let options = Object.assign({
+      linkedCalendars: false
+    }, defaultOptions);
+    prepare(options);
+    $rootScope.$digest();
+    picker.startCalendarInterceptors.inputSelected(moment('14-01-2016', format));
+    $rootScope.$digest();
+
+    expect(picker.startCalendar.month()).toEqual(0);
+    expect(picker.endCalendar.month()).toEqual(1);
+    expect(picker.range.start.isSame(picker.range.end)).toEqual(true);
+  });
+
+  it('should show changed end and start if end date is before the start date', () => {
+    let options = Object.assign({
+      linkedCalendars: false
+    }, defaultOptions);
+    prepare(options);
+    $rootScope.$digest();
+    picker.endCalendarInterceptors.inputSelected(moment('14-05-2015', format));
+    $rootScope.$digest();
+
+    expect(picker.startCalendar.month()).toEqual(4);
+    expect(picker.endCalendar.month()).toEqual(5);
+    expect(picker.range.start.isSame(picker.range.end)).toEqual(true);
+  });
 });
