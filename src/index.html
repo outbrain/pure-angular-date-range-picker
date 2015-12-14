@@ -115,6 +115,12 @@
           <span class="radio-label">Center</span> <input type="radio" class="input" name="opens" ng-model="main.opens" value="center">
           <span class="radio-label">Right</span> <input type="radio" class="input" name="opens" ng-model="main.opens" value="right">
         </div>
+
+        <div class="config">
+          <div class="label">Auto Apply</div>
+          <span class="radio-label">True</span> <input type="radio" class="input" name="autoApply" ng-model="main.autoApply" ng-value="true" ng-change="main.render()">
+          <span class="radio-label">False</span> <input type="radio" class="input" name="autoApply" ng-model="main.autoApply" ng-value="false" ng-change="main.render()">
+        </div>
       </div>
     </div>
 
@@ -130,7 +136,8 @@
         ranges="main.ranges"
         range="main.range"
         format="main.format"
-        week-start="main.weekStart"></ob-daterangepicker>
+        week-start="main.weekStart"
+        auto-apply="main.autoApply"></ob-daterangepicker>
     </div>
     <br/>
     <pre>{{main.range | json}}</pre>
@@ -168,8 +175,7 @@
         };
 
         this.format = 'DD-MM-YYYY';
-        //this.min = '15/11/2015';
-        //this.max = '16/11/2015';
+        this.autoApply = false;
 
         this.linked = true;
 

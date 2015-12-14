@@ -12,7 +12,8 @@ export function DateRangePicker() {
       monthFormat: '&',
       inputFormat: '&',
       weekDaysName: '&',
-      linkedCalendars: '&'
+      linkedCalendars: '&',
+      interceptors: '&'
     },
     templateUrl: 'app/directives/date-range-picker/date-range-picker.html',
     controller: DateRangePickerController,
@@ -39,6 +40,7 @@ class DateRangePickerController {
     this.setListeners();
     this.setApi();
     this.watchRangeChange();
+    this.interceptors = this.interceptors() || {}
   }
 
   setApi() {
@@ -110,6 +112,9 @@ class DateRangePickerController {
       daySelected: (day) => {
         this.dayInStartSelected(day);
         this.daySelected(day);
+        if(this.daysSelected == 2) {
+          this.interceptors.rangeSelectedByClick && this.interceptors.rangeSelectedByClick();
+        }
       },
       inputSelected: (day) => {
         this.inputInStartSelected(day);
@@ -126,6 +131,9 @@ class DateRangePickerController {
       daySelected: (day) => {
         this.dayInEndSelected(day);
         this.daySelected(day);
+        if(this.daysSelected == 2) {
+          this.interceptors.rangeSelectedByClick && this.interceptors.rangeSelectedByClick();
+        }
       },
       inputSelected: (day) => {
         this.inputInEndSelected(day);

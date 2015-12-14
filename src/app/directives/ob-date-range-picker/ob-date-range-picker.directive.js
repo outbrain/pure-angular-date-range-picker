@@ -15,6 +15,7 @@ export function ObDateRangePicker() {
       inputFormat: '&',
       onApply: '&',
       linkedCalendars: '&',
+      autoApply: '&',
       api: '='
     },
     controller: ObDateRangePickerController,
@@ -95,6 +96,7 @@ class ObDateRangePickerController {
     this.applyMinMaxDaysToRange();
     this.setRange();
     this.markPredefined(this._range.start, this._range.end);
+    this.setPickerInterceptors();
   }
 
   applyMinMaxDaysToRange() {
@@ -108,6 +110,16 @@ class ObDateRangePickerController {
       let maxDay = this._getMaxDay();
       this._range.start = this._range.start.isAfter(maxDay) ? maxDay : this._range.start;
       this._range.end = this._range.end.isAfter(maxDay) ? maxDay : this._range.end;
+    }
+  }
+
+  setPickerInterceptors() {
+    this.pickerInterceptors = {
+      rangeSelectedByClick: () => {
+        if(this.autoApply()) {
+          this.applyChanges();
+        }
+      }
     }
   }
 
@@ -137,8 +149,6 @@ class ObDateRangePickerController {
     }], ([start, end]) => {
       if (!this.selfChange) {
         if (start && end) {
-          this._range.start = start;
-          this._range.end = end;
           if(this.preRanges.length) {
             this.preRanges[this.preRanges.length - 1].start = start;
             this.preRanges[this.preRanges.length - 1].end = end;

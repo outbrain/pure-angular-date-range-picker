@@ -47,7 +47,8 @@ describe('directive ob-date-range-picker', function() {
         min-day="picker.getMinDay()"
         max-day="picker.getMaxDay()"
         month-format="picker.monthFormat"
-        input-format="picker.inputFormat()">
+        input-format="picker.inputFormat()"
+        auto-apply="picker.autoApply">
       </ob-daterangepicker>
     `);
 
@@ -98,5 +99,42 @@ describe('directive ob-date-range-picker', function() {
 
     expect(picker.preRanges.length).toEqual(0);
     expect(picker.isPickerVisible).toEqual(true);
+  });
+
+  it('should not close the picker when not set to auto apply', () => {
+    prepare(defaultOptions);
+    picker.togglePicker();
+    $rootScope.$digest();
+
+    let days = elem.querySelectorAll('.day');
+    let startDay = angular.element(days[15]);
+    let endDay = angular.element(days[17]);
+
+    startDay.triggerHandler('click');
+    $rootScope.$digest();
+    endDay.triggerHandler('click');
+    $rootScope.$digest();
+
+    expect(picker.isPickerVisible).toEqual(true);
+  });
+
+  it('should close the picker when set to auto apply', () => {
+    let options = Object.assign({
+      autoApply: true
+    }, defaultOptions);
+    prepare(options);
+    picker.togglePicker();
+    $rootScope.$digest();
+
+    let days = elem.querySelectorAll('.day');
+    let startDay = angular.element(days[15]);
+    let endDay = angular.element(days[17]);
+
+    startDay.triggerHandler('click');
+    $rootScope.$digest();
+    endDay.triggerHandler('click');
+    $rootScope.$digest();
+
+    expect(picker.isPickerVisible).toEqual(false);
   });
 });

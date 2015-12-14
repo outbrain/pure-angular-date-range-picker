@@ -6,6 +6,7 @@
     <div class="date-range" ng-show="obDateRangePicker.isCustomVisible">
       <date-range-picker
         api="obDateRangePicker.pickerApi"
+        interceptors="obDateRangePicker.pickerInterceptors"
         linked-calendars="obDateRangePicker.linkedCalendars()"
         week-start="obDateRangePicker.weekStart()"
         range="obDateRangePicker._range"
@@ -26,7 +27,7 @@
         </div>
       </div>
 
-      <div class="actions">
+      <div class="actions" ng-if="!obDateRangePicker.autoApply()">
         <div class="btn cancel" ng-click="obDateRangePicker.discardChanges()">Cancel</div>
         <div class="btn apply" ng-click="obDateRangePicker.applyChanges()">APPLY</div>
       </div>

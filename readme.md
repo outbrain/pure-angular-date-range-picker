@@ -133,7 +133,25 @@ html:
 	<ob-daterangepicker on-apply="vm.onApply(start, end)"></ob-daterangepicker>
 ```  
 **Note:**  
-You must to provide the `start` and `end` parameters as seen in the above example. 
+You must to provide the `start` and `end` parameters as seen in the above example.
+ 
+#### **auto-apply:**  
+Hide the apply and cancel buttons, and automatically apply a new date range as soon as two dates or a predefined range is selected
+**type:**  
+`Boolean`    
+**default:**  
+`false`   
+**example:**  
+```  
+js:
+this.onApply(start, end) {
+  ...
+}
+html:
+<ob-daterangepicker on-apply="vm.onApply(start, end)"></ob-daterangepicker>
+```  
+**Note:**  
+You must to provide the `start` and `end` parameters as seen in the above example.
  
 ----------
 
