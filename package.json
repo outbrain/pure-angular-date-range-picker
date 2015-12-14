@@ -1,6 +1,6 @@
 {
   "name": "obDateRangePicker",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "dependencies": {
     "babel-plugin-object-assign": "^1.2.1"
   },
