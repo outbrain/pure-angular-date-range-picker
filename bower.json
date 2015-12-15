@@ -1,5 +1,5 @@
 {
-  "name": "obDateRangePicker",
+  "name": "ob-daterangepicker",
   "version": "0.0.1",
   "main": [
     "scripts/ob-daterangepicker.js",
