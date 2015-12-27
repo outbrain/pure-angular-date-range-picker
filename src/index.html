@@ -122,11 +122,19 @@
           <span class="radio-label">False</span> <input type="radio" class="input" name="autoApply" ng-model="main.autoApply" ng-value="false" ng-change="main.render()">
         </div>
       </div>
+
+      <div class="section">
+        <div class="config">
+          <div class="label">Disabled</div>
+          <span class="radio-label">True</span> <input type="radio" class="input" name="disabled" ng-model="main.disabled" ng-value="true" ng-change="main.render()">
+          <span class="radio-label">False</span> <input type="radio" class="input" name="disabled" ng-model="main.disabled" ng-value="false" ng-change="main.render()">
+        </div>
+      </div>
     </div>
 
     <div class="ob-datepicker-container">
       <ob-daterangepicker
-        ng-class="{'up': main.dropsUp}"
+        ng-class="{'up': main.dropsUp, 'disabled': main.disabled}"
         class="{{main.opens}}"
         min-day="main.min"
         max-day="main.max"
@@ -137,7 +145,8 @@
         range="main.range"
         format="main.format"
         week-start="main.weekStart"
-        auto-apply="main.autoApply"></ob-daterangepicker>
+        auto-apply="main.autoApply"
+        disabled="main.disabled"></ob-daterangepicker>
     </div>
     <br/>
     <pre>{{main.range | json}}</pre>
@@ -168,6 +177,7 @@
         this.dateRangeApi = {};
         this.dropsUp = false;
         this.opens = 'left';
+        this.disabled = false;
 
         this.range = {
           start: moment(),

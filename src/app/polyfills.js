@@ -1,3 +1,4 @@
+/*eslint-disable */
 if (!Array.prototype.findIndex) {
   Array.prototype.findIndex = function(predicate) {
     if (this === null) {
@@ -20,3 +21,4 @@ if (!Array.prototype.findIndex) {
     return -1;
   };
 }
+/*eslint-enable */

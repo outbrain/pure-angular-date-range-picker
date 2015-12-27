@@ -7,6 +7,12 @@ ob-daterangepicker {
   display: inline-block;
   overflow: visible;
   font-family: "Open Sans";
+  cursor: pointer;
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 
   .picker-dropdown-container {
     position: relative;
@@ -21,10 +27,6 @@ ob-daterangepicker {
       border-radius: 2px;
       font-size: 14px;
       padding-left: 10px;
-
-      &:hover {
-        cursor: pointer;
-      }
 
       &.open {
         border-radius: 2px 2px 0 0;

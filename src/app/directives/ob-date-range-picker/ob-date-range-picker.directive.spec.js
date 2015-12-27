@@ -1,13 +1,12 @@
 describe('directive ob-date-range-picker', function() {
-  var element, moment, defaultOptions, $compile, $scope, $rootScope, format = 'DD-MM-YYYY', picker, elem, $document;
+  var element, moment, defaultOptions, $compile, $scope, $rootScope, picker, elem;
 
   beforeEach(angular.mock.module('obDateRangePicker'));
 
-  beforeEach(inject((_$compile_, _$rootScope_, _moment_, _$document_) => {
+  beforeEach(inject((_$compile_, _$rootScope_, _moment_) => {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     moment = _moment_;
-    $document = _$document_;
     $scope = $rootScope.$new();
     defaultOptions = {
       range: {
@@ -48,7 +47,8 @@ describe('directive ob-date-range-picker', function() {
         max-day="picker.getMaxDay()"
         month-format="picker.monthFormat"
         input-format="picker.inputFormat()"
-        auto-apply="picker.autoApply">
+        auto-apply="picker.autoApply"
+        disabled="picker.disabled">
       </ob-daterangepicker>
     `);
 
@@ -133,6 +133,17 @@ describe('directive ob-date-range-picker', function() {
     startDay.triggerHandler('click');
     $rootScope.$digest();
     endDay.triggerHandler('click');
+    $rootScope.$digest();
+
+    expect(picker.isPickerVisible).toEqual(false);
+  });
+
+  it('should not open picker if set to disabled', () => {
+    let options = Object.assign({
+      disabled: true
+    }, defaultOptions);
+    prepare(options);
+    picker.togglePicker();
     $rootScope.$digest();
 
     expect(picker.isPickerVisible).toEqual(false);

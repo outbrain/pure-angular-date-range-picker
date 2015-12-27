@@ -16,6 +16,7 @@ export function ObDateRangePicker() {
       onApply: '&',
       linkedCalendars: '&',
       autoApply: '&',
+      disabled: '&',
       api: '='
     },
     controller: ObDateRangePickerController,
@@ -189,7 +190,8 @@ class ObDateRangePickerController {
   }
 
   togglePicker() {
-    if (!this.isPickerVisible) {
+    let disabled = angular.isDefined(this.disabled()) ? this.disabled() : false;
+    if (!disabled && !this.isPickerVisible) {
       this.setListeners();
       this.isPickerVisible = true;
       this.elemClickFlag = true;
