@@ -32,6 +32,7 @@ describe('directive date-range-picker', function () {
           week-days-name="calendar.weekDaysName"
           month-format="calendar.monthFormat"
           input-format="calendar.inputFormat"
+          show-input="calendar.showInput"
           label="End Date">
       </calendar>
     `);
@@ -79,5 +80,16 @@ describe('directive date-range-picker', function () {
 
     let monthHeader = elem.querySelector('.date');
     expect(monthHeader.innerText.trim()).toEqual('11 2015');
+  });
+
+  /*is input enabled*/
+  it('should show correct month format', () => {
+    let options = Object.assign(defaultOptions, {
+      showInput: false
+    });
+    prepare(options);
+
+    let inputContainer = elem.querySelector('.input-container');
+    expect(inputContainer).toBeNull();
   });
 });

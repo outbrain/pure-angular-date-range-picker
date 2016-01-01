@@ -62,7 +62,12 @@
 
     </style>
 
-    <div>
+
+    <div class="directive">
+      <h3>
+        Date Range Picker (ob-daterangepicker)
+      </h3>
+
       <div class="section">
         <div class="config">
           <div class="label">Format</div>
@@ -130,26 +135,47 @@
           <span class="radio-label">False</span> <input type="radio" class="input" name="disabled" ng-model="main.disabled" ng-value="false" ng-change="main.render()">
         </div>
       </div>
+
+      <div class="ob-datepicker-container">
+        <ob-daterangepicker
+          ng-class="{'up': main.dropsUp, 'disabled': main.disabled}"
+          class="{{main.opens}}"
+          min-day="main.min"
+          max-day="main.max"
+          linked-calendars="main.linked"
+          api="main.dateRangeApi"
+          on-apply="main.rangeApplied(start, end)"
+          ranges="main.ranges"
+          range="main.range"
+          format="main.format"
+          week-start="main.weekStart"
+          auto-apply="main.autoApply"
+          disabled="main.disabled">
+        </ob-daterangepicker>
+      </div>
+      <br/>
+      <pre>{{main.range | json}}</pre>
     </div>
 
-    <div class="ob-datepicker-container">
-      <ob-daterangepicker
+    <hr />
+
+    <div class="directive">
+      <h3>
+        Day Picker (ob-daypicker)
+      </h3>
+
+      <ob-daypicker
         ng-class="{'up': main.dropsUp, 'disabled': main.disabled}"
         class="{{main.opens}}"
         min-day="main.min"
         max-day="main.max"
-        linked-calendars="main.linked"
         api="main.dateRangeApi"
         on-apply="main.rangeApplied(start, end)"
-        ranges="main.ranges"
-        range="main.range"
         format="main.format"
         week-start="main.weekStart"
-        auto-apply="main.autoApply"
-        disabled="main.disabled"></ob-daterangepicker>
+        disabled="main.disabled">
+      </ob-daypicker>
     </div>
-    <br/>
-    <pre>{{main.range | json}}</pre>
 
     <!-- build:js(src) scripts/vendor.js -->
     <!-- bower:js -->

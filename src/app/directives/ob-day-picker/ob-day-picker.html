@@ -1,0 +1,22 @@
+<div class="picker-dropdown-container">
+  <input class="picker-input" ng-class="{'open': obDateRangePicker.isPickerVisible}" ng-click="dayPicker.togglePicker()" />
+  <div class="picker" ng-class="{'open': dayPicker.isPickerVisible}" ng-show="dayPicker.isPickerVisible">
+    <calendar class="calendar"
+              api="dayPicker.endCalendarApi"
+              min-day="dayPicker.minDay()"
+              max-day="dayPicker.maxDay()"
+              week-start="dayPicker.weekStart()"
+              month="dayPicker.endCalendar"
+              interceptors="dayPicker.endCalendarInterceptors"
+              range-start="dayPicker.rangeStart"
+              range-end="dayPicker.rangeEnd"
+              selected-day="dayPicker.rangeEnd"
+              min-month="dayPicker.startCalendar"
+              week-days-name="dayPicker.weekDaysName()"
+              month-format="dayPicker.monthFormat()"
+              input-format="dayPicker.inputFormat()"
+              label=""
+              show-input="false">
+    </calendar>
+  </div>
+</div>

@@ -17,6 +17,7 @@ export function Calendar() {
       weekDaysName: '&',
       monthFormat: '&',
       inputFormat: '&',
+      showInput: '&',
       api: '='
     },
     templateUrl: 'app/directives/calendar/calendar.html',
@@ -256,5 +257,9 @@ class CalendarController {
 
   showRightArrow() {
     return this.maxMonth() ? !this.maxMonth().isSame(this.month.clone().add(1, 'M'), 'M') : true;
+  }
+
+  _showInput() {
+    return angular.isDefined(this.showInput()) ? this.showInput() : true;
   }
 }
