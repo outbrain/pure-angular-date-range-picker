@@ -1,5 +1,7 @@
 <div class="picker-dropdown-container">
-  <input class="picker-input" ng-class="{'open': obDateRangePicker.isPickerVisible}" ng-click="dayPicker.togglePicker()" />
+  <input class="picker-input"
+         ng-class="{'open': obDateRangePicker.isPickerVisible}"
+         ng-click="dayPicker.showPicker()"/>
   <div class="picker" ng-class="{'open': dayPicker.isPickerVisible}" ng-show="dayPicker.isPickerVisible">
     <calendar class="calendar"
               api="dayPicker.endCalendarApi"

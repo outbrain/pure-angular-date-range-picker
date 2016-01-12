@@ -36,7 +36,7 @@ class ObDayPickerController {
     this.Moment = moment;
 
     this.setOpenCloseLogic();
-    this.value = 'Select a Range';
+    this.value;
 
     //this.api && Object.assign(this.api, {
     //  setDay: this.setDateRange.bind(this),
@@ -58,6 +58,7 @@ class ObDayPickerController {
       if (this.elemClickFlag) {
         this.elemClickFlag = false;
       } else {
+        this.hidePicker();
         this.Scope.$apply();
       }
     });
@@ -71,15 +72,13 @@ class ObDayPickerController {
     });
   }
 
-  togglePicker() {
+  showPicker() {
     let disabled = angular.isDefined(this.disabled()) ? this.disabled() : false;
     if (!disabled && !this.isPickerVisible) {
       this.setListeners();
       this.isPickerVisible = true;
-      this.elemClickFlag = true;
-    } else {
-      this.isPickerVisible = false;
     }
+    this.elemClickFlag = true;
   }
 
   hidePicker() {
@@ -87,7 +86,6 @@ class ObDayPickerController {
     this.pickerPopup.unbind('click');
     this.Document.unbind('click');
   }
-
 
   getFormat() {
     return this.format() || 'MM-DD-YYYY';
