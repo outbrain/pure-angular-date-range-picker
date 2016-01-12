@@ -36,7 +36,8 @@ class ObDayPickerController {
     this.Moment = moment;
 
     this.setOpenCloseLogic();
-    this.value;
+    this._selectedDay = this.getSelectedDay();
+    this.value = this.Moment(this._selectedDay).format(this.getInputFormat());
 
     //this.api && Object.assign(this.api, {
     //  setDay: this.setDateRange.bind(this),
@@ -45,12 +46,20 @@ class ObDayPickerController {
     //    this.pickerApi.render();
     //  }
     //});
+    this.setCalendarInterceptors();
+    this.calendarApi = {};
   }
 
   setOpenCloseLogic() {
     this.isPickerVisible = false;
     this.pickerPopup = angular.element(this.Element[0].querySelector('.picker'));
     this.elemClickFlag = false;
+  }
+
+  setCalendarInterceptors() {
+    this.calendarInterceptors = {
+      daySelected: this.daySelected.bind(this)
+    }
   }
 
   setListeners() {
@@ -85,6 +94,17 @@ class ObDayPickerController {
     this.isPickerVisible = false;
     this.pickerPopup.unbind('click');
     this.Document.unbind('click');
+  }
+
+  daySelected(day) {
+    this.calendarApi.render();
+    this.value = this.Moment(day).format(this.getInputFormat());
+    this._selectedDay = day;
+    this.hidePicker();
+  }
+
+  getSelectedDay() {
+    return this.Moment(this.selectedDay || this.Moment(), this.getFormat());
   }
 
   getFormat() {

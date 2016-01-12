@@ -50,11 +50,11 @@
         vertical-align: super;
       }
 
-      .ob-datepicker-container {
+      .ob-datepicker-container, .ob-daypicker-container {
         position: relative;
       }
 
-      ob-daterangepicker {
+      ob-daterangepicker, ob-daypicker {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
@@ -163,18 +163,19 @@
       <h3>
         Day Picker (ob-daypicker)
       </h3>
-
-      <ob-daypicker
-        ng-class="{'up': main.dropsUp, 'disabled': main.disabled}"
-        class="{{main.opens}}"
-        min-day="main.min"
-        max-day="main.max"
-        api="main.dateRangeApi"
-        on-apply="main.rangeApplied(start, end)"
-        format="main.format"
-        week-start="main.weekStart"
-        disabled="main.disabled">
-      </ob-daypicker>
+      <div class="ob-daypicker-container">
+        <ob-daypicker
+          ng-class="{'up': main.dropsUp, 'disabled': main.disabled}"
+          class="{{main.opens}}"
+          min-day="main.min"
+          max-day="main.max"
+          api="main.dateRangeApi"
+          on-apply="main.rangeApplied(start, end)"
+          format="main.format"
+          week-start="main.weekStart"
+          disabled="main.disabled">
+        </ob-daypicker>
+      </div>
     </div>
 
     <!-- build:js(src) scripts/vendor.js -->

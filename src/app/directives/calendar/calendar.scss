@@ -1,12 +1,9 @@
+@import "../common/variables";
+
 $cellWidth: 38px;
 $cellHeight: 30px;
-$mainFontSize: 12px;
-$mainColor: #30708F;
-$borderColor: #C4BFB9;
-$inputBorderRadius: #93908C;
-$disabledColor: #E2DFDE;
+$disabledDayColor: #E2DFDE;
 $rangeColor: #97B7C7;
-$mainTextColor: #565154;
 
 calendar {
   font-family: "Open Sans";
@@ -22,14 +19,15 @@ calendar {
     }
 
     input {
+      padding-left: 5px;
       box-sizing: border-box;
       width: 200px;
       float: right;
       height: 20px;
       font-size: $mainFontSize;
       outline: none;
-      border: 1px solid $inputBorderRadius;
-      border-radius: 2px;
+      border: 1px solid $borderColor;
+      border-radius: $inputBorderRadius;
     }
   }
 
@@ -103,12 +101,17 @@ calendar {
         cursor: pointer;
       }
 
+      &.selected:not(.other-month):not(.disabled) {
+        background: pink;
+        color: #FFFFFF;
+      }
+
       &.current:not(.other-month) {
         font-weight: bold;
       }
 
       &.other-month {
-        color: $disabledColor;
+        color: $disabledDayColor;
       }
 
       &.in-range:not(.other-month):not(.disabled) {
@@ -129,7 +132,7 @@ calendar {
       }
 
       &.disabled {
-        color: $disabledColor;
+        color: $disabledDayColor;
       }
     }
   }

@@ -1,5 +1,68 @@
+@import "../common/variables";
+
 ob-daypicker {
+  display: inline-block;
+  overflow: visible;
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   .picker-dropdown-container {
-    display: inline-block;
+    position: relative;
+
+    .picker {
+      position: relative;
+      top: -1px;
+    }
+
+    input {
+      box-sizing: border-box;
+      width: 200px;
+      height: 30px;
+      line-height: 30px;
+      border: 1px solid $borderColor;
+      border-radius: $inputBorderRadius;
+      font-size: 14px;
+      padding-left: 10px;
+      outline: none
+    }
+  }
+
+  &.right {
+    .picker {
+      right: auto;
+      left: 0;
+    }
+  }
+
+  &.up {
+    .picker-dropdown.open {
+      border-radius: 0 0 2px 2px;
+    }
+
+    .picker {
+      top: 1px;
+      transform: translateY(-100%);
+
+      &.open {
+        border-radius: 2px 2px 0 2px;
+      }
+    }
+
+    &.center {
+      .picker {
+        transform: translate(-50%, -100%);
+      }
+    }
+
+    &.right {
+      .picker {
+        &.open {
+          border-radius: 2px 2px 2px 0;
+        }
+      }
+    }
   }
 }

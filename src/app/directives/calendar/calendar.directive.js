@@ -7,8 +7,8 @@ export function Calendar() {
       minDay: '&',
       maxDay: '&',
       weekStart: '&',
-      month: '=',
-      interceptors: '=',
+      getMonth: '&month',
+      getInterceptors: '&interceptors',
       rangeStart: '&',
       rangeEnd: '&',
       selectedDay: '&',
@@ -50,8 +50,8 @@ class CalendarController {
     this.defaultWeekDaysNames = this.weekDaysName() || ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     this.firstDayOfWeek = this.weekStart() || 'su';
     this.daysOfWeek = this.buildWeek(this.firstDayOfWeek);
-    this.calendar = this.buildCalendar(this.month);
-    this.interceptors = this.interceptors || {};
+    this.calendar = this.buildCalendar(this.getMonth());
+    this.interceptors = this.getInterceptors() || {};
     this.setListeners();
     this.daysName = this.setWeekDaysNames(this.daysOfWeek);
   }
@@ -84,7 +84,7 @@ class CalendarController {
 
   setListeners() {
     this.Scope.$watch(() => {
-      return this.month;
+      return this.getMonth();
     }, (newMonth) => {
       this.calendar = this.buildCalendar(newMonth);
     });
@@ -102,16 +102,20 @@ class CalendarController {
   updateDaysProperties(monthWeeks) {
     let minDay = this.minDay();
     let maxDay = this.maxDay();
+    let selectedDay = this.selectedDay();
+    let rangeStart = this.rangeStart();
+    let rangeEnd =  this.rangeEnd();
     monthWeeks.forEach((week) => {
       week.forEach((day) => {
+        day.selected = day.mo.isSame(selectedDay || null, 'day');
         day.inRange = this.isInRange(day.mo);
-        day.rangeStart = day.mo.isSame(this.rangeStart(), 'day');
-        day.rangeEnd = day.mo.isSame(this.rangeEnd(), 'day');
+        day.rangeStart = day.mo.isSame(rangeStart || null, 'day');
+        day.rangeEnd = day.mo.isSame(rangeEnd || null, 'day');
         if (minDay) {
-          day.disabled = day.mo.isBefore(minDay, 'd');
+          day.disabled = day.mo.isBefore(minDay, 'day');
         }
         if (maxDay && !day.disabled) {
-          day.disabled = day.mo.isAfter(maxDay, 'd');
+          day.disabled = day.mo.isAfter(maxDay, 'day');
         }
       });
     });
@@ -140,7 +144,7 @@ class CalendarController {
         monthWeeks[i][j] = {
           mo: tmpDate,
           currentDay: tmpDate.isSame(this.Moment(), 'day'),
-          currentMonth: tmpDate.isSame(this.month, 'month')
+          currentMonth: tmpDate.isSame(this.getMonth(), 'month')
         };
         tmpDate = tmpDate.clone().add(1, 'd');
       }
@@ -159,6 +163,7 @@ class CalendarController {
 
   moveCalenderByMonth(months) {
     let mo = this.calendar.currentCalendar;
+    this.month = mo.clone().add(months, 'M');
     this.calendar = this.buildCalendar(mo.clone().add(months, 'M'));
   }
 
@@ -185,9 +190,12 @@ class CalendarController {
   }
 
   isInRange(day) {
-    let inRange = day.isBetween(this.rangeStart(), this.rangeEnd());
-    inRange = inRange || day.isSame(this.rangeStart(), 'day');
-    inRange = inRange || day.isSame(this.rangeEnd(), 'day');
+    let inRange = false;
+    let rangeStart = this.rangeStart() || null;
+    let rangeEnd = this.rangeEnd() || null;
+    inRange = day.isBetween(rangeStart, rangeEnd) || day.isSame(rangeStart, 'day') ||
+      inRange || day.isSame(rangeEnd, 'day');
+
     return inRange;
   }
 
@@ -211,10 +219,10 @@ class CalendarController {
     if (day.isValid()) {
       let minDay = this.minDay();
       let maxDay = this.maxDay();
-      day = minDay && day.isBefore(minDay, 'd') ? minDay : day;
-      day = maxDay && day.isAfter(maxDay, 'd') ? maxDay : day;
+      day = minDay && day.isBefore(minDay, 'day') ? minDay : day;
+      day = maxDay && day.isAfter(maxDay, 'day') ? maxDay : day;
 
-      if (!this.selectedDay() || !this.selectedDay().isSame(day, 'd')) {
+      if (!this.selectedDay() || !this.selectedDay().isSame(day, 'day')) {
         if (this.interceptors.inputSelected) {
           this.interceptors.inputSelected(day);
         } else {
@@ -237,11 +245,11 @@ class CalendarController {
   }
 
   showLeftArrow() {
-    return this.minMonth() ? !this.minMonth().isSame(this.month.clone().subtract(1, 'M'), 'M') : true;
+    return this.minMonth() ? !this.minMonth().isSame(this.getMonth().clone().subtract(1, 'M'), 'M') : true;
   }
 
   showRightArrow() {
-    return this.maxMonth() ? !this.maxMonth().isSame(this.month.clone().add(1, 'M'), 'M') : true;
+    return this.maxMonth() ? !this.maxMonth().isSame(this.getMonth().clone().add(1, 'M'), 'M') : true;
   }
 
   _showInput() {

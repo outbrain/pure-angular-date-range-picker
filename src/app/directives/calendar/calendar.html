@@ -22,6 +22,7 @@
         <span class="day"
               ng-repeat="day in week track by $index"
               ng-class="{
+                'selected': day.selected,
                 'current': day.currentDay,
                 'other-month': !day.currentMonth,
                 'in-range': day.inRange,

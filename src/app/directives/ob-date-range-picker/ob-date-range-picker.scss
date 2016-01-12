@@ -1,5 +1,5 @@
-$mainColor: #30708F;
-$borderColor: #93908C;
+@import "../common/variables";
+
 $actionBtnColor: #565154;
 $dropdownHeight: 30px;
 
@@ -149,7 +149,7 @@ ob-daterangepicker {
 
   &.up {
     .picker-dropdown.open {
-      border-radius: 0 0 2px 2px;
+      border-radius: 0 0 $inputBorderRadius $inputBorderRadius;
     }
 
     .picker {
@@ -157,7 +157,7 @@ ob-daterangepicker {
       transform: translateY(-100%);
 
       &.open {
-        border-radius: 2px 2px 0 2px;
+        border-radius: $inputBorderRadius $inputBorderRadius 0 $inputBorderRadius;
       }
     }
 
@@ -170,7 +170,7 @@ ob-daterangepicker {
     &.right {
       .picker {
         &.open {
-          border-radius: 2px 2px 2px 0;
+          border-radius: $inputBorderRadius $inputBorderRadius $inputBorderRadius 0;
         }
       }
     }
