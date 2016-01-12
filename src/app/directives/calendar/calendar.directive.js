@@ -52,15 +52,14 @@ class CalendarController {
     this.daysOfWeek = this.buildWeek(this.firstDayOfWeek);
     this.calendar = this.buildCalendar(this.month);
     this.interceptors = this.interceptors || {};
-    this.setPosition();
     this.setListeners();
     this.daysName = this.setWeekDaysNames(this.daysOfWeek);
   }
 
   setValue() {
-      if(this.selectedDay()) {
-        this.value = this.selectedDay().format(this.getInputFormat());
-      }
+    if (this.selectedDay()) {
+      this.value = this.selectedDay().format(this.getInputFormat());
+    }
   }
 
   setWeekDaysNames(weekDays, daysName = this.defaultWeekDaysNames) {
@@ -116,20 +115,6 @@ class CalendarController {
         }
       });
     });
-  }
-
-  setPosition() {
-    switch (this.position) {
-      case 'left':
-        this.left = true;
-        break;
-      case 'right':
-        this.right = true;
-        break;
-      default:
-        this.left = true;
-        this.right = true;
-    }
   }
 
   buildWeek(firstDay) {
@@ -229,7 +214,7 @@ class CalendarController {
       day = minDay && day.isBefore(minDay, 'd') ? minDay : day;
       day = maxDay && day.isAfter(maxDay, 'd') ? maxDay : day;
 
-      if(!this.selectedDay() || !this.selectedDay().isSame(day, 'd')) {
+      if (!this.selectedDay() || !this.selectedDay().isSame(day, 'd')) {
         if (this.interceptors.inputSelected) {
           this.interceptors.inputSelected(day);
         } else {

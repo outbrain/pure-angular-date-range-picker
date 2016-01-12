@@ -300,7 +300,7 @@ class DateRangePickerController {
           this.endCalendar = newEnd;
         }
       }
-    })
+    });
   }
 
   areCalendarsLinked() {
