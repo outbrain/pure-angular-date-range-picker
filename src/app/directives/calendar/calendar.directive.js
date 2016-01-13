@@ -144,7 +144,7 @@ class CalendarController {
         monthWeeks[i][j] = {
           mo: tmpDate,
           currentDay: tmpDate.isSame(this.Moment(), 'day'),
-          currentMonth: tmpDate.isSame(this.getMonth(), 'month')
+          currentMonth: tmpDate.isSame(date, 'month')
         };
         tmpDate = tmpDate.clone().add(1, 'd');
       }
@@ -164,7 +164,7 @@ class CalendarController {
   moveCalenderByMonth(months) {
     let mo = this.calendar.currentCalendar;
     this.month = mo.clone().add(months, 'M');
-    this.calendar = this.buildCalendar(mo.clone().add(months, 'M'));
+    this.calendar = this.buildCalendar(this.month.clone());
   }
 
   moveToNext() {
