@@ -24,12 +24,12 @@ ob-daterangepicker {
       height: $dropdownHeight;
       line-height:30px;
       border: 1px solid $borderColor;
-      border-radius: 2px;
+      border-radius: $inputBorderRadius;
       font-size: 14px;
       padding-left: 10px;
 
       &.open {
-        border-radius: 2px 2px 0 0;
+        border-radius: $inputBorderRadius $inputBorderRadius 0 0;
       }
 
       &:after {
@@ -56,10 +56,10 @@ ob-daterangepicker {
       z-index: 10;
       background: white;
       border: 1px solid $borderColor;
-      border-radius: 2px;
+      border-radius: $inputBorderRadius;
 
       &.open {
-        border-radius: 2px 0 2px 2px;
+        border-radius: $inputBorderRadius 0 $inputBorderRadius $inputBorderRadius;
       }
 
       .ranges-actions {
@@ -69,20 +69,20 @@ ob-daterangepicker {
         width: 150px;
         box-sizing: border-box;
         padding: 10px;
-        font-size: 12px;
+        font-size: 1$inputBorderRadius;
 
         .ranges {
           .range {
             height: 27px;
             line-height: 27px;
-            border-radius: 2px;
+            border-radius: $inputBorderRadius;
             padding: 0 5px;
             margin-bottom: 5px;
 
             &:hover:not(.disabled), &.selected {
               cursor: pointer;
               background: $mainColor;
-              color: #FFFFFF;
+              color: $white;
             }
 
             &.disabled {
@@ -114,8 +114,8 @@ ob-daterangepicker {
 
             &.apply {
               background: $actionBtnColor;
-              color: #FFFFFF;
-              border-radius: 2px;
+              color: $white;
+              border-radius: $inputBorderRadius;
             }
           }
         }

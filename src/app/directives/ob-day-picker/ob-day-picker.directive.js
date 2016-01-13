@@ -27,12 +27,13 @@ export function ObDayPicker() {
 
 class ObDayPickerController {
 
-  constructor($document, $element, $scope, moment) {
+  constructor($document, $element, $scope, $timeout, moment) {
     'ngInject';
 
     this.Element = $element;
     this.Document = $document;
     this.Scope = $scope;
+    this.$timeout = $timeout;
     this.Moment = moment;
 
     this.setOpenCloseLogic();
@@ -96,12 +97,45 @@ class ObDayPickerController {
     this.Document.unbind('click');
   }
 
-  daySelected(day) {
+  daySelected(day, timeout = 100) {
     this.calendarApi.render();
     this.value = this.Moment(day).format(this.getInputFormat());
     this._selectedDay = day;
-    this.hidePicker();
+
+    this.$timeout(() => {
+      this.hidePicker();
+    }, timeout);
   }
+
+  dateInputEntered(e, value) {
+    switch (e.keyCode) {
+      case 13:
+        let day = this.Moment(value, this.getInputFormat(), true);
+        let minDay = this.minDay();
+        let maxDay = this.maxDay();
+        let isDaySelectable = day.isValid();
+
+        if(isDaySelectable && minDay) {
+          isDaySelectable = day.isBefore(minDay, 'day');
+        }
+
+        if(isDaySelectable && maxDay) {
+          isDaySelectable = day.isAfter(maxDay, 'day');
+        }
+
+        isDaySelectable && this.daySelected(day, 0);
+        break;
+      case 40:
+        this.isPickerVisible = true;
+        break;
+      case 27:
+        this.isPickerVisible = false;
+        break;
+      default:
+        break;
+    }
+  }
+
 
   getSelectedDay() {
     return this.Moment(this.selectedDay || this.Moment(), this.getFormat());
@@ -113,13 +147,5 @@ class ObDayPickerController {
 
   getInputFormat() {
     return this.inputFormat() || 'MMM D, YYYY';
-  }
-
-  _getMinDay() {
-    return this.minDay() ? this.Moment(this.minDay(), this.getFormat()) : undefined;
-  }
-
-  _getMaxDay() {
-    return this.maxDay() ? this.Moment(this.maxDay(), this.getFormat()) : undefined;
   }
 }

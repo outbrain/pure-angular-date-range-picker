@@ -1,6 +1,7 @@
 <div class="picker-dropdown-container" ng-class="{'open': dayPicker.isPickerVisible}">
   <input class="picker-input"
          ng-model="dayPicker.value"
+         ng-keydown="dayPicker.dateInputEntered($event, dayPicker.value)"
          ng-click="dayPicker.showPicker()"/>
   <div class="picker" ng-show="dayPicker.isPickerVisible">
     <calendar class="calendar"
