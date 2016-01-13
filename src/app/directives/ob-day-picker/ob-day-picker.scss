@@ -3,6 +3,7 @@
 ob-daypicker {
   display: inline-block;
   overflow: visible;
+  width: 200px;
 
   &.disabled {
     opacity: 0.5;
@@ -10,7 +11,7 @@ ob-daypicker {
   }
 
   .picker-dropdown-container {
-    position: relative;
+    position: absolute;
 
     .picker {
       position: relative;
@@ -19,7 +20,6 @@ ob-daypicker {
 
     input {
       box-sizing: border-box;
-      width: 200px;
       height: 30px;
       line-height: 30px;
       border: 1px solid $borderColor;
@@ -39,7 +39,7 @@ ob-daypicker {
 
   &.up {
     .picker-dropdown.open {
-      border-radius: 0 0 2px 2px;
+      border-radius: 0 0 $inputBorderRadius $inputBorderRadius;
     }
 
     .picker {
@@ -47,7 +47,7 @@ ob-daypicker {
       transform: translateY(-100%);
 
       &.open {
-        border-radius: 2px 2px 0 2px;
+        border-radius: $inputBorderRadius $inputBorderRadius 0 $inputBorderRadius;
       }
     }
 
@@ -60,7 +60,7 @@ ob-daypicker {
     &.right {
       .picker {
         &.open {
-          border-radius: 2px 2px 2px 0;
+          border-radius: $inputBorderRadius $inputBorderRadius $inputBorderRadius 0;
         }
       }
     }

@@ -6,7 +6,7 @@ $dropdownHeight: 30px;
 ob-daterangepicker {
   display: inline-block;
   overflow: visible;
-  font-family: "Open Sans";
+  font-family: $mainFont;
   cursor: pointer;
 
   &.disabled {

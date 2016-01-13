@@ -6,23 +6,26 @@ $disabledDayColor: #E2DFDE;
 $rangeColor: #97B7C7;
 
 calendar {
-  font-family: "Open Sans";
+  font-family: $mainFont;
   color: $mainTextColor;
 
   .input-container {
+    position: relative;
+
     label {
+      position: relative;
+      top: -3px;
       display: inline-block;
       color: $mainTextColor;
       font-size: $mainFontSize;
-      margin-bottom: 5px;
-      vertical-align: middle;
     }
 
     input {
+      position: absolute;
+      right: 0;
       padding-left: 5px;
       box-sizing: border-box;
       width: 200px;
-      float: right;
       height: 20px;
       font-size: $mainFontSize;
       outline: none;
@@ -35,9 +38,9 @@ calendar {
     position: relative;
     height: $cellHeight;
     background: $mainColor;
-    color: #FFFFFF;
+    color: $white;
     border: 1px solid $borderColor;
-    border-radius: 2px 2px 0 0;
+    border-radius: $inputBorderRadius $inputBorderRadius 0 0;
 
     .date {
       position: absolute;
@@ -75,7 +78,7 @@ calendar {
     white-space: nowrap;
 
     border: 1px solid $borderColor;
-    border-radius: 0 0 2px 2px;
+    border-radius: 0 0 $inputBorderRadius $inputBorderRadius;
 
     .cell {
       display: inline-block;
@@ -103,7 +106,7 @@ calendar {
 
       &.selected:not(.other-month):not(.disabled) {
         background: pink;
-        color: #FFFFFF;
+        color: $white;
       }
 
       &.current:not(.other-month) {
@@ -116,19 +119,19 @@ calendar {
 
       &.in-range:not(.other-month):not(.disabled) {
         background: $rangeColor;
-        color: #FFFFFF;
+        color: $white;
       }
 
       &.range-start:not(.other-month):not(.disabled) {
         background: $mainColor;
-        border-top-left-radius: 2px;
-        border-bottom-left-radius: 2px;
+        border-top-left-radius: $inputBorderRadius;
+        border-bottom-left-radius: $inputBorderRadius;
       }
 
       &.range-end:not(.other-month):not(.disabled) {
         background: $mainColor;
-        border-top-right-radius: 2px;
-        border-bottom-right-radius: 2px;
+        border-top-right-radius: $inputBorderRadius;
+        border-bottom-right-radius: $inputBorderRadius;
       }
 
       &.disabled {
