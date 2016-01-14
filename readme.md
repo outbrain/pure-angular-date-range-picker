@@ -227,7 +227,7 @@ Sets the initial day that would be displayed on the day-picker. When, day will b
 	start: moment()
 ```
 **Note:**  
-If you choose to provide the attributes as strings, then you will have to provide the [format](#format) of the date, for example:  
+If you choose to provide the attribute as string, then you will have to provide the [format](#format) of the date, for example:  
 JS:  
 ```
  	this.selectedDay = '27-08-2014';
@@ -235,11 +235,11 @@ JS:
 ``` 
 HTML:  
 ```
-	<ob-daypicker range="vm.range" format="vm.format"></ob-daypicker>
+	<ob-daypicker selected-day="vm.selectedDay" format="vm.format"></ob-daypicker>
 ```
 
 #### **format:**
-If provided then the range object start and end attributes are of `String` type. You can find the available formats [here](http://momentjs.com/docs/#/parsing/string-format/).  
+If provided then the selected-day attribute is of `String` type. You can find the available formats [here](http://momentjs.com/docs/#/parsing/string-format/).  
 **type:**  
 `String`  
 **default:**  
