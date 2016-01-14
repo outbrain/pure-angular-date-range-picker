@@ -1,7 +1,6 @@
-
-Pure Angular Date Range Picker
+**Pure Angular Day & Date Range Pickers**
 ===================
-A pure Angular (moment.js is the only dependency) date range picker, inspired by Dan Grossman's bootstrap-daterangepicker.
+A pure Angular (moment.js is the only dependency) day & date range picker, inspired by Dan Grossman's bootstrap-daterangepicker.
 
 ----------
 
@@ -13,6 +12,9 @@ npm:
 `npm install --save ob-daterangepicker`
 
 ----------
+
+Date Range Picker
+===================
 
 Usage
 -------------
@@ -185,6 +187,135 @@ css class
 You can combine the class to achieve combined positioning. For example:  
 ```
 <ob-daterangepicker range="vm.range" class="up center"></ob-daterangepicker>
+``` 
+
+----------
+
+Day Picker
+===================
+
+Usage
+-------------
+
+1. Add the directive js & css to your index.html file:  
+```
+  <link rel="stylesheet" href="bower_components/ob-daterangepicker/dist/styles/ob-daterangepicker.css">
+  <script src="bower_components/ob-daterangepicker/dist/scripts/ob-daterangepicker.js"></script>
+```
+
+2. Inject `obDateRangePicker` to your main module:  
+```
+  angular.module('yourModule', ['obDateRangePicker'])
+```
+
+3. Add the `ob-daypicker` directive to your html:  
+```
+  <ob-daypicker selected-day="vm.selectedDay"></ob-daypicker>
+```
+----------
+
+Configurations
+-------------
+All configurations are set through the `ob-daypicker` directive attributes. Here is the list of configurations:  
+
+#### **selected:**  
+Sets the initial day that would be displayed on the day-picker. When, day will be updated this value *will be muted* accordingly.  
+**type:**  
+`Moment` or `String`
+**default:**  
+```
+	start: moment()
+```
+**Note:**  
+If you choose to provide the attributes as strings, then you will have to provide the [format](#format) of the date, for example:  
+JS:  
+```
+ 	this.selectedDay = '27-08-2014';
+	this.format = 'DD-MM-YYYY';
+``` 
+HTML:  
+```
+	<ob-daypicker range="vm.range" format="vm.format"></ob-daypicker>
+```
+
+#### **format:**
+If provided then the range object start and end attributes are of `String` type. You can find the available formats [here](http://momentjs.com/docs/#/parsing/string-format/).  
+**type:**  
+`String`  
+**default:**  
+`undefined`
+
+#### **min-day:**    
+The earliest selectable date, dates before this date will be disabled.   
+**type:**  
+`String` or `Moment`   
+**Note:**  
+If you choose to provide the attribute as `String` you will have to provide the [format](#format) of the day.  
+**default:**  
+`undefined`
+
+#### **max-day:**  
+The latest selectable date, dates after this date will be disabled.   
+**type:**    
+`String` or `Moment`   
+**Note:**  
+If you choose to provide the attribute as `String` you will have to provide the [format](#format) of the day.    
+**default:**    
+`undefined`
+
+#### **week-start:**  
+Specifies the first day of week (i.e. Sunday, Monday). Has to be one of following:  
+`'su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'`  
+**type:**  
+`String`  
+**default:**  
+`su`  
+
+#### **week-days-name:**  
+Specifies the week days names  
+**type:**  
+`Array<String>`  
+**default:**  
+`['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']`  
+
+#### **on-apply:**  
+Callback function which be invoked when range is applied.  
+**type:**  
+`Function(day)`    
+**default:**  
+`undefined`   
+ **example:**  
+```  
+js:
+	this.onApply(day) {
+		...
+	}
+html:
+	<ob-daypicker on-apply="vm.onApply(day)"></ob-daypicker>
+```  
+**Note:**  
+You must to provide the `day` parameter as seen in the above example.
+ 
+
+Position - Configurations
+-------------
+The picker position can be set by **css classes**, here are the available configurations:
+
+#### **opens:**  
+Whether the picker appears aligned to the left, to the right, or centered relative to the `ob-daterangepicker` directive. Has to be one of following `right`, `left` or `center`.  
+**type:**    
+css class   
+**default:**    
+`left`   
+ **example:**    
+```
+<ob-daypicker selected-day="vm.selectedDay" class="left"></ob-daypicker>
+``` 
+
+**Note:**  
+You can combine the class to achieve combined positioning. For example:  
+```
+<ob-daypicker selected-day="vm.selectedDay" class="up center"></ob-daypicker>
 ``` 
 
 ----------

@@ -39,16 +39,14 @@ class ObDayPickerController {
     this.setOpenCloseLogic();
     this._selectedDay = this.getSelectedDay();
     this.value = this.Moment(this._selectedDay).format(this.getInputFormat());
-
-    //this.api && Object.assign(this.api, {
-    //  setDay: this.setDateRange.bind(this),
-    //  render: () => {
-    //    this.render();
-    //    this.pickerApi.render();
-    //  }
-    //});
     this.setCalendarInterceptors();
     this.calendarApi = {};
+
+    this.api && Object.assign(this.api, {
+      render: () => {
+        this.calendarApi.render();
+      }
+    });
   }
 
   setOpenCloseLogic() {
@@ -104,6 +102,7 @@ class ObDayPickerController {
 
     this.$timeout(() => {
       this.hidePicker();
+      this.updateSelectedDate(day);
     }, timeout);
   }
 
@@ -115,11 +114,11 @@ class ObDayPickerController {
         let maxDay = this.maxDay();
         let isDaySelectable = day.isValid();
 
-        if(isDaySelectable && minDay) {
+        if (isDaySelectable && minDay) {
           isDaySelectable = day.isBefore(minDay, 'day');
         }
 
-        if(isDaySelectable && maxDay) {
+        if (isDaySelectable && maxDay) {
           isDaySelectable = day.isAfter(maxDay, 'day');
         }
 
@@ -136,6 +135,15 @@ class ObDayPickerController {
     }
   }
 
+  updateSelectedDate(day = this._selectedDay) {
+    if (this.format()) {
+      this.selectedDay = day.format(this.getFormat());
+    } else {
+      this.selectedDay = day;
+    }
+
+    this.onApply({day: this.selectedDay});
+  }
 
   getSelectedDay() {
     return this.Moment(this.selectedDay || this.Moment(), this.getFormat());
@@ -147,5 +155,13 @@ class ObDayPickerController {
 
   getInputFormat() {
     return this.inputFormat() || 'MMM D, YYYY';
+  }
+
+  _getMinDay() {
+    return this.minDay() ? this.Moment(this.minDay(), this.getFormat()) : undefined;
+  }
+
+  _getMaxDay() {
+    return this.maxDay() ? this.Moment(this.maxDay(), this.getFormat()) : undefined;
   }
 }

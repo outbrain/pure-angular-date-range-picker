@@ -3,25 +3,27 @@
 ob-daypicker {
   display: inline-block;
   overflow: visible;
-  width: 200px;
 
   &.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    input {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
 
   .picker-dropdown-container {
-    position: absolute;
+    position: relative;
 
     .picker {
-      position: relative;
-      top: -1px;
+      position: absolute;
+      top: $inputHeight - 1;
     }
 
     input {
       box-sizing: border-box;
-      height: 30px;
-      line-height: 30px;
+      height: $inputHeight;
+      width: 200px;
+      line-height: $inputHeight;
       border: 1px solid $borderColor;
       border-radius: $inputBorderRadius;
       font-size: 14px;
@@ -30,39 +32,18 @@ ob-daypicker {
     }
   }
 
-  &.right {
+  &.center {
     .picker {
       right: auto;
-      left: 0;
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
 
-  &.up {
-    .picker-dropdown.open {
-      border-radius: 0 0 $inputBorderRadius $inputBorderRadius;
-    }
-
+  &.right {
     .picker {
-      top: 1px;
-      transform: translateY(-100%);
-
-      &.open {
-        border-radius: $inputBorderRadius $inputBorderRadius 0 $inputBorderRadius;
-      }
-    }
-
-    &.center {
-      .picker {
-        transform: translate(-50%, -100%);
-      }
-    }
-
-    &.right {
-      .picker {
-        &.open {
-          border-radius: $inputBorderRadius $inputBorderRadius $inputBorderRadius 0;
-        }
-      }
+      left: auto;
+      right: 0;
     }
   }
 }

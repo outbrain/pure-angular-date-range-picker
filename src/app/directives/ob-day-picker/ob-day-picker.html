@@ -2,12 +2,13 @@
   <input class="picker-input"
          ng-model="dayPicker.value"
          ng-keydown="dayPicker.dateInputEntered($event, dayPicker.value)"
-         ng-click="dayPicker.showPicker()"/>
+         ng-click="dayPicker.showPicker()"
+         ng-disabled="dayPicker.disabled()"/>
   <div class="picker" ng-show="dayPicker.isPickerVisible">
     <calendar class="calendar"
               api="dayPicker.calendarApi"
-              min-day="dayPicker.minDay()"
-              max-day="dayPicker.maxDay()"
+              min-day="dayPicker._getMinDay()"
+              max-day="dayPicker._getMaxDay()"
               week-start="dayPicker.weekStart()"
               month="dayPicker._selectedDay"
               interceptors="dayPicker.calendarInterceptors"
@@ -15,7 +16,6 @@
               min-month="dayPicker.startCalendar"
               week-days-name="dayPicker.weekDaysName()"
               month-format="dayPicker.monthFormat()"
-              input-format="dayPicker.inputFormat()"
               show-input="false">
     </calendar>
   </div>
