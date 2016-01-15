@@ -312,12 +312,6 @@ css class
 <ob-daypicker selected-day="vm.selectedDay" class="left"></ob-daypicker>
 ``` 
 
-**Note:**  
-You can combine the class to achieve combined positioning. For example:  
-```
-<ob-daypicker selected-day="vm.selectedDay" class="up center"></ob-daypicker>
-``` 
-
 ----------
 
 Contribution
