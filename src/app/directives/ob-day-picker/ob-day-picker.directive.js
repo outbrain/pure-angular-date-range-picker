@@ -47,6 +47,27 @@ class ObDayPickerController {
         this.calendarApi.render();
       }
     });
+
+    this.setListeners();
+
+    //this.Document.on('click', this.ev.doc);
+    //  if (this.elemClickFlag) {
+    //    this.elemClickFlag = false;
+    //  } else {
+    //    this.hidePicker();
+    //    this.Scope.$apply();
+    //  }
+    //});
+    //this.pickerPopup.bind('click', () => {
+    //  this.elemClickFlag = true;
+    //});
+    //this.Document.bind('keydown', (e) => {
+    //  if (e.keyCode == 27) {
+    //    this.Scope.$apply();
+    //  }
+    //});
+    //
+    //this.setOnDestroy();
   }
 
   setOpenCloseLogic() {
@@ -62,28 +83,39 @@ class ObDayPickerController {
   }
 
   setListeners() {
-    this.Document.bind('click', () => {
-      if (this.elemClickFlag) {
-        this.elemClickFlag = false;
-      } else {
-        this.hidePicker();
-        this.Scope.$apply();
+    let events = {
+      documentClick: () => {
+        if (this.elemClickFlag) {
+          this.elemClickFlag = false;
+        } else {
+          this.hidePicker();
+          this.Scope.$apply();
+        }
+      },
+      documentEsc: (e) => {
+        if (e.keyCode == 27 && this.isPickerVisible) {
+          this.hidePicker();
+        }
+      },
+      pickerClick: () => {
+        this.elemClickFlag = true;
       }
-    });
-    this.pickerPopup.bind('click', () => {
-      this.elemClickFlag = true;
-    });
-    this.Document.bind('keydown', (e) => {
-      if (e.keyCode == 27) {
-        this.Scope.$apply();
-      }
+    };
+
+    this.pickerPopup.on('click', events.pickerClick.bind(this));
+    this.Document.on('click', events.documentClick.bind(this));
+    this.Document.on('keydown', events.documentEsc.bind(this));
+
+    this.Scope.$on('$destroy', () => {
+      this.pickerPopup.off('click', events.pickerClick);
+      this.Document.off('click', events.documentClick);
+      this.Document.off('keydown', events.documentClick);
     });
   }
 
   showPicker() {
     let disabled = angular.isDefined(this.disabled()) ? this.disabled() : false;
     if (!disabled && !this.isPickerVisible) {
-      this.setListeners();
       this.isPickerVisible = true;
     }
     this.elemClickFlag = true;
@@ -91,8 +123,6 @@ class ObDayPickerController {
 
   hidePicker() {
     this.isPickerVisible = false;
-    this.pickerPopup.unbind('click');
-    this.Document.unbind('click');
   }
 
   daySelected(day, timeout = 100) {
