@@ -4,15 +4,16 @@ ob-daypicker {
   display: inline-block;
   overflow: visible;
 
-  &.disabled {
-    input {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  }
 
   .picker-dropdown-container {
     position: relative;
+
+    &.disabled {
+      input {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
 
     .picker {
       position: absolute;

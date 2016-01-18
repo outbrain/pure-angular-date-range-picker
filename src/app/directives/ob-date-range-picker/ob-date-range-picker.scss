@@ -9,13 +9,13 @@ ob-daterangepicker {
   font-family: $mainFont;
   cursor: pointer;
 
-  &.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
   .picker-dropdown-container {
     position: relative;
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
 
     .picker-dropdown {
       box-sizing: border-box;

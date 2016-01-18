@@ -1,4 +1,4 @@
-<div class="picker-dropdown-container">
+<div class="picker-dropdown-container" ng-class="{'disabled': obDateRangePicker.disabled()}">
   <div class="picker-dropdown" ng-class="{'open': obDateRangePicker.isPickerVisible}" ng-click="obDateRangePicker.togglePicker()">
     <span>{{obDateRangePicker.value}}</span>
   </div>

@@ -63,6 +63,7 @@ class ObDateRangePickerController {
     }
 
     this.render();
+    this.setListeners();
   }
 
   render() {
@@ -170,29 +171,42 @@ class ObDateRangePickerController {
   }
 
   setListeners() {
-    this.Document.bind('click', () => {
-      if (this.elemClickFlag) {
-        this.elemClickFlag = false;
-      } else {
-        this.discardChanges();
+    let events = {
+      documentClick: () => {
+        if (this.elemClickFlag) {
+          this.elemClickFlag = false;
+        } else {
+          this.discardChanges();
+          this.Scope.$apply();
+        }
+      },
+      documentEsc: (e) => {
+        if (e.keyCode == 27 && this.isPickerVisible) {
+          this.discardChanges();
+          this.hidePicker();
+          this.Scope.$apply();
+        }
+      },
+      pickerClick: () => {
+        this.elemClickFlag = true;
         this.Scope.$apply();
       }
-    });
-    this.pickerPopup.bind('click', () => {
-      this.elemClickFlag = true;
-    });
-    this.Document.bind('keydown', (e) => {
-      if (e.keyCode == 27) {
-        this.discardChanges();
-        this.Scope.$apply();
-      }
+    };
+
+    this.pickerPopup.on('click', events.pickerClick.bind(this));
+    this.Document.on('click', events.documentClick.bind(this));
+    this.Document.on('keydown', events.documentEsc.bind(this));
+
+    this.Scope.$on('$destroy', () => {
+      this.pickerPopup.off('click', events.pickerClick);
+      this.Document.off('click', events.documentClick);
+      this.Document.off('keydown', events.documentClick);
     });
   }
 
   togglePicker() {
     let disabled = angular.isDefined(this.disabled()) ? this.disabled() : false;
     if (!disabled && !this.isPickerVisible) {
-      this.setListeners();
       this.isPickerVisible = true;
       this.elemClickFlag = true;
     } else {
@@ -202,8 +216,6 @@ class ObDateRangePickerController {
 
   hidePicker() {
     this.isPickerVisible = false;
-    this.pickerPopup.unbind('click');
-    this.Document.unbind('click');
   }
 
   setRange(range = this._range) {

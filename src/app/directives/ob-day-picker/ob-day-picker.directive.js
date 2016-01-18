@@ -49,25 +49,6 @@ class ObDayPickerController {
     });
 
     this.setListeners();
-
-    //this.Document.on('click', this.ev.doc);
-    //  if (this.elemClickFlag) {
-    //    this.elemClickFlag = false;
-    //  } else {
-    //    this.hidePicker();
-    //    this.Scope.$apply();
-    //  }
-    //});
-    //this.pickerPopup.bind('click', () => {
-    //  this.elemClickFlag = true;
-    //});
-    //this.Document.bind('keydown', (e) => {
-    //  if (e.keyCode == 27) {
-    //    this.Scope.$apply();
-    //  }
-    //});
-    //
-    //this.setOnDestroy();
   }
 
   setOpenCloseLogic() {
@@ -95,10 +76,12 @@ class ObDayPickerController {
       documentEsc: (e) => {
         if (e.keyCode == 27 && this.isPickerVisible) {
           this.hidePicker();
+          this.Scope.$apply();
         }
       },
       pickerClick: () => {
         this.elemClickFlag = true;
+        this.Scope.$apply();
       }
     };
 

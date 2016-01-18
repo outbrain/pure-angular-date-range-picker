@@ -1,9 +1,9 @@
 describe('directive ob-day-picker', function() {
-  var element, moment, defaultOptions, $compile, $scope, $rootScope, picker, elem, $document;
+  var element, moment, defaultOptions, $compile, $scope, $rootScope, picker; // elem, $document;
 
   beforeEach(angular.mock.module('obDateRangePicker'));
 
-  beforeEach(inject((_$compile_, _$rootScope_, _moment_, _$document_) => {
+  beforeEach(inject((_$compile_, _$rootScope_, _moment_ /*, _$document_*/) => {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     moment = _moment_;
@@ -11,7 +11,7 @@ describe('directive ob-day-picker', function() {
     defaultOptions = {
       selectedDay: moment()
     };
-    $document = _$document_;
+    // $document = _$document_;
   }));
 
   function prepare(options) {
@@ -34,7 +34,7 @@ describe('directive ob-day-picker', function() {
     $compile(element)($scope);
     $rootScope.$digest();
     picker = element.isolateScope().dayPicker;
-    elem = element[0];
+    // elem = element[0];
   }
 
   it('should show and hide picker', () => {
@@ -47,6 +47,4 @@ describe('directive ob-day-picker', function() {
     $rootScope.$digest();
     expect(picker.isPickerVisible).toEqual(false);
   });
-
-
 });
