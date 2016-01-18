@@ -154,6 +154,13 @@ html:
 ```  
 **Note:**  
 You must to provide the `start` and `end` parameters as seen in the above example.
+
+#### **disabled:**  
+When present, it specifies that the picker element should be disabled.
+**type:**  
+`Boolean`    
+**default:**  
+`false`   
  
 ----------
 
@@ -224,7 +231,7 @@ Sets the initial day that would be displayed on the day-picker. When, day will b
 `Moment` or `String`
 **default:**  
 ```
-	start: moment()
+	selected-day: moment()
 ```
 **Note:**  
 If you choose to provide the attribute as string, then you will have to provide the [format](#format) of the date, for example:  
@@ -295,6 +302,13 @@ html:
 ```  
 **Note:**  
 You must to provide the `day` parameter as seen in the above example.
+
+#### **disabled:**  
+When present, it specifies that the picker element should be disabled.
+**type:**  
+`Boolean`    
+**default:**  
+`false`  
  
 
 Position - Configurations
