@@ -58,4 +58,12 @@
   "engines": {
     "node": ">=0.10.0"
   }
+  "keywords": [
+    "angular",
+    "date",
+    "picker",
+    "date-range",
+    "day",
+    "calendar"
+  ]
 }
