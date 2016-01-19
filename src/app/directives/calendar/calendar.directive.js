@@ -207,13 +207,16 @@ class CalendarController {
     }
   }
 
-  dateInputEntered(e, value) {
-    if (e.keyCode == 13) {
-      this.dateInputSelected(value);
+  dateInputEntered(ev, value) {
+    if (ev.keyCode == 13) {
+      this.dateInputSelected(ev, value);
+
+      // should prevent form submit if placed inside a form
+      ev.preventDefault();
     }
   }
 
-  dateInputSelected(value) {
+  dateInputSelected(ev, value) {
     let day = this.Moment(value, this.getInputFormat(), true);
 
     if (day.isValid()) {

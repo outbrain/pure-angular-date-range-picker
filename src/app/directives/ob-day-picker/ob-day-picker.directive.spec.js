@@ -71,7 +71,7 @@ describe('directive ob-day-picker', function() {
     };
     prepare(options);
     picker.isPickerVisible = true;
-    picker.dateInputEntered({keyCode: 13}, '15-01-2016');
+    picker.dateInputEntered({keyCode: 13, preventDefault: function(){}}, '15-01-2016');
     $timeout.flush();
 
     expect(picker.selectedDay).toEqual('18-01-2016');
@@ -86,7 +86,7 @@ describe('directive ob-day-picker', function() {
     };
     prepare(options);
     picker.isPickerVisible = true;
-    picker.dateInputEntered({keyCode: 13}, '21-01-2016');
+    picker.dateInputEntered({keyCode: 13, preventDefault: function(){}}, '21-01-2016');
     $timeout.flush();
 
     expect(picker.selectedDay).toEqual('18-01-2016');

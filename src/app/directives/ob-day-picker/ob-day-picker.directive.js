@@ -128,7 +128,14 @@ class ObDayPickerController {
           isDaySelectable = day.isBefore(maxDay, 'day') || day.isSame(maxDay, 'day');
         }
 
-        isDaySelectable && this.daySelected(day, 0);
+        if(isDaySelectable) {
+          this.daySelected(day, 0);
+        } else {
+
+          // should prevent form submit if placed inside a form
+          e.preventDefault();
+        }
+
         break;
       case 40:
         this.isPickerVisible = true;
