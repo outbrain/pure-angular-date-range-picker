@@ -38,7 +38,7 @@ class ObDayPickerController {
 
     this.setOpenCloseLogic();
     this._selectedDay = this.getSelectedDay();
-    this.value = this.Moment(this._selectedDay).format(this.getInputFormat());
+    this.value = this.Moment(this._selectedDay).format(this.getFormat());
     this.setCalendarInterceptors();
     this.calendarApi = {};
 
@@ -73,12 +73,6 @@ class ObDayPickerController {
           this.Scope.$apply();
         }
       },
-      documentEsc: (e) => {
-        if (e.keyCode == 27 && this.isPickerVisible) {
-          this.hidePicker();
-          this.Scope.$apply();
-        }
-      },
       pickerClick: () => {
         this.elemClickFlag = true;
         this.Scope.$apply();
@@ -87,12 +81,10 @@ class ObDayPickerController {
 
     this.pickerPopup.on('click', events.pickerClick.bind(this));
     this.Document.on('click', events.documentClick.bind(this));
-    this.Document.on('keydown', events.documentEsc.bind(this));
 
     this.Scope.$on('$destroy', () => {
       this.pickerPopup.off('click', events.pickerClick);
       this.Document.off('click', events.documentClick);
-      this.Document.off('keydown', events.documentClick);
     });
   }
 
@@ -110,10 +102,11 @@ class ObDayPickerController {
 
   daySelected(day, timeout = 100) {
     this.calendarApi.render();
-    this.value = this.Moment(day).format(this.getInputFormat());
+    this.value = this.Moment(day).format(this.getFormat());
     this._selectedDay = day;
 
     this.$timeout(() => {
+
       this.hidePicker();
       this.updateSelectedDate(day);
     }, timeout);
@@ -122,17 +115,17 @@ class ObDayPickerController {
   dateInputEntered(e, value) {
     switch (e.keyCode) {
       case 13:
-        let day = this.Moment(value, this.getInputFormat(), true);
-        let minDay = this.minDay();
-        let maxDay = this.maxDay();
+        let day = this.Moment(value, this.getFormat(), true);
+        let minDay = this._getMinDay();
+        let maxDay = this._getMaxDay();
         let isDaySelectable = day.isValid();
 
         if (isDaySelectable && minDay) {
-          isDaySelectable = day.isBefore(minDay, 'day');
+          isDaySelectable = day.isAfter(minDay, 'day') || day.isSame(minDay, 'day');
         }
 
         if (isDaySelectable && maxDay) {
-          isDaySelectable = day.isAfter(maxDay, 'day');
+          isDaySelectable = day.isBefore(maxDay, 'day') || day.isSame(maxDay, 'day');
         }
 
         isDaySelectable && this.daySelected(day, 0);
@@ -163,11 +156,7 @@ class ObDayPickerController {
   }
 
   getFormat() {
-    return this.format() || 'MM-DD-YYYY';
-  }
-
-  getInputFormat() {
-    return this.inputFormat() || 'MMM D, YYYY';
+    return this.format() || 'MMM D, YYYY';
   }
 
   _getMinDay() {
