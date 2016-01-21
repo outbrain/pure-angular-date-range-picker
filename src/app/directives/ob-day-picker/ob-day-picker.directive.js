@@ -197,7 +197,7 @@ class ObDayPickerController {
   }
 
   updateSelectedDate(day = this._selectedDay) {
-    if (this.getFormat()) {
+    if (this.format()) {
       this.selectedDay = day.format(this.getFormat());
     } else {
       this.selectedDay = day;
