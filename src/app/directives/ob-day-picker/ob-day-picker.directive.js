@@ -14,6 +14,8 @@ export function ObDayPicker() {
       inputFormat: '&',
       onApply: '&',
       disabled: '&',
+      formName: '@name',
+      isValidDateEnabled: '&validDay',
       api: '='
     },
     controller: ObDayPickerController,
@@ -49,6 +51,7 @@ class ObDayPickerController {
     });
 
     this.setListeners();
+    this.dayValidity = this.checkIfDayIsValid(this._selectedDay);
   }
 
   setOpenCloseLogic() {
@@ -69,13 +72,13 @@ class ObDayPickerController {
         if (this.elemClickFlag) {
           this.elemClickFlag = false;
         } else {
-          this.hidePicker();
-          this.Scope.$apply();
+          this.onBlur();
+          this.Scope.$digest();
         }
       },
       pickerClick: () => {
         this.elemClickFlag = true;
-        this.Scope.$apply();
+        this.Scope.$digest();
       }
     };
 
@@ -101,51 +104,88 @@ class ObDayPickerController {
   }
 
   daySelected(day, timeout = 100) {
-    this.calendarApi.render();
-    this.value = this.Moment(day).format(this.getFormat());
-    this._selectedDay = day;
+    if(!day.isSame(this._selectedDay)) {
+      this.calendarApi.render();
+      this.value = this.Moment(day).format(this.getFormat());
+      this._selectedDay = day;
 
-    this.$timeout(() => {
-
+      this.$timeout(() => {
+        this.hidePicker();
+        this.updateSelectedDate(day);
+      }, timeout);
+    } else {
       this.hidePicker();
-      this.updateSelectedDate(day);
-    }, timeout);
+    }
   }
 
   dateInputEntered(e, value) {
     switch (e.keyCode) {
+      case 9:
       case 13:
-        let day = this.Moment(value, this.getFormat(), true);
-        let minDay = this._getMinDay();
-        let maxDay = this._getMaxDay();
-        let isDaySelectable = day.isValid();
+        let isDaySelectable = this.checkIfDayIsValid(value);
+        let day = this.getInputValue();
 
-        if (isDaySelectable && minDay) {
-          isDaySelectable = day.isAfter(minDay, 'day') || day.isSame(minDay, 'day');
-        }
-
-        if (isDaySelectable && maxDay) {
-          isDaySelectable = day.isBefore(maxDay, 'day') || day.isSame(maxDay, 'day');
-        }
-
-        if(isDaySelectable) {
+        if (isDaySelectable) {
           this.daySelected(day, 0);
         } else {
+          this.hidePicker();
 
           // should prevent form submit if placed inside a form
-          e.preventDefault();
+          e.keyCode === 13 && e.preventDefault();
         }
 
+        this.applyValidity(isDaySelectable);
         break;
       case 40:
         this.isPickerVisible = true;
         break;
       case 27:
         this.isPickerVisible = false;
+        this.value = this._selectedDay.format(this.getFormat());
         break;
       default:
         break;
     }
+  }
+
+  getInputValue() {
+    return this.Moment(this.value, this.getFormat(), true);
+  }
+
+  onBlur() {
+    let currentValue = this.getInputValue();
+    let isValid = this.checkIfDayIsValid(currentValue);
+    if(isValid) {
+      this.daySelected(currentValue);
+    } else {
+      this.hidePicker();
+    }
+
+    this.applyValidity(isValid);
+  }
+
+  checkIfDayIsValid(value) {
+    let day = this.Moment(value, this.getFormat(), true);
+    let minDay = this._getMinDay();
+    let maxDay = this._getMaxDay();
+    let isValid = day.isValid();
+
+    if (isValid && minDay) {
+      isValid = day.isAfter(minDay, 'day') || day.isSame(minDay, 'day');
+    }
+
+    if (isValid && maxDay) {
+      isValid = day.isBefore(maxDay, 'day') || day.isSame(maxDay, 'day');
+    }
+
+    return isValid;
+  }
+
+  applyValidity(isDatValid) {
+    if (this.isValidDateEnabled() && this.Scope[this.formName]) {
+      this.Scope[this.formName].$setValidity('validDay', isDatValid);
+    }
+    this.dayValidity = isDatValid;
   }
 
   updateSelectedDate(day = this._selectedDay) {

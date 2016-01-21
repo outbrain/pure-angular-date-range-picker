@@ -4,7 +4,6 @@ ob-daypicker {
   display: inline-block;
   overflow: visible;
 
-
   .picker-dropdown-container {
     position: relative;
 
@@ -13,6 +12,10 @@ ob-daypicker {
         opacity: 0.5;
         cursor: not-allowed;
       }
+    }
+
+    &.invalid input{
+      border: 1px solid $errorColor;
     }
 
     .picker {

@@ -1,6 +1,10 @@
-<div class="picker-dropdown-container" ng-class="{'open': dayPicker.isPickerVisible, 'disabled': dayPicker.disabled()}">
+<div ng-form="{{dayPicker.formName}}" class="picker-dropdown-container"
+     ng-class="{'open': dayPicker.isPickerVisible,
+                'disabled': dayPicker.disabled(),
+                'invalid': !dayPicker.dayValidity}">
   <input class="picker-input"
          ng-model="dayPicker.value"
+         ob-valid-day="true"
          ng-keydown="dayPicker.dateInputEntered($event, dayPicker.value)"
          ng-click="dayPicker.showPicker()"
          ng-disabled="dayPicker.disabled()"/>
