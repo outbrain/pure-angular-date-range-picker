@@ -16,6 +16,7 @@ export function ObDayPicker() {
       disabled: '&',
       formName: '@name',
       isValidDateEnabled: '&validDay',
+      autoApply: '&',
       api: '='
     },
     controller: ObDayPickerController,
@@ -37,6 +38,7 @@ class ObDayPickerController {
     this.Scope = $scope;
     this.$timeout = $timeout;
     this.Moment = moment;
+    this.formName = this.formName || 'dayPickerInput';
 
     this.setOpenCloseLogic();
     this._selectedDay = this.getSelectedDay();
@@ -119,12 +121,11 @@ class ObDayPickerController {
   }
 
   dateInputEntered(e, value) {
+    let isDaySelectable = this.checkIfDayIsValid(value);
     switch (e.keyCode) {
       case 9:
       case 13:
-        let isDaySelectable = this.checkIfDayIsValid(value);
         let day = this.getInputValue();
-
         if (isDaySelectable) {
           this.daySelected(day, 0);
         } else {
@@ -133,8 +134,6 @@ class ObDayPickerController {
           // should prevent form submit if placed inside a form
           e.keyCode === 13 && e.preventDefault();
         }
-
-        this.applyValidity(isDaySelectable);
         break;
       case 40:
         this.isPickerVisible = true;
@@ -160,8 +159,17 @@ class ObDayPickerController {
     } else {
       this.hidePicker();
     }
+  }
 
+    updateValidity() {
+    let day = this.getInputValue();
+    let isValid = this.checkIfDayIsValid(day);
     this.applyValidity(isValid);
+
+    if(isValid && this.autoApply() && !day.isSame(this._selectedDay, 'day')) {
+      this._selectedDay = day;
+      this.updateSelectedDate(day);
+    }
   }
 
   checkIfDayIsValid(value) {
@@ -184,12 +192,12 @@ class ObDayPickerController {
   applyValidity(isDatValid) {
     if (this.isValidDateEnabled() && this.Scope[this.formName]) {
       this.Scope[this.formName].$setValidity('validDay', isDatValid);
+      this.dayValidity = isDatValid;
     }
-    this.dayValidity = isDatValid;
   }
 
   updateSelectedDate(day = this._selectedDay) {
-    if (this.format()) {
+    if (this.getFormat()) {
       this.selectedDay = day.format(this.getFormat());
     } else {
       this.selectedDay = day;

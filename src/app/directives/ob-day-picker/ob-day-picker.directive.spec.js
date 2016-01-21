@@ -56,10 +56,12 @@ describe('directive ob-day-picker', function() {
     };
     prepare(options);
     picker.isPickerVisible = true;
-    picker.dateInputEntered({keyCode: 13}, '20-01-2016');
+    picker.value = '20-01-2016';
+    picker.dateInputEntered({keyCode: 13}, picker.value);
     $timeout.flush();
 
-    expect(picker.selectedDay).toEqual('20-01-2016');
+    $rootScope.$digest();
+    expect(picker.selectedDay).toEqual(picker.value);
     expect(picker.isPickerVisible).toEqual(false);
   });
 
@@ -71,11 +73,12 @@ describe('directive ob-day-picker', function() {
     };
     prepare(options);
     picker.isPickerVisible = true;
-    picker.dateInputEntered({keyCode: 13, preventDefault: function(){}}, '15-01-2016');
+    picker.value = '15-01-2016';
+    picker.dateInputEntered({keyCode: 13, preventDefault: function(){}}, picker.value);
     $timeout.flush();
 
     expect(picker.selectedDay).toEqual('18-01-2016');
-    expect(picker.isPickerVisible).toEqual(true);
+    expect(picker.isPickerVisible).toEqual(false);
   });
 
   it('should not change the selected day if the day is after max-day', () => {
@@ -86,10 +89,11 @@ describe('directive ob-day-picker', function() {
     };
     prepare(options);
     picker.isPickerVisible = true;
-    picker.dateInputEntered({keyCode: 13, preventDefault: function(){}}, '21-01-2016');
+    picker.value = '21-01-2016';
+    picker.dateInputEntered({keyCode: 13, preventDefault: function(){}}, picker.value);
     $timeout.flush();
 
     expect(picker.selectedDay).toEqual('18-01-2016');
-    expect(picker.isPickerVisible).toEqual(true);
+    expect(picker.isPickerVisible).toEqual(false);
   });
 });

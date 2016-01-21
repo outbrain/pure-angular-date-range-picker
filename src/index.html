@@ -61,6 +61,14 @@
         transform: translateX(-50%);
       }
 
+      .error-message {
+        position: absolute;
+        color: red;
+        left: 50%;
+        transform: translateX(-50%);
+        top: -20px;
+      }
+
     </style>
 
 
@@ -202,20 +210,38 @@
           <span class="radio-label">True</span> <input type="radio" class="input" name="disabledDayPicker" ng-model="single.disabled" ng-value="true" ng-change="single.render()">
           <span class="radio-label">False</span> <input type="radio" class="input" name="disabledDayPicker" ng-model="single.disabled" ng-value="false" ng-change="single.render()">
         </div>
+
+        <div class="config">
+          <div class="label">Validate Input</div>
+          <span class="radio-label">True</span> <input type="radio" class="input" name="validateInputDayPicker" ng-model="single.validateInput" ng-value="true" ng-change="single.render()">
+          <span class="radio-label">False</span> <input type="radio" class="input" name="validateInputDayPicker" ng-model="single.validateInput" ng-value="false" ng-change="single.render()">
+        </div>
+
+        <div class="config">
+          <div class="label">Auto Apply</div>
+          <span class="radio-label">True</span> <input type="radio" class="input" name="AutoApplyDayPicker" ng-model="single.autoApply" ng-value="true" ng-change="single.render()">
+          <span class="radio-label">False</span> <input type="radio" class="input" name="AutoApplyDayPicker" ng-model="single.autoApply" ng-value="false" ng-change="single.render()">
+        </div>
       </div>
 
       <div class="ob-daypicker-container">
-        <ob-daypicker
-          class="{{single.opens}}"
-          selected-day="single.selectedDay"
-          min-day="single.min"
-          max-day="single.max"
-          api="single.dayPickerApi"
-          on-apply="single.onApply(day)"
-          format="single.format"
-          week-start="single.weekStart"
-          disabled="single.disabled">
-        </ob-daypicker>
+        <form name="testForm">
+          <ob-daypicker
+            name="pickerOne"
+            auto-apply="single.autoApply"
+            class="{{single.opens}}"
+            selected-day="single.selectedDay"
+            min-day="single.min"
+            max-day="single.max"
+            api="single.dayPickerApi"
+            on-apply="single.onApply(day)"
+            format="single.format"
+            week-start="single.weekStart"
+            valid-day="single.validateInput"
+            disabled="single.disabled">
+          </ob-daypicker>
+          <span class="error-message" ng-if="testForm.pickerOne.$invalid">Invalid Date</span>
+        </form>
       </div>
 
       <pre>
@@ -228,6 +254,7 @@
     <!-- run `gulp inject` to automatically populate bower script dependencies -->
     <!-- endbower -->
     <!-- endbuild -->
+    <script src="../bower_components/angular-messages/angular-messages.min.js"></script>
 
     <!-- build:js({.tmp/serve,.tmp/partials}) scripts/ob-daterangepicker.js -->
     <!-- inject:js -->
@@ -239,8 +266,9 @@
     <!-- endinject -->
     <!-- endbuild -->
 
+
     <script>
-      angular.module('demo', ['obDateRangePicker'])
+      angular.module('demo', ['obDateRangePicker', 'ngMessages'])
         .controller('RangeController', RangeCtrl);
 
       function RangeCtrl() {
@@ -309,6 +337,8 @@
         this.format = 'MMM DD, YYYY';
         this.selectedDay = moment().format(this.format);
         this.disabled = false;
+        this.validateInput = true;
+        this.autoApply = true;
 
         this.render = function(e) {
           if(e) {

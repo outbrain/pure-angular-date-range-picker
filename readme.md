@@ -144,16 +144,6 @@ Hide the apply and cancel buttons, and automatically apply a new date range as s
 **default:**  
 `false`   
 **example:**  
-```  
-js:
-this.onApply(start, end) {
-  ...
-}
-html:
-<ob-daterangepicker on-apply="vm.onApply(start, end)"></ob-daterangepicker>
-```  
-**Note:**  
-You must to provide the `start` and `end` parameters as seen in the above example.
 
 #### **disabled:**  
 When present, it specifies that the picker element should be disabled.
@@ -303,6 +293,27 @@ html:
 **Note:**  
 You must to provide the `day` parameter as seen in the above example.
 
+#### **auto-apply:**  
+Will trigger the onApply callback and update the selectedDay value as soon as user enters a valid date.
+**type:**  
+`Boolean`    
+**default:**  
+`false`   
+
+#### **name:**  
+The name of the section in the form. If you want your day picker to be part of form, you should put this attribute in order to get validation errors. You should also add `valid-date="true"` (the only validation available for now). Then you will be able to receive validation status `<yourFormName>.<name>`.
+**type:**  
+`string`    
+**default:**  
+`dayPickerInput`   
+
+#### **valid-day:**  
+If provided will trigger the validation mechanism of the component. When the user will enter an invalid date (or will put a date outside of min and max dates) the component will pollute the form it placed in.  
+**type:**  
+`boolean`    
+**default:**  
+`false`
+
 #### **disabled:**  
 When present, it specifies that the picker element should be disabled.
 **type:**  
@@ -310,7 +321,6 @@ When present, it specifies that the picker element should be disabled.
 **default:**  
 `false`  
  
-
 Position - Configurations
 -------------
 The picker position can be set by **css classes**, here are the available configurations:

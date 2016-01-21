@@ -4,7 +4,8 @@
                 'invalid': !dayPicker.dayValidity}">
   <input class="picker-input"
          ng-model="dayPicker.value"
-         ob-valid-day="true"
+
+         ng-change="dayPicker.updateValidity()"
          ng-keydown="dayPicker.dateInputEntered($event, dayPicker.value)"
          ng-click="dayPicker.showPicker()"
          ng-disabled="dayPicker.disabled()"/>
