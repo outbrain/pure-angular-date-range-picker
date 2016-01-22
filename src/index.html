@@ -254,7 +254,6 @@
     <!-- run `gulp inject` to automatically populate bower script dependencies -->
     <!-- endbower -->
     <!-- endbuild -->
-    <script src="../bower_components/angular-messages/angular-messages.min.js"></script>
 
     <!-- build:js({.tmp/serve,.tmp/partials}) scripts/ob-daterangepicker.js -->
     <!-- inject:js -->
@@ -268,7 +267,7 @@
 
 
     <script>
-      angular.module('demo', ['obDateRangePicker', 'ngMessages'])
+      angular.module('demo', ['obDateRangePicker'])
         .controller('RangeController', RangeCtrl);
 
       function RangeCtrl() {
