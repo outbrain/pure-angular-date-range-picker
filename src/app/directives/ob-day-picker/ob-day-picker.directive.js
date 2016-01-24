@@ -106,7 +106,7 @@ class ObDayPickerController {
   }
 
   daySelected(day, timeout = 100) {
-    if(!day.isSame(this._selectedDay)) {
+    if(!day.isSame(this._selectedDay, 'day')) {
       this.calendarApi.render();
       this.value = this.Moment(day).format(this.getFormat());
       this._selectedDay = day;
