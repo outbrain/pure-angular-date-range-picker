@@ -154,7 +154,7 @@ class ObDayPickerController {
   onBlur() {
     let currentValue = this.getInputValue();
     let isValid = this.checkIfDayIsValid(currentValue);
-    if(isValid && !this._selectedDay.isSame(currentValue)) {
+    if(isValid) {
       this.daySelected(currentValue);
     } else {
       this.hidePicker();
