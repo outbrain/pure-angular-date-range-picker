@@ -5,7 +5,7 @@ export function ObDayPicker() {
     restrict: 'E',
     scope: {
       weekStart: '&',
-      selectedDay: '=',
+      selectedDay: '=?',
       weekDaysName: '&',
       format: '&',
       minDay: '&',
@@ -17,7 +17,7 @@ export function ObDayPicker() {
       formName: '@name',
       isValidDateEnabled: '&validDay',
       autoApply: '&',
-      api: '='
+      api: '=?'
     },
     controller: ObDayPickerController,
     templateUrl: 'app/directives/ob-day-picker/ob-day-picker.html',
