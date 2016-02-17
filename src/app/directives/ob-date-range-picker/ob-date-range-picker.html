@@ -23,7 +23,8 @@
         <div class="range"
              ng-repeat="range in obDateRangePicker.preRanges track by $index"
              ng-class="{'selected': obDateRangePicker.selectedRengeIndex === $index, 'disabled': range.disabled}"
-             ng-click="obDateRangePicker.predefinedRangeSelected(range, $index)">{{range.name}}
+             ng-click="obDateRangePicker.predefinedRangeSelected(range, $index)"
+             ng-if="!$last || ($last && !obDateRangePicker.calendarsAlwaysOn())">{{range.name}}
         </div>
       </div>
 

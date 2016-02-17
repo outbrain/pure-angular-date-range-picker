@@ -143,6 +143,12 @@
           <span class="radio-label">True</span> <input type="radio" class="input" name="disabled" ng-model="range.disabled" ng-value="true" ng-change="range.render()">
           <span class="radio-label">False</span> <input type="radio" class="input" name="disabled" ng-model="range.disabled" ng-value="false" ng-change="range.render()">
         </div>
+
+        <div class="config">
+          <div class="label">Always Show Calendars</div>
+          <span class="radio-label">True</span> <input type="radio" class="input" name="calendarsAlwaysOn" ng-model="range.calendarsAlwaysOn" ng-value="true" ng-change="range.render()">
+          <span class="radio-label">False</span> <input type="radio" class="input" name="calendarsAlwaysOn" ng-model="range.calendarsAlwaysOn" ng-value="false" ng-change="range.render()">
+        </div>
       </div>
 
       <div class="ob-datepicker-container">
@@ -159,7 +165,8 @@
           format="range.format"
           week-start="range.weekStart"
           auto-apply="range.autoApply"
-          disabled="range.disabled">
+          disabled="range.disabled"
+          calendars-always-on="range.calendarsAlwaysOn">
         </ob-daterangepicker>
       </div>
       <br/>
@@ -280,6 +287,7 @@
         this.format = 'DD-MM-YYYY';
         this.autoApply = false;
         this.linked = true;
+        this.calendarsAlwaysOn = true;
         this.range = {
           start: moment(),
           end: moment()

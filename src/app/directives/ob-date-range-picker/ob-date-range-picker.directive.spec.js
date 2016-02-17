@@ -1,4 +1,4 @@
-describe('directive ob-date-range-picker', function() {
+describe('directive ob-date-range-picker', function () {
   var element, moment, defaultOptions, $compile, $scope, $rootScope, picker, elem;
 
   beforeEach(angular.mock.module('obDateRangePicker'));
@@ -17,7 +17,7 @@ describe('directive ob-date-range-picker', function() {
         {
           name: 'Today',
           start: moment(),
-          end:moment()
+          end: moment()
         },
         {
           name: 'Yesterday',
@@ -48,7 +48,8 @@ describe('directive ob-date-range-picker', function() {
         month-format="picker.monthFormat"
         input-format="picker.inputFormat()"
         auto-apply="picker.autoApply"
-        disabled="picker.disabled">
+        disabled="picker.disabled"
+        calendars-always-on="picker.calendarsAlwaysOn">
       </ob-daterangepicker>
     `);
 
@@ -80,14 +81,6 @@ describe('directive ob-date-range-picker', function() {
     $rootScope.$digest();
 
     expect(picker.value).toEqual('Yesterday');
-  });
-
-  it('should not show the custom range picker by default', () => {
-    prepare(defaultOptions);
-    picker.togglePicker();
-    $rootScope.$digest();
-
-    expect(picker.isCustomVisible).toEqual(false);
   });
 
   it('should not show any pre-defined date ranges and custom should be visible', () => {
@@ -147,5 +140,25 @@ describe('directive ob-date-range-picker', function() {
     $rootScope.$digest();
 
     expect(picker.isPickerVisible).toEqual(false);
+  });
+
+  it('should not show calendars if calendars-always-on is not set to true', () => {
+    prepare(defaultOptions);
+    picker.togglePicker();
+    $rootScope.$digest();
+    expect(elem.querySelectorAll('.ranges .range').length).toEqual(4);
+    expect(angular.element(elem.querySelector('.date-range')).hasClass('ng-hide')).toEqual(true);
+  });
+
+  it('should show calendars if calendars-always-on is set to true', () => {
+    let options = Object.assign({
+      calendarsAlwaysOn: true
+    }, defaultOptions);
+    prepare(options);
+    picker.togglePicker();
+    angular.element(elem.querySelector('.picker-dropdown')).triggerHandler('click');
+    $rootScope.$digest();
+    expect(elem.querySelectorAll('.ranges .range').length).toEqual(3);
+    expect(angular.element(elem.querySelector('.date-range')).hasClass('ng-hide')).toEqual(false);
   });
 });

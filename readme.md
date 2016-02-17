@@ -146,7 +146,14 @@ Hide the apply and cancel buttons, and automatically apply a new date range as s
 **example:**  
 
 #### **disabled:**  
-When present, it specifies that the picker element should be disabled.
+When set to true, it specifies that the picker element should be disabled.
+**type:**  
+`Boolean`    
+**default:**  
+`false`   
+
+#### **calendars-always-on:**  
+When present, the calendars always will be shown when date range picker is open.  
 **type:**  
 `Boolean`    
 **default:**  

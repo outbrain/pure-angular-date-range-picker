@@ -17,6 +17,7 @@ export function ObDateRangePicker() {
       linkedCalendars: '&',
       autoApply: '&',
       disabled: '&',
+      calendarsAlwaysOn: '&',
       api: '=?'
     },
     controller: ObDateRangePickerController,
@@ -39,7 +40,7 @@ class ObDateRangePickerController {
     this.Moment = moment;
     this.range = this.range || {};
     this.pickerApi = {};
-    this.isCustomVisible = false;
+    this.isCustomVisible = this.calendarsAlwaysOn();
 
     this.setOpenCloseLogic();
     this.setWatchers();
@@ -53,7 +54,7 @@ class ObDateRangePickerController {
       }
     });
     this.preRanges = this.ranges() || [];
-    if(this.preRanges.length) {
+    if (this.preRanges.length) {
       this.preRanges.push({
         name: 'Custom',
         isCustom: true
@@ -73,7 +74,9 @@ class ObDateRangePickerController {
     };
     this.setPredefinedStatus();
 
-    if (this.range.start && this.range.end && !this.Moment.isMoment(this.range.start) && !this.Moment.isMoment(this.range.end) && this.format()) {
+    if (this.range.start &&
+      this.range.end && !this.Moment.isMoment(this.range.start) && !this.Moment.isMoment(this.range.end) &&
+      this.format()) {
       this._range = {
         start: this.Moment(this.range.start, this.getFormat()),
         end: this.Moment(this.range.end, this.getFormat())
@@ -89,9 +92,9 @@ class ObDateRangePickerController {
       this._range.end = firstPreRange.end;
     }
 
-    if(this._range.start.isAfter(this._range.end)) {
+    if (this._range.start.isAfter(this._range.end)) {
       this._range.start = this._range.end.clone();
-    } else if(this._range.end.isBefore(this._range.start)) {
+    } else if (this._range.end.isBefore(this._range.start)) {
       this._range.end = this._range.start.clone();
     }
 
@@ -102,13 +105,13 @@ class ObDateRangePickerController {
   }
 
   applyMinMaxDaysToRange() {
-    if(this.minDay()) {
+    if (this.minDay()) {
       let minDay = this._getMinDay();
       this._range.start = this._range.start.isBefore(minDay, 'd') ? minDay : this._range.start;
       this._range.end = this._range.end.isBefore(minDay, 'd') ? minDay : this._range.end;
     }
 
-    if(this.maxDay()) {
+    if (this.maxDay()) {
       let maxDay = this._getMaxDay();
       this._range.start = this._range.start.isAfter(maxDay) ? maxDay : this._range.start;
       this._range.end = this._range.end.isAfter(maxDay) ? maxDay : this._range.end;
@@ -118,7 +121,7 @@ class ObDateRangePickerController {
   setPickerInterceptors() {
     this.pickerInterceptors = {
       rangeSelectedByClick: () => {
-        if(this.autoApply()) {
+        if (this.autoApply()) {
           this.applyChanges();
         }
       }
@@ -127,15 +130,15 @@ class ObDateRangePickerController {
 
   setPredefinedStatus() {
     this.preRanges.forEach((range) => {
-      if(!range.isCustom) {
+      if (!range.isCustom) {
         range.disabled = false;
 
-        if(this.minDay()) {
+        if (this.minDay()) {
           let minDay = this._getMinDay();
           range.disabled = range.start.isBefore(minDay, 'd');
         }
 
-        if(!range.disabled && this.maxDay()) {
+        if (!range.disabled && this.maxDay()) {
           let maxDay = this._getMaxDay();
           range.disabled = range.end.isAfter(maxDay, 'd');
         }
@@ -151,7 +154,7 @@ class ObDateRangePickerController {
     }], ([start, end]) => {
       if (!this.selfChange) {
         if (start && end) {
-          if(this.preRanges.length) {
+          if (this.preRanges.length) {
             this.preRanges[this.preRanges.length - 1].start = start;
             this.preRanges[this.preRanges.length - 1].end = end;
             this.markPredefined(start, end);
@@ -229,14 +232,14 @@ class ObDateRangePickerController {
   }
 
   predefinedRangeSelected(range, index) {
-    if(!range.disabled) {
+    if (!range.disabled) {
       if (!range.isCustom) {
         this.selfChange = true;
         this.selectedRengeIndex = index;
         this.value = range.name;
         this._range.start = range.start;
         this._range.end = range.end;
-        this.isCustomVisible = false;
+        this.isCustomVisible = this.calendarsAlwaysOn() || false;
         this.applyChanges();
       } else {
         this.isCustomVisible = true;
@@ -268,7 +271,7 @@ class ObDateRangePickerController {
   getRangeValue() {
     let value;
     let format = this.getInputFormat();
-    if(this.preRanges.length) {
+    if (this.preRanges.length) {
       let index = this.preRanges.findIndex((range) => {
         return (this._range.start.isSame(range.start, 'day') && this._range.end.isSame(range.end, 'day'));
       });
