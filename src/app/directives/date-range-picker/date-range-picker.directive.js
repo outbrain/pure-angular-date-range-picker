@@ -5,7 +5,7 @@ export function DateRangePicker() {
     restrict: 'E',
     scope: {
       weekStart: '&',
-      range: '=',
+      range: '=?',
       minDay: '&',
       maxDay: '&',
       api: '&',

@@ -5,7 +5,7 @@ export function ObDateRangePicker() {
     restrict: 'E',
     scope: {
       weekStart: '&',
-      range: '=',
+      range: '=?',
       weekDaysName: '&',
       format: '&',
       ranges: '&',
@@ -17,7 +17,7 @@ export function ObDateRangePicker() {
       linkedCalendars: '&',
       autoApply: '&',
       disabled: '&',
-      api: '='
+      api: '=?'
     },
     controller: ObDateRangePickerController,
     templateUrl: 'app/directives/ob-date-range-picker/ob-date-range-picker.html',

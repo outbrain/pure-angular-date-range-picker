@@ -18,7 +18,7 @@ export function Calendar() {
       monthFormat: '&',
       inputFormat: '&',
       showInput: '&',
-      api: '='
+      api: '=?'
     },
     templateUrl: 'app/directives/calendar/calendar.html',
     controller: CalendarController,
