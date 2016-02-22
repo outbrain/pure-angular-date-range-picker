@@ -334,7 +334,8 @@
         this.dayPickerApi = {};
         this.opens = 'left';
         this.format = 'MMM DD, YYYY';
-        this.selectedDay = moment().format(this.format);
+        this.selectedDay = moment().add(-5, 'd').format(this.format);
+        this.min = moment().format(this.format);
         this.disabled = false;
         this.validateInput = true;
         this.autoApply = true;
