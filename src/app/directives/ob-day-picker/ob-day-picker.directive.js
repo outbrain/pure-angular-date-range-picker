@@ -54,6 +54,9 @@ class ObDayPickerController {
 
     this.setListeners();
     this.dayValidity = this.checkIfDayIsValid(this._selectedDay);
+    this.$timeout(() => {
+      this.applyValidity(this.dayValidity);
+    });
   }
 
   setOpenCloseLogic() {
