@@ -1,6 +1,6 @@
 {
   "name": "ob-daterangepicker",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "dependencies": {
     "babel-plugin-object-assign": "^1.2.1"
   },
