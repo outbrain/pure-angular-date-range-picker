@@ -20,7 +20,7 @@ ob-daypicker {
 
     .picker {
       position: absolute;
-      top: $inputHeight - 1;
+      top: $inputHeight - 23;
       z-index: 10;
     }
 
@@ -31,9 +31,9 @@ ob-daypicker {
       line-height: $inputHeight;
       border: 1px solid $borderColor;
       border-radius: $inputBorderRadius;
-      font-size: 14px;
       padding-left: 10px;
-      outline: none
+      outline: none;
+      font-size: 14px;
     }
   }
 

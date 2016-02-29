@@ -8,6 +8,7 @@ ob-daterangepicker {
   overflow: visible;
   font-family: $mainFont;
   cursor: pointer;
+  font-size: $mainFontSize;
 
   .picker-dropdown-container {
     position: relative;
@@ -25,8 +26,8 @@ ob-daterangepicker {
       line-height:30px;
       border: 1px solid $borderColor;
       border-radius: $inputBorderRadius;
-      font-size: 14px;
       padding-left: 10px;
+      font-size: 14px;
 
       &.open {
         border-radius: $inputBorderRadius $inputBorderRadius 0 0;
@@ -73,8 +74,8 @@ ob-daterangepicker {
 
         .ranges {
           .range {
-            height: 27px;
-            line-height: 27px;
+            height: 24px;
+            line-height: 24px;
             border-radius: $inputBorderRadius;
             padding: 0 5px;
             margin-bottom: 5px;
