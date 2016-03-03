@@ -54,6 +54,9 @@ class ObDayPickerController {
 
     this.setListeners();
     this.dayValidity = this.checkIfDayIsValid(this._selectedDay);
+    this.$timeout(() => {
+      this.applyValidity(this.dayValidity);
+    });
   }
 
   setOpenCloseLogic() {
@@ -106,7 +109,8 @@ class ObDayPickerController {
   }
 
   daySelected(day, timeout = 100) {
-    if(!day.isSame(this._selectedDay, 'day')) {
+    this.applyValidity(this.checkIfDayIsValid(day));
+    if (!day.isSame(this._selectedDay, 'day')) {
       this.calendarApi.render();
       this.value = this.Moment(day).format(this.getFormat());
       this._selectedDay = day;
@@ -154,19 +158,19 @@ class ObDayPickerController {
   onBlur() {
     let currentValue = this.getInputValue();
     let isValid = this.checkIfDayIsValid(currentValue);
-    if(isValid) {
+    if (isValid) {
       this.daySelected(currentValue);
     } else {
       this.hidePicker();
     }
   }
 
-    updateValidity() {
+  updateValidity() {
     let day = this.getInputValue();
     let isValid = this.checkIfDayIsValid(day);
     this.applyValidity(isValid);
 
-    if(isValid && this.autoApply() && !day.isSame(this._selectedDay, 'day')) {
+    if (isValid && this.autoApply() && !day.isSame(this._selectedDay, 'day')) {
       this._selectedDay = day;
       this.updateSelectedDate(day);
     }
@@ -189,10 +193,10 @@ class ObDayPickerController {
     return isValid;
   }
 
-  applyValidity(isDatValid) {
+  applyValidity(isDateValid) {
     if (this.isValidDateEnabled() && this.Scope[this.formName]) {
-      this.Scope[this.formName].$setValidity('validDay', isDatValid);
-      this.dayValidity = isDatValid;
+      this.Scope[this.formName].$setValidity('validDay', isDateValid);
+      this.dayValidity = isDateValid;
     }
   }
 
