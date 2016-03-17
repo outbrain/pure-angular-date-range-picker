@@ -20,6 +20,7 @@ describe('directive ob-day-picker', function() {
     $scope.picker = options;
     element = angular.element(`
       <ob-daypicker
+        name="day"
         ng-class="{'up': main.dropsUp, 'disabled': main.disabled}"
         class="{{picker.opens}}"
         selected-day="picker.selectedDay"
@@ -95,5 +96,42 @@ describe('directive ob-day-picker', function() {
 
     expect(picker.selectedDay).toEqual('18-01-2016');
     expect(picker.isPickerVisible).toEqual(false);
+  });
+
+  it('should not be valid if directive max date is before selected day', () => {
+    let options = {
+      format: format,
+      selectedDay: '18-01-2016',
+      maxDay: '15-01-2016'
+    };
+    prepare(options);
+    $timeout.flush();
+
+    expect(picker.dayValidity).toEqual(false);
+  });
+
+  it('should not be valid if directive min date is after selected day', () => {
+    let options = {
+      format: format,
+      selectedDay: '18-01-2016',
+      minDay: '20-01-2016'
+    };
+    prepare(options);
+    $timeout.flush();
+
+    expect(picker.dayValidity).toEqual(false);
+  });
+
+  it('should be valid if directive min date is after selected day but disabled', () => {
+    let options = {
+      format: format,
+      selectedDay: '18-01-2016',
+      minDay: '20-01-2016',
+      disabled: true
+    };
+    prepare(options);
+    $timeout.flush();
+
+    expect(picker.dayValidity).toEqual(true);
   });
 });

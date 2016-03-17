@@ -48,6 +48,8 @@ class ObDayPickerController {
 
     this.api && Object.assign(this.api, {
       render: () => {
+        this.dayValidity = this.checkIfDayIsValid(this._selectedDay);
+        this.applyValidity(this.dayValidity);
         this.calendarApi.render();
       }
     });
@@ -194,7 +196,10 @@ class ObDayPickerController {
   }
 
   applyValidity(isDateValid) {
-    if (this.isValidDateEnabled() && this.Scope[this.formName]) {
+    if(this.disabled && this.disabled()) {
+      this.Scope[this.formName].$setValidity('validDay', true);
+      this.dayValidity = true;
+    } else if (this.isValidDateEnabled() && this.Scope[this.formName]) {
       this.Scope[this.formName].$setValidity('validDay', isDateValid);
       this.dayValidity = isDateValid;
     }
