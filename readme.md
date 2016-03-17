@@ -309,7 +309,7 @@ Will trigger the onApply callback and update the selectedDay value as soon as us
 
 #### **name:**  
 The name of the section in the form. If you want your day picker to be part of form, you should put this attribute in order to get validation errors. You should also add `valid-date="true"` (the only validation available for now). Then you will be able to receive validation status `<yourFormName>.<name>`.
-Note that if the component is disabled the form will be valid - No validations will made.
+Note that if the component is disabled the form will be valid - No validations will made.  
 **type:**  
 `string`    
 **default:**  
