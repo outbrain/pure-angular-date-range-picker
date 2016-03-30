@@ -220,7 +220,7 @@ class ObDayPickerController {
   }
 
   getFormat() {
-    return this.format() || 'MMM D, YYYY';
+    return this.format() || 'MMM DD, YYYY';
   }
 
   _getMinDay() {
