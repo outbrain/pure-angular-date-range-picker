@@ -196,12 +196,14 @@ class ObDayPickerController {
   }
 
   applyValidity(isDateValid) {
-    if(this.disabled && this.disabled()) {
-      this.Scope[this.formName].$setValidity('validDay', true);
-      this.dayValidity = true;
-    } else if (this.isValidDateEnabled() && this.Scope[this.formName]) {
-      this.Scope[this.formName].$setValidity('validDay', isDateValid);
-      this.dayValidity = isDateValid;
+    if(this.Scope[this.formName]) {
+      if(this.disabled && this.disabled()) {
+        this.Scope[this.formName].$setValidity('validDay', true);
+        this.dayValidity = true;
+      } else if (this.isValidDateEnabled() && this.Scope[this.formName]) {
+        this.Scope[this.formName].$setValidity('validDay', isDateValid);
+        this.dayValidity = isDateValid;
+      }
     }
   }
 
