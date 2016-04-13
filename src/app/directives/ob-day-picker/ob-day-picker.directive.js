@@ -48,9 +48,7 @@ class ObDayPickerController {
 
     this.api && Object.assign(this.api, {
       render: () => {
-        this.dayValidity = this.checkIfDayIsValid(this._selectedDay);
-        this.applyValidity(this.dayValidity);
-        this.calendarApi.render();
+        this.render();
       }
     });
 
@@ -59,6 +57,12 @@ class ObDayPickerController {
     this.$timeout(() => {
       this.applyValidity(this.dayValidity);
     });
+  }
+
+  render() {
+    this.dayValidity = this.checkIfDayIsValid(this._selectedDay);
+    this.applyValidity(this.dayValidity);
+    this.calendarApi.render && this.calendarApi.render();
   }
 
   setOpenCloseLogic() {
@@ -100,8 +104,8 @@ class ObDayPickerController {
     this.Scope.$watchGroup([
       () => this.minDay(),
       () => this.maxDay()
-    ], () => {
-      this.calendarApi.render && this.calendarApi.render();
+    ], (newVal) => {
+      newVal && this.render();
     });
   }
 
