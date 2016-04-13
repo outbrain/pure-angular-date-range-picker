@@ -96,6 +96,13 @@ class ObDayPickerController {
       this.pickerPopup.off('click', events.pickerClick);
       this.Document.off('click', events.documentClick);
     });
+
+    this.Scope.$watchGroup([
+      () => this.minDay(),
+      () => this.maxDay()
+    ], () => {
+      this.calendarApi.render && this.calendarApi.render();
+    });
   }
 
   showPicker() {
@@ -196,8 +203,8 @@ class ObDayPickerController {
   }
 
   applyValidity(isDateValid) {
-    if(this.Scope[this.formName]) {
-      if(this.disabled && this.disabled()) {
+    if (this.Scope[this.formName]) {
+      if (this.disabled && this.disabled()) {
         this.Scope[this.formName].$setValidity('validDay', true);
         this.dayValidity = true;
       } else if (this.isValidDateEnabled() && this.Scope[this.formName]) {

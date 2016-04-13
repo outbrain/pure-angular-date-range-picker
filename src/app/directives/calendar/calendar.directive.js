@@ -89,11 +89,10 @@ class CalendarController {
       this.calendar = this.buildCalendar(newMonth);
     });
 
-    this.Scope.$watchGroup([() => {
-      return this.rangeStart();
-    }, () => {
-      return this.rangeEnd();
-    }], () => {
+    this.Scope.$watchGroup([
+      () => this.rangeStart(),
+      () => this.rangeEnd()
+    ], () => {
       this.setValue();
       this.updateDaysProperties(this.calendar.monthWeeks);
     });
@@ -104,7 +103,7 @@ class CalendarController {
     let maxDay = this.maxDay();
     let selectedDay = this.selectedDay();
     let rangeStart = this.rangeStart();
-    let rangeEnd =  this.rangeEnd();
+    let rangeEnd = this.rangeEnd();
     monthWeeks.forEach((week) => {
       week.forEach((day) => {
         day.selected = day.mo.isSame(selectedDay || null, 'day');
