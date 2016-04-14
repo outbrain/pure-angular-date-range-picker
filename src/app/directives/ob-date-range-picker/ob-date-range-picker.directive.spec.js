@@ -77,6 +77,7 @@ describe('directive ob-date-range-picker', function () {
 
   it('should select yesterday from predefined', () => {
     prepare(defaultOptions);
+    angular.element(elem.querySelector('.picker-dropdown')).triggerHandler('click');
     picker.predefinedRangeSelected(picker.preRanges[1]);
     $rootScope.$digest();
 

@@ -4,7 +4,7 @@
   </div>
   <div class="picker" ng-class="{'open': obDateRangePicker.isPickerVisible}" ng-show="obDateRangePicker.isPickerVisible">
     <div class="date-range" ng-show="obDateRangePicker.isCustomVisible">
-      <date-range-picker
+      <date-range-picker ng-if="obDateRangePicker.isPickerVisible"
         api="obDateRangePicker.pickerApi"
         interceptors="obDateRangePicker.pickerInterceptors"
         linked-calendars="obDateRangePicker.linkedCalendars()"

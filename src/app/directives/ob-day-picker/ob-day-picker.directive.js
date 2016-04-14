@@ -102,10 +102,12 @@ class ObDayPickerController {
     });
 
     this.Scope.$watchGroup([
-      () => this.minDay(),
-      () => this.maxDay()
-    ], (newVal) => {
-      newVal && this.render();
+      () => this.Moment(this.minDay(), this.getFormat()).format(),
+      () => this.Moment(this.maxDay(), this.getFormat()).format()
+    ], (min, max) => {
+      if ((min && min[0] || (max && max[0]))) {
+        this.render();
+      }
     });
   }
 

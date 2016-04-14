@@ -113,9 +113,9 @@
         this.dayPickerApi = {};
         this.opens = 'left';
         this.format = 'MMM DD, YYYY';
-        this.selectedDay = moment().add(-10, 'd').format(this.format);
-        this.min = moment().subtract(5, 'd').format(this.format);
-        this.disabled = true;
+        this.selectedDay = moment().add(0, 'd').format(this.format);
+        this.min = moment().subtract(-5, 'd').format(this.format);
+        this.disabled = false;
         this.validateInput = true;
         this.autoApply = true;
 

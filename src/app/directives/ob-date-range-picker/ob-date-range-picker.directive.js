@@ -179,7 +179,7 @@ class ObDateRangePickerController {
         if (this.elemClickFlag) {
           this.elemClickFlag = false;
         } else {
-          this.discardChanges();
+          this.isPickerVisible && this.discardChanges();
           this.Scope.$apply();
         }
       },
@@ -276,10 +276,12 @@ class ObDateRangePickerController {
         return (this._range.start.isSame(range.start, 'day') && this._range.end.isSame(range.end, 'day'));
       });
 
-      if (this.preRanges[index].isCustom) {
-        value = `${this.preRanges[index].start.format(format)} - ${this.preRanges[index].end.format(format)}`;
-      } else {
-        value = this.preRanges[index].name;
+      if(index !== -1) {
+        if (this.preRanges[index].isCustom) {
+          value = `${this.preRanges[index].start.format(format)} - ${this.preRanges[index].end.format(format)}`;
+        } else {
+          value = this.preRanges[index].name;
+        }
       }
     } else {
       value = `${this._range.start.format(format)} - ${this._range.end.format(format)}`;
