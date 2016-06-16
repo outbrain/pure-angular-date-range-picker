@@ -29,7 +29,8 @@ describe('directive ob-date-range-picker', function () {
           start: moment().startOf('month'),
           end: moment()
         }
-      ]
+      ],
+      pickerApi: {}
     };
   }));
 
@@ -65,6 +66,32 @@ describe('directive ob-date-range-picker', function () {
     $rootScope.$digest();
 
     expect(picker.isPickerVisible).toEqual(true);
+  });
+
+  it('should hide picker after second toggle', () => {
+    prepare(defaultOptions);
+    picker.togglePicker();
+    picker.togglePicker();
+    $rootScope.$digest();
+
+    expect(picker.isPickerVisible).toEqual(false);
+  });
+
+  it('should show picker after first toggle using api', () => {
+    prepare(defaultOptions);
+    $scope.picker.pickerApi.togglePicker();
+    $rootScope.$digest();
+
+    expect(picker.isPickerVisible).toEqual(true);
+  });
+
+  it('should hide picker after second toggle using api', () => {
+    prepare(defaultOptions);
+    $scope.picker.pickerApi.togglePicker();
+    $scope.picker.pickerApi.togglePicker();
+    $rootScope.$digest();
+
+    expect(picker.isPickerVisible).toEqual(false);
   });
 
   it('should show 4 predefined, when the last is custom', () => {
