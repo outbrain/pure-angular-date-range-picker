@@ -247,11 +247,23 @@ class CalendarController {
   }
 
   showLeftArrow() {
-    return this.minMonth() ? !this.minMonth().isSame(this.getMonth().clone().subtract(1, 'M'), 'M') : true;
+    if (this.minMonth()) {
+      return !this.minMonth().isSame(this.getMonth().clone().subtract(1, 'M'), 'M');
+    } else if (this.minDay()) {
+      return !this.minDay().isSame(this.getMonth(), 'M');
+    } else {
+      return true;
+    }
   }
 
   showRightArrow() {
-    return this.maxMonth() ? !this.maxMonth().isSame(this.getMonth().clone().add(1, 'M'), 'M') : true;
+    if (this.maxMonth()) {
+      return !this.maxMonth().isSame(this.getMonth().clone().add(1, 'M'), 'M');
+    } else if (this.maxDay()) {
+      return !this.maxDay().isSame(this.getMonth(), 'M');
+    } else {
+      return true;
+    }
   }
 
   _showInput() {
