@@ -48,6 +48,7 @@ class ObDateRangePickerController {
 
     this.api && Object.assign(this.api, {
       setDateRange: this.setDateRange.bind(this),
+      togglePicker: this.togglePicker.bind(this),
       render: () => {
         this.render();
         this.pickerApi.render();

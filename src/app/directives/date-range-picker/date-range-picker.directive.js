@@ -258,6 +258,10 @@ class DateRangePickerController {
       let oldStart = oldRange[0];
       let oldEnd = oldRange[1];
 
+      if (this.maxDay() && newStart.isSame(this.maxDay(), 'M')) {
+        newStart = newStart.clone().subtract(1, 'M');
+      }
+
       if (!this.startCalendar && !this.endCalendar) {
         this.startCalendar = newStart;
         this.endCalendar = newStart.clone().add(1, 'M');
