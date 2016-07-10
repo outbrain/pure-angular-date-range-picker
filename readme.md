@@ -195,6 +195,29 @@ You can combine the class to achieve combined positioning. For example:
 
 ----------
 
+Picker API
+-------------
+You can also pass an object to the component via the api attribute, the component will put some methods on this object.
+#### **api:**  
+When set to true, it specifies that the picker element should be disabled.
+**type:**  
+`object`    
+**default:**  
+`undefined`   
+**added functions:**  
+`render` - re-renders the component.   
+`togglePicker` - opens/closes the picker.  
+ **example:**  
+```  
+js:
+	this.api = {};
+	
+html:
+	<ob-daterangepicker api="vm.api"></ob-daterangepicker>
+	<button ng-click="vm.api.togglePicker()">Toggle<button>
+```  
+
+
 Day Picker
 ===================
 
@@ -344,6 +367,28 @@ css class
 <ob-daypicker selected-day="vm.selectedDay" class="left"></ob-daypicker>
 ``` 
 
+----------
+
+Picker API
+-------------
+You can also pass an object to the component via the api attribute, the component will put some methods on this object.
+#### **api:**  
+When set to true, it specifies that the picker element should be disabled.
+**type:**  
+`object`    
+**default:**  
+`undefined`   
+**added functions:**  
+`render` - re-renders the component.   
+ **example:**  
+```  
+js:
+	this.api = {};
+	
+html:
+	<ob-daterangepicker api="vm.api"></ob-daterangepicker>
+	<button ng-click="vm.api.render()">Render<button>
+```  
 ----------
 
 Contribution
