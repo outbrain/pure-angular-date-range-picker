@@ -1,6 +1,6 @@
 {
   "name": "ob-daterangepicker",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "dependencies": {
     "moment": "~2.10.6",
     "angular": "~1.4.2"
