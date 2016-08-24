@@ -4,7 +4,7 @@ export function ObDateRangePicker() {
   let directive = {
     restrict: 'E',
     scope: {
-      weekStart: '&',
+      weekStart: '&', 
       range: '=?',
       weekDaysName: '&',
       format: '&',
@@ -38,7 +38,7 @@ class ObDateRangePickerController {
     this.Document = $document;
     this.Scope = $scope;
     this.Moment = moment;
-    this.range = this.range || {};
+    this.range = this.range || {};  
     this.pickerApi = {};
     this.isCustomVisible = this.calendarsAlwaysOn();
 
