@@ -36,7 +36,6 @@ describe('directive ob-day-picker', function() {
     $compile(element)($scope);
     $rootScope.$digest();
     picker = element.isolateScope().dayPicker;
-    // elem = element[0];
   }
 
   it('should show and hide picker', () => {
@@ -133,5 +132,21 @@ describe('directive ob-day-picker', function() {
     $timeout.flush();
 
     expect(picker.dayValidity).toEqual(true);
+  });
+
+  it('should show both calendar errors even if current selected date is invalid', () => {
+    let options = {
+      format: format,
+      selectedDay: '18-01-2016',
+      minDay: '20-01-2016',
+      disabled: false
+    };
+    prepare(options);
+
+    let inputElement = element.find('input');
+    inputElement.triggerHandler('click');
+    expect(picker.calendarApi.showLeftArrow(), false);
+    picker.calendarApi.moveToNext();
+    expect(picker.calendarApi.showLeftArrow(), true);
   });
 });

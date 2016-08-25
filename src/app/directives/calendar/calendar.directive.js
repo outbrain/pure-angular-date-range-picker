@@ -42,7 +42,9 @@ class CalendarController {
 
   setApi() {
     Object.assign(this.api, {
-      render: this.render.bind(this)
+      render: this.render.bind(this),
+      moveToNext: this.moveToNext.bind(this),
+      showLeftArrow: this.showLeftArrow.bind(this)
     });
   }
 
@@ -248,9 +250,9 @@ class CalendarController {
 
   showLeftArrow() {
     if (this.minMonth()) {
-      return !this.minMonth().isSame(this.getMonth().clone().subtract(1, 'M'), 'M');
+      return !this.minMonth().isSame(this.calendar.currentCalendar.clone().subtract(1, 'M'), 'M');
     } else if (this.minDay()) {
-      return !this.minDay().isSame(this.getMonth(), 'M');
+      return !this.minDay().isSame(this.calendar.currentCalendar, 'M');
     } else {
       return true;
     }
