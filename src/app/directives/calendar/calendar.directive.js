@@ -66,15 +66,10 @@ class CalendarController {
 
   setWeekDaysNames(weekDays, daysName = this.defaultWeekDaysNames) {
     let weekDayNames = [];
-    let defPosMap = {
-      'su': 0,
-      'mo': 1,
-      'tu': 2,
-      'we': 3,
-      'th': 4,
-      'fr': 5,
-      'sa': 6
-    };
+    let defPosMap = this.Moment.weekdaysMin().reduce((obj, day, index) => {
+      obj[day.toLowerCase()] = index;
+      return obj;
+    }, {});
 
     weekDays.forEach((day, index) => {
       let defPos = defPosMap[day];
@@ -123,7 +118,7 @@ class CalendarController {
   }
 
   buildWeek(firstDay) {
-    let daysOfWeek = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
+    let daysOfWeek = this.Moment.weekdaysMin().map(day => day.toLowerCase());
     let pivot = daysOfWeek.indexOf(firstDay.toLowerCase());
     let firstHalf = daysOfWeek.slice(0, pivot);
     let secondHalf = daysOfWeek.slice(pivot, daysOfWeek.length);
