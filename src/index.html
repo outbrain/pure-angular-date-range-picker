@@ -271,7 +271,7 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- build:js({.tmp/serve,.tmp/partials}) scripts/ob-daterangepicker.js -->
+    <!-- build:js({.tmp/serve,.tmp/partials}) scripts/ob-date-range-picker.provider.js -->
     <!-- inject:js -->
     <!-- js files will be automatically insert here -->
     <!-- endinject -->
@@ -284,11 +284,16 @@
 
     <script>
       angular.module('demo', ['obDateRangePicker'])
+        .config(['dateRangePickerConfProvider', function(dateRangePickerConf) {
+          dateRangePickerConf.setConfig({
+            weekStart: 'mo'
+          });
+        }])
         .controller('RangeController', RangeCtrl);
 
       function RangeCtrl() {
         var _this = this;
-        this.weekStart = 'su';
+        //this.weekStart = 'su';
         this.dateRangeApi = {};
         this.dropsUp = false;
         this.opens = 'left';

@@ -4,7 +4,7 @@ export function ObDateRangePicker() {
   let directive = {
     restrict: 'E',
     scope: {
-      weekStart: '&', 
+      weekStart: '&',
       range: '=?',
       weekDaysName: '&',
       format: '&',
@@ -31,15 +31,18 @@ export function ObDateRangePicker() {
 
 class ObDateRangePickerController {
 
-  constructor($document, $element, $scope, moment) {
+  constructor($document, $element, $scope, moment, dateRangePickerConf) {
     'ngInject';
 
     this.Element = $element;
     this.Document = $document;
     this.Scope = $scope;
     this.Moment = moment;
-    this.range = this.range || {};  
+    this.range = this.range || {};
     this.pickerApi = {};
+
+    //config setup
+    this.weekStart = this.weekStart() ? this.weekStart : function() {return dateRangePickerConf.weekStart};
     this.isCustomVisible = this.calendarsAlwaysOn();
 
     this.setOpenCloseLogic();
