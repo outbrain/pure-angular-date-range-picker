@@ -38,11 +38,23 @@ class ObDateRangePickerController {
     this.Document = $document;
     this.Scope = $scope;
     this.Moment = moment;
-    this.range = this.range || {};
+    this.range = this.range || dateRangePickerConf.range || {};
     this.pickerApi = {};
 
     //config setup
-    this.weekStart = this.weekStart() ? this.weekStart : function() {return dateRangePickerConf.weekStart};
+    this.weekStart = this.weekStart() ? this.weekStart : () => {return dateRangePickerConf.weekStart};
+    this.weekDaysName = this.weekDaysName() ? this.weekDaysName : () => {return dateRangePickerConf.weekDaysName};
+    this.format = this.format() ? this.format : () => {return dateRangePickerConf.format};
+    this.ranges = this.ranges() ? this.ranges : () => {return dateRangePickerConf.ranges};
+    this.minDay = this.minDay() ? this.minDay : () => {return dateRangePickerConf.minDay};
+    this.maxDay = this.maxDay() ? this.maxDay : () => {return dateRangePickerConf.maxDay};
+    this.monthFormat = this.monthFormat() ? this.monthFormat : () => {return dateRangePickerConf.monthFormat};
+    this.inputFormat = this.inputFormat() ? this.inputFormat : () => {return dateRangePickerConf.inputFormat};
+    this.linkedCalendars = angular.isDefined(this.linkedCalendars()) ? this.linkedCalendars : () => {return dateRangePickerConf.linkedCalendars};
+    this.autoApply = angular.isDefined(this.autoApply()) ? this.autoApply : () => {return dateRangePickerConf.autoApply};
+    this.disabled = angular.isDefined(this.disabled()) ? this.disabled : () => {return dateRangePickerConf.disabled};
+    this.calendarsAlwaysOn = angular.isDefined(this.calendarsAlwaysOn()) ? this.calendarsAlwaysOn : () => {return dateRangePickerConf.calendarsAlwaysOn};
+
     this.isCustomVisible = this.calendarsAlwaysOn();
 
     this.setOpenCloseLogic();

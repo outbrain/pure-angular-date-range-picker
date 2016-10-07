@@ -1,4 +1,4 @@
-export function DateRangePickerProvider() {
+export function DatePickerProvider() {
   let config = {};
 
   return {
