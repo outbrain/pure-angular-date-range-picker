@@ -38,7 +38,7 @@ Usage
 
 Configurations
 -------------
-All configurations are set through the `ob-daterange-picker` directive attributes. Here is the list of configurations:  
+All configurations are set through the `ob-daterange-picker` directive attributes or via the `dateRangePickerConfProvider` (see details [here](#date-range-picker-provider)). Here is the list of configurations:  
 
 #### **range:**  
 Sets the initial range that would be displayed on the date-range-picker. When, range will be updated this object *will be muted* accordingly.  
@@ -216,7 +216,21 @@ html:
 	<ob-daterangepicker api="vm.api"></ob-daterangepicker>
 	<button ng-click="vm.api.togglePicker()">Toggle<button>
 ```  
+----------
 
+Date Range Picker Provider
+-------------
+All settings can be configured by using the `dateRangePickerConfProvider` here is an example: 
+```
+      angular.module('demo', ['obDateRangePicker'])
+        .config(['dateRangePickerConfProvider', function(dateRangePickerConf) {
+          dateRangePickerConf.setConfig({
+            weekStart: 'mo'
+          });
+        }])
+```
+
+Note: all the configurations can be set both through attribute and the provider. If both are set (via provider and attribute) the attribute configuration will be used.
 
 Day Picker
 ===================
@@ -243,7 +257,7 @@ Usage
 
 Configurations
 -------------
-All configurations are set through the `ob-daypicker` directive attributes. Here is the list of configurations:  
+All configurations are set through the `ob-daypicker` directive attributes or via the `datePickerConfProvider` (see details [here](#date-picker-provider)). Here is the list of configurations:  
 
 #### **selected:**  
 Sets the initial day that would be displayed on the day-picker. When, day will be updated this value *will be muted* accordingly.  
@@ -389,7 +403,22 @@ html:
 	<ob-daterangepicker api="vm.api"></ob-daterangepicker>
 	<button ng-click="vm.api.render()">Render<button>
 ```  
+
 ----------
+
+Date Picker Provider
+-------------
+All settings can be configured by using the `datePickerConfProvider` here is an example: 
+```
+      angular.module('demo', ['obDatePicker'])
+        .config(['datePickerConfProvider', function(datePickerConf) {
+          datePickerConf.setConfig({
+            weekStart: 'mo'
+          });
+        }])
+```
+
+Note: all the configurations can be set both through attribute and the provider. If both are set (via provider and attribute) the attribute configuration will be used.
 
 Contribution
 -------------

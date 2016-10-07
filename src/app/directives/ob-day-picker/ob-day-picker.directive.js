@@ -30,7 +30,7 @@ export function ObDayPicker() {
 
 class ObDayPickerController {
 
-  constructor($document, $element, $scope, $timeout, moment) {
+  constructor($document, $element, $scope, $timeout, moment, datePickerConf) {
     'ngInject';
 
     this.Element = $element;
@@ -38,6 +38,20 @@ class ObDayPickerController {
     this.Scope = $scope;
     this.$timeout = $timeout;
     this.Moment = moment;
+
+    //config setup
+    this.weekStart = this.weekStart() ? this.weekStart : () => {return datePickerConf.weekStart};
+    this.weekDaysName = this.weekDaysName() ? this.weekDaysName : () => {return datePickerConf.weekDaysName};
+    this.format = this.format() ? this.format : () => {return datePickerConf.format};
+    this.minDay = this.minDay() ? this.minDay : () => {return datePickerConf.minDay};
+    this.maxDay = this.maxDay() ? this.maxDay : () => {return datePickerConf.maxDay};
+    this.monthFormat = this.monthFormat() ? this.monthFormat : () => {return datePickerConf.monthFormat};
+    this.inputFormat = this.inputFormat() ? this.inputFormat : () => {return datePickerConf.inputFormat};
+    this.autoApply = angular.isDefined(this.autoApply()) ? this.autoApply : () => {return datePickerConf.autoApply};
+    this.disabled = angular.isDefined(this.disabled()) ? this.disabled : () => {return datePickerConf.disabled};
+    this.isValidDateEnabled = angular.isDefined(this.isValidDateEnabled()) ? this.isValidDateEnabled : () => {return datePickerConf.isValidDateEnabled};
+
+
     this.formName = this.formName || 'dayPickerInput';
 
     this.setOpenCloseLogic();
