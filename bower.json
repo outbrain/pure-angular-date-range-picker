@@ -1,6 +1,6 @@
 {
   "name": "ob-daterangepicker",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "main": [
     "dist/scripts/ob-daterangepicker.js",
     "dist/styles/ob-daterangepicker.css"
