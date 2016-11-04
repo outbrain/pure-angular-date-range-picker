@@ -1,4 +1,4 @@
-<!doctype html><html ng-app="demo" ng-strict-di=""><head><meta charset="utf-8"><title>obDateRangePicker</title><meta name="description" content="angular, directive, daypicker, date, day, daterange, date range picker, pure angular, day-picker, range-select, calendar, picker, date-range-picker, moment"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="styles/ob-daterangepicker.css"></head><body><!--[if lt IE 9]>
+<!doctype html><html ng-app="demo" ng-strict-di=""><head><meta charset="utf-8"><title>Angular Date Range Picker</title><meta name="description" content="angular, directive, daypicker, date, day, daterange, date range picker, pure angular, day-picker, range-select, calendar, picker, date-range-picker, moment"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="styles/ob-daterangepicker.css"></head><body><!--[if lt IE 9]>
  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
  <![endif]--><style>
       .config {
@@ -101,6 +101,7 @@
         };
 
         this.render = function(e) {
+          console.log(this.calendarsAlwaysOn);
           if(e) {
             e.keyCode == 13 && this.dateRangeApi.render();
           } else {

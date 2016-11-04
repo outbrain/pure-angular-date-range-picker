@@ -118,6 +118,7 @@ class ObDateRangePickerController {
     this.setRange();
     this.markPredefined(this._range.start, this._range.end);
     this.setPickerInterceptors();
+    this.isCustomVisible = this.calendarsAlwaysOn();
   }
 
   applyMinMaxDaysToRange() {
