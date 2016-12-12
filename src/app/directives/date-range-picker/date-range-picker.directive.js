@@ -18,7 +18,10 @@ export function DateRangePicker() {
     templateUrl: 'app/directives/date-range-picker/date-range-picker.html',
     controller: DateRangePickerController,
     controllerAs: 'picker',
-    bindToController: true
+    bindToController: true,
+    link: (scope, elem, attrs, ctrl) => {
+      ctrl.init();
+    }
   };
 
   return directive;
@@ -31,12 +34,14 @@ class DateRangePickerController {
 
     this.Moment = moment;
     this.Scope = $scope;
+    this.endCalendarApi = {};
+    this.startCalendarApi = {};
+    this.setInterceptors();
+  }
 
+  init() {
     this.range = this.range || {};
     this.setConfigurations();
-    this.startCalendarApi = {};
-    this.endCalendarApi = {};
-    this.setInterceptors();
     this.setListeners();
     this.setApi();
     this.watchRangeChange();
@@ -112,7 +117,7 @@ class DateRangePickerController {
       daySelected: (day) => {
         this.dayInStartSelected(day);
         this.daySelected(day);
-        if(this.daysSelected == 2) {
+        if (this.daysSelected == 2) {
           this.interceptors.rangeSelectedByClick && this.interceptors.rangeSelectedByClick();
         }
       },
@@ -131,7 +136,7 @@ class DateRangePickerController {
       daySelected: (day) => {
         this.dayInEndSelected(day);
         this.daySelected(day);
-        if(this.daysSelected == 2) {
+        if (this.daysSelected == 2) {
           this.interceptors.rangeSelectedByClick && this.interceptors.rangeSelectedByClick();
         }
       },
@@ -279,24 +284,24 @@ class DateRangePickerController {
         } else if (newEnd && newEnd.isAfter(this.endCalendar, 'M')) {
           this.startCalendar = newEnd;
           this.endCalendar = newEnd.clone().add(1, 'M');
-        } else if(!newStart.isSame(this.endCalendar, 'M')) {
+        } else if (!newStart.isSame(this.endCalendar, 'M')) {
           this.startCalendar = newStart;
           this.endCalendar = newStart.clone().add(1, 'M');
         }
 
       } else {
         if (!(newStart.isSame(this.startCalendar, 'M') || newStart.isSame(this.endCalendar, 'M'))) {
-          if(newStart.isBefore(this.startCalendar, 'M')) {
+          if (newStart.isBefore(this.startCalendar, 'M')) {
             this.startCalendar = newStart;
 
-            if(newEnd && !newEnd.isSame(this.endCalendar, 'M')) {
-              if(newStart.isSame(newEnd, 'M')) {
+            if (newEnd && !newEnd.isSame(this.endCalendar, 'M')) {
+              if (newStart.isSame(newEnd, 'M')) {
                 this.endCalendar = newStart.clone().add(1, "M");
               } else {
                 this.endCalendar = newEnd;
               }
             }
-          } else if(newStart.isAfter(this.endCalendar)) {
+          } else if (newStart.isAfter(this.endCalendar)) {
             this.startCalendar = newStart;
             this.endCalendar = newStart.clone().add(1, 'M');
           }

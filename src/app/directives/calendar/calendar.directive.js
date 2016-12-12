@@ -23,7 +23,10 @@ export function Calendar() {
     templateUrl: 'app/directives/calendar/calendar.html',
     controller: CalendarController,
     controllerAs: 'month',
-    bindToController: true
+    bindToController: true,
+    link: (scope, elem, attrs, ctrl) => {
+      ctrl.init();
+    }
   };
 
   return directive;
@@ -36,6 +39,9 @@ class CalendarController {
     this.Moment = moment;
     this.Scope = $scope;
     this.Attrs = $attrs;
+  }
+
+  init() {
     this.api && this.setApi();
     this.render();
   }

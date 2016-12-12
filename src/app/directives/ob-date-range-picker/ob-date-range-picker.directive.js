@@ -23,7 +23,10 @@ export function ObDateRangePicker() {
     controller: ObDateRangePickerController,
     templateUrl: 'app/directives/ob-date-range-picker/ob-date-range-picker.html',
     controllerAs: 'obDateRangePicker',
-    bindToController: true
+    bindToController: true,
+    link: (scope, elem, attrs, ctrl) => {
+      ctrl.init();
+    }
   };
 
   return directive;
@@ -38,22 +41,50 @@ class ObDateRangePickerController {
     this.Document = $document;
     this.Scope = $scope;
     this.Moment = moment;
-    this.range = this.range || dateRangePickerConf.range || {};
+    this.dateRangePickerConf = dateRangePickerConf;
     this.pickerApi = {};
+  }
+
+  init() {
+    this.range = this.range || this.dateRangePickerConf.range || {};
 
     //config setup
-    this.weekStart = this.weekStart() ? this.weekStart : () => {return dateRangePickerConf.weekStart};
-    this.weekDaysName = this.weekDaysName() ? this.weekDaysName : () => {return dateRangePickerConf.weekDaysName};
-    this.format = this.format() ? this.format : () => {return dateRangePickerConf.format};
-    this.ranges = this.ranges() ? this.ranges : () => {return dateRangePickerConf.ranges};
-    this.minDay = this.minDay() ? this.minDay : () => {return dateRangePickerConf.minDay};
-    this.maxDay = this.maxDay() ? this.maxDay : () => {return dateRangePickerConf.maxDay};
-    this.monthFormat = this.monthFormat() ? this.monthFormat : () => {return dateRangePickerConf.monthFormat};
-    this.inputFormat = this.inputFormat() ? this.inputFormat : () => {return dateRangePickerConf.inputFormat};
-    this.linkedCalendars = angular.isDefined(this.linkedCalendars()) ? this.linkedCalendars : () => {return dateRangePickerConf.linkedCalendars};
-    this.autoApply = angular.isDefined(this.autoApply()) ? this.autoApply : () => {return dateRangePickerConf.autoApply};
-    this.disabled = angular.isDefined(this.disabled()) ? this.disabled : () => {return dateRangePickerConf.disabled};
-    this.calendarsAlwaysOn = angular.isDefined(this.calendarsAlwaysOn()) ? this.calendarsAlwaysOn : () => {return dateRangePickerConf.calendarsAlwaysOn};
+    this.weekStart = this.weekStart() ? this.weekStart : () => {
+      return this.dateRangePickerConf.weekStart
+    };
+    this.weekDaysName = this.weekDaysName() ? this.weekDaysName : () => {
+      return this.dateRangePickerConf.weekDaysName
+    };
+    this.format = this.format() ? this.format : () => {
+      return this.dateRangePickerConf.format
+    };
+    this.ranges = this.ranges() ? this.ranges : () => {
+      return this.dateRangePickerConf.ranges
+    };
+    this.minDay = this.minDay() ? this.minDay : () => {
+      return this.dateRangePickerConf.minDay
+    };
+    this.maxDay = this.maxDay() ? this.maxDay : () => {
+      return this.dateRangePickerConf.maxDay
+    };
+    this.monthFormat = this.monthFormat() ? this.monthFormat : () => {
+      return this.dateRangePickerConf.monthFormat
+    };
+    this.inputFormat = this.inputFormat() ? this.inputFormat : () => {
+      return this.dateRangePickerConf.inputFormat
+    };
+    this.linkedCalendars = angular.isDefined(this.linkedCalendars()) ? this.linkedCalendars : () => {
+      return this.dateRangePickerConf.linkedCalendars
+    };
+    this.autoApply = angular.isDefined(this.autoApply()) ? this.autoApply : () => {
+      return this.dateRangePickerConf.autoApply
+    };
+    this.disabled = angular.isDefined(this.disabled()) ? this.disabled : () => {
+      return this.dateRangePickerConf.disabled
+    };
+    this.calendarsAlwaysOn = angular.isDefined(this.calendarsAlwaysOn()) ? this.calendarsAlwaysOn : () => {
+      return this.dateRangePickerConf.calendarsAlwaysOn
+    };
 
     this.isCustomVisible = this.calendarsAlwaysOn();
 
@@ -293,7 +324,7 @@ class ObDateRangePickerController {
         return (this._range.start.isSame(range.start, 'day') && this._range.end.isSame(range.end, 'day'));
       });
 
-      if(index !== -1) {
+      if (index !== -1) {
         if (this.preRanges[index].isCustom) {
           value = `${this.preRanges[index].start.format(format)} - ${this.preRanges[index].end.format(format)}`;
         } else {

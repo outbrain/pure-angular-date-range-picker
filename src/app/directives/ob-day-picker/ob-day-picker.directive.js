@@ -22,7 +22,10 @@ export function ObDayPicker() {
     controller: ObDayPickerController,
     templateUrl: 'app/directives/ob-day-picker/ob-day-picker.html',
     controllerAs: 'dayPicker',
-    bindToController: true
+    bindToController: true,
+    link: (scope, elem, attrs, ctrl) => {
+      ctrl.init();
+    }
   };
 
   return directive;
@@ -38,19 +41,41 @@ class ObDayPickerController {
     this.Scope = $scope;
     this.$timeout = $timeout;
     this.Moment = moment;
+    this.datePickerConf = datePickerConf;
+  }
 
+  init() {
     //config setup
-    this.weekStart = this.weekStart() ? this.weekStart : () => {return datePickerConf.weekStart};
-    this.weekDaysName = this.weekDaysName() ? this.weekDaysName : () => {return datePickerConf.weekDaysName};
-    this.format = this.format() ? this.format : () => {return datePickerConf.format};
-    this.minDay = this.minDay() ? this.minDay : () => {return datePickerConf.minDay};
-    this.maxDay = this.maxDay() ? this.maxDay : () => {return datePickerConf.maxDay};
-    this.monthFormat = this.monthFormat() ? this.monthFormat : () => {return datePickerConf.monthFormat};
-    this.inputFormat = this.inputFormat() ? this.inputFormat : () => {return datePickerConf.inputFormat};
-    this.autoApply = angular.isDefined(this.autoApply()) ? this.autoApply : () => {return datePickerConf.autoApply};
-    this.disabled = angular.isDefined(this.disabled()) ? this.disabled : () => {return datePickerConf.disabled};
-    this.isValidDateEnabled = angular.isDefined(this.isValidDateEnabled()) ? this.isValidDateEnabled : () => {return datePickerConf.isValidDateEnabled};
-
+    this.weekStart = this.weekStart() ? this.weekStart : () => {
+      return this.datePickerConf.weekStart
+    };
+    this.weekDaysName = this.weekDaysName() ? this.weekDaysName : () => {
+      return this.datePickerConf.weekDaysName
+    };
+    this.format = this.format() ? this.format : () => {
+      return this.datePickerConf.format
+    };
+    this.minDay = this.minDay() ? this.minDay : () => {
+      return this.datePickerConf.minDay
+    };
+    this.maxDay = this.maxDay() ? this.maxDay : () => {
+      return this.datePickerConf.maxDay
+    };
+    this.monthFormat = this.monthFormat() ? this.monthFormat : () => {
+      return this.datePickerConf.monthFormat
+    };
+    this.inputFormat = this.inputFormat() ? this.inputFormat : () => {
+      return this.datePickerConf.inputFormat
+    };
+    this.autoApply = angular.isDefined(this.autoApply()) ? this.autoApply : () => {
+      return this.datePickerConf.autoApply
+    };
+    this.disabled = angular.isDefined(this.disabled()) ? this.disabled : () => {
+      return this.datePickerConf.disabled
+    };
+    this.isValidDateEnabled = angular.isDefined(this.isValidDateEnabled()) ? this.isValidDateEnabled : () => {
+      return this.datePickerConf.isValidDateEnabled
+    };
 
     this.formName = this.formName || 'dayPickerInput';
 

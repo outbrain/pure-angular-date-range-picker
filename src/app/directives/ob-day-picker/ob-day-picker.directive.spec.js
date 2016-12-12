@@ -1,9 +1,9 @@
 describe('directive ob-day-picker', function() {
-  let element, moment, defaultOptions, $compile, $scope, $rootScope, picker, format, $timeout; // elem, $document;
+  let element, moment, defaultOptions, $compile, $scope, $rootScope, picker, format, $timeout;
 
   beforeEach(angular.mock.module('obDateRangePicker'));
 
-  beforeEach(inject((_$compile_, _$rootScope_, _moment_ , _$timeout_/*, _$document_*/) => {
+  beforeEach(inject((_$compile_, _$rootScope_, _moment_ , _$timeout_) => {
     format = 'DD-MM-YYYY';
     $compile = _$compile_;
     $rootScope = _$rootScope_;
@@ -13,7 +13,6 @@ describe('directive ob-day-picker', function() {
     defaultOptions = {
       selectedDay: moment()
     };
-    // $document = _$document_;
   }));
 
   function prepare(options) {
@@ -40,7 +39,7 @@ describe('directive ob-day-picker', function() {
 
   it('should show and hide picker', () => {
     prepare(defaultOptions);
-    let inputElement = element.find('input');
+    let inputElement = angular.element(element[0].querySelector('input'));
     inputElement.triggerHandler('click');
     $rootScope.$digest();
     expect(picker.isPickerVisible).toEqual(true);
@@ -143,7 +142,7 @@ describe('directive ob-day-picker', function() {
     };
     prepare(options);
 
-    let inputElement = element.find('input');
+    let inputElement = angular.element(element[0].querySelector('input'));
     inputElement.triggerHandler('click');
     expect(picker.calendarApi.showLeftArrow(), false);
     picker.calendarApi.moveToNext();
