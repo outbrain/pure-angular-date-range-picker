@@ -67,5 +67,6 @@
     "date-range",
     "day",
     "calendar"
-  ]
+  ],
+  "main": "dist/scripts/ob-daterangepicker.js"
 }
