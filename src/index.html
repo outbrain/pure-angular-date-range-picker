@@ -154,6 +154,11 @@
           <div class="label">Toggle trigger</div>
             <button ng-click="range.dateRangeApi.togglePicker()">Toggle</button>
         </div>
+
+        <div class="config">
+          <div class="label">Set Range (API)</div>
+            <button ng-click="range.setRange()">Set Date</button>
+        </div>
       </div>
 
       <div class="ob-datepicker-container">
@@ -343,6 +348,13 @@
           } else {
             _this.dateRangeApi.render()
           }
+        };
+
+        this.setRange = function() {
+          this.dateRangeApi.setDateRange({
+            start: moment().subtract(1, 'd'),
+            end: moment().subtract(1, 'd')
+          });
         }
       }
     </script>

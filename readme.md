@@ -19,18 +19,18 @@ Date Range Picker
 Usage
 -------------
 
-1. Add the directive js & css to your index.html file:  
+a. Add the directive js & css to your index.html file:  
 ```
   <link rel="stylesheet" href="bower_components/ob-daterangepicker/dist/styles/ob-daterangepicker.css">
   <script src="bower_components/ob-daterangepicker/dist/scripts/ob-daterangepicker.js"></script>
 ```
 
-2. Inject `obDateRangePicker` to your main module:  
+b. Inject `obDateRangePicker` to your main module:  
 ```
   angular.module('yourModule', ['obDateRangePicker'])
 ```
 
-3. Add the `ob-daterange-picker` directive to your html:  
+c. Add the `ob-daterange-picker` directive to your html:  
 ```
   <ob-daterangepicker range="vm.range"></ob-daterangepicker>
 ```
@@ -209,8 +209,9 @@ When set to true, it specifies that the picker element should be disabled.
 **default:**  
 `undefined`   
 **added functions:**  
-`render` - re-renders the component.   
-`togglePicker` - opens/closes the picker.  
+`render()` - re-renders the component.   
+`togglePicker()` - opens/closes the picker.  
+`setRange({start: Moment, end: Momet})` - sets the requred date range.  
  **example:**  
 ```  
 js:
@@ -242,18 +243,18 @@ Day Picker
 Usage
 -------------
 
-1. Add the directive js & css to your index.html file:  
+a. Add the directive js & css to your index.html file:  
 ```
   <link rel="stylesheet" href="bower_components/ob-daterangepicker/dist/styles/ob-daterangepicker.css">
   <script src="bower_components/ob-daterangepicker/dist/scripts/ob-daterangepicker.js"></script>
 ```
 
-2. Inject `obDateRangePicker` to your main module:  
+b. Inject `obDateRangePicker` to your main module:  
 ```
   angular.module('yourModule', ['obDateRangePicker'])
 ```
 
-3. Add the `ob-daypicker` directive to your html:  
+c. Add the `ob-daypicker` directive to your html:  
 ```
   <ob-daypicker selected-day="vm.selectedDay"></ob-daypicker>
 ```

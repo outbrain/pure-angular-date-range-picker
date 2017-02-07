@@ -341,7 +341,7 @@ class ObDateRangePickerController {
   applyChanges(callApply = true) {
     this.setRange();
     this.hidePicker();
-    this.pickerApi.setCalendarPosition(this._range.start, this._range.end);
+    this.pickerApi.setCalendarPosition && this.pickerApi.setCalendarPosition(this._range.start, this._range.end);
     if (callApply && this.onApply) {
       this.onApply({start: this._range.start, end: this._range.end});
     }
@@ -354,7 +354,7 @@ class ObDateRangePickerController {
   setDateRange(range) {
     this._range.start = range.start;
     this._range.end = range.end;
-    this.applyChanges(false);
+    this.applyChanges(false);``
   }
 
   _getMinDay() {
