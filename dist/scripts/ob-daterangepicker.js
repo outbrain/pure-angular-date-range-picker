@@ -1089,8 +1089,8 @@
 	        documentClick: function documentClick() {
 	          if (_this5.elemClickFlag) {
 	            _this5.elemClickFlag = false;
-	          } else {
-	            _this5.isPickerVisible && _this5.discardChanges();
+	          } else if (_this5.isPickerVisible) {
+	            _this5.discardChanges();
 	            _this5.Scope.$apply();
 	          }
 	        },

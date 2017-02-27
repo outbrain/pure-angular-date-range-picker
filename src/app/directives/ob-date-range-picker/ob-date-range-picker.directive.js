@@ -226,8 +226,8 @@ class ObDateRangePickerController {
       documentClick: () => {
         if (this.elemClickFlag) {
           this.elemClickFlag = false;
-        } else {
-          this.isPickerVisible && this.discardChanges();
+        } else if (this.isPickerVisible) {
+          this.discardChanges();
           this.Scope.$apply();
         }
       },
