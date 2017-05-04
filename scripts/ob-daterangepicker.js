@@ -1432,6 +1432,12 @@
 	          _this2.render();
 	        }
 	      });
+
+	      this.Scope.$watch(function () {
+	        return _this2.selectedDay;
+	      }, function () {
+	        _this2.value = _this2.Moment(_this2.getSelectedDay()).format(_this2.getFormat());
+	      });
 	    }
 	  }, {
 	    key: 'showPicker',
