@@ -148,6 +148,12 @@ class ObDayPickerController {
         this.render();
       }
     });
+
+    this.Scope.$watch(() => {
+      return this.selectedDay;
+    }, () => {
+      this.value = this.Moment(this.getSelectedDay()).format(this.getFormat());
+    })
   }
 
   showPicker() {
