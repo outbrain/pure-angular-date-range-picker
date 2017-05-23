@@ -876,6 +876,8 @@
 	  function ObDateRangePickerController($document, $element, $scope, moment, dateRangePickerConf) {
 	    'ngInject';
 
+	    var _this = this;
+
 	    _classCallCheck(this, ObDateRangePickerController);
 
 	    this.Element = $element;
@@ -884,51 +886,73 @@
 	    this.Moment = moment;
 	    this.dateRangePickerConf = dateRangePickerConf;
 	    this.pickerApi = {};
+
+	    this.events = {
+	      documentClick: function documentClick() {
+	        if (_this.elemClickFlag) {
+	          _this.elemClickFlag = false;
+	        } else if (_this.isPickerVisible) {
+	          _this.discardChanges();
+	          _this.Scope.$apply();
+	        }
+	      },
+	      documentEsc: function documentEsc(e) {
+	        if (e.keyCode == 27 && _this.isPickerVisible) {
+	          _this.discardChanges();
+	          _this.hidePicker();
+	          _this.Scope.$apply();
+	        }
+	      },
+	      pickerClick: function pickerClick() {
+	        _this.elemClickFlag = true;
+	        _this.Scope.$apply();
+	      }
+	    };
 	  }
 
 	  _createClass(ObDateRangePickerController, [{
 	    key: 'init',
 	    value: function init() {
-	      var _this = this;
+	      var _this2 = this;
 
 	      this.range = this.range || this.dateRangePickerConf.range || {};
 
 	      //config setup
 	      this.weekStart = this.weekStart() ? this.weekStart : function () {
-	        return _this.dateRangePickerConf.weekStart;
+	        return _this2.dateRangePickerConf.weekStart;
 	      };
 	      this.weekDaysName = this.weekDaysName() ? this.weekDaysName : function () {
-	        return _this.dateRangePickerConf.weekDaysName;
+	        return _this2.dateRangePickerConf.weekDaysName;
 	      };
 	      this.format = this.format() ? this.format : function () {
-	        return _this.dateRangePickerConf.format;
+	        return _this2.dateRangePickerConf.format;
 	      };
 	      this.ranges = this.ranges() ? this.ranges : function () {
-	        return _this.dateRangePickerConf.ranges;
+	        return _this2.dateRangePickerConf.ranges;
 	      };
 	      this.minDay = this.minDay() ? this.minDay : function () {
-	        return _this.dateRangePickerConf.minDay;
+	        return _this2.dateRangePickerConf.minDay;
 	      };
 	      this.maxDay = this.maxDay() ? this.maxDay : function () {
-	        return _this.dateRangePickerConf.maxDay;
+	        return _this2.dateRangePickerConf.maxDay;
 	      };
 	      this.monthFormat = this.monthFormat() ? this.monthFormat : function () {
-	        return _this.dateRangePickerConf.monthFormat;
+	        return _this2.dateRangePickerConf.monthFormat;
 	      };
 	      this.inputFormat = this.inputFormat() ? this.inputFormat : function () {
-	        return _this.dateRangePickerConf.inputFormat;
+	        return _this2.dateRangePickerConf.inputFormat;
 	      };
 	      this.linkedCalendars = angular.isDefined(this.linkedCalendars()) ? this.linkedCalendars : function () {
-	        return _this.dateRangePickerConf.linkedCalendars;
+	        return _this2.dateRangePickerConf.linkedCalendars;
 	      };
 	      this.autoApply = angular.isDefined(this.autoApply()) ? this.autoApply : function () {
-	        return _this.dateRangePickerConf.autoApply;
+	        return _this2.dateRangePickerConf.autoApply;
 	      };
 	      this.disabled = angular.isDefined(this.disabled()) ? this.disabled : function () {
-	        return _this.dateRangePickerConf.disabled;
+	        return _this2.dateRangePickerConf.disabled;
 	      };
 	      this.calendarsAlwaysOn = angular.isDefined(this.calendarsAlwaysOn()) ? this.calendarsAlwaysOn : function () {
-	        return _this.dateRangePickerConf.calendarsAlwaysOn;
+	        return _this2.dateRangePickerConf.calendarsAlwaysOn;
 	      };
 
 	      this.isCustomVisible = this.calendarsAlwaysOn();
@@ -941,8 +965,8 @@
 	        setDateRange: this.setDateRange.bind(this),
 	        togglePicker: this.togglePicker.bind(this),
 	        render: function render() {
-	          _this.render();
-	          _this.pickerApi.render();
+	          _this2.render();
+	          _this2.pickerApi.render();
 	        }
 	      });
 	      this.preRanges = this.ranges() || [];
@@ -1013,12 +1037,12 @@
 	  }, {
 	    key: 'setPickerInterceptors',
 	    value: function setPickerInterceptors() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      this.pickerInterceptors = {
 	        rangeSelectedByClick: function rangeSelectedByClick() {
-	          if (_this2.autoApply()) {
-	            _this2.applyChanges();
+	          if (_this3.autoApply()) {
+	            _this3.applyChanges();
 	          }
 	        }
 	      };
@@ -1026,19 +1050,19 @@
 	  }, {
 	    key: 'setPredefinedStatus',
 	    value: function setPredefinedStatus() {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      this.preRanges.forEach(function (range) {
 	        if (!range.isCustom) {
 	          range.disabled = false;
 
-	          if (_this3.minDay()) {
-	            var minDay = _this3._getMinDay();
+	          if (_this4.minDay()) {
+	            var minDay = _this4._getMinDay();
 	            range.disabled = range.start.isBefore(minDay, 'd');
 	          }
 
-	          if (!range.disabled && _this3.maxDay()) {
-	            var maxDay = _this3._getMaxDay();
+	          if (!range.disabled && _this4.maxDay()) {
+	            var maxDay = _this4._getMaxDay();
 	            range.disabled = range.end.isAfter(maxDay, 'd');
 	          }
 	        }
@@ -1047,30 +1071,30 @@
 	  }, {
 	    key: 'setWatchers',
 	    value: function setWatchers() {
-	      var _this4 = this;
+	      var _this5 = this;
 
 	      this.Scope.$watchGroup([function () {
-	        return _this4._range.start;
+	        return _this5._range.start;
 	      }, function () {
-	        return _this4._range.end;
+	        return _this5._range.end;
 	      }], function (_ref) {
 	        var _ref2 = _slicedToArray(_ref, 2);
 
 	        var start = _ref2[0];
 	        var end = _ref2[1];
 
-	        if (!_this4.selfChange) {
+	        if (!_this5.selfChange) {
 	          if (start && end) {
-	            if (_this4.preRanges.length) {
-	              _this4.preRanges[_this4.preRanges.length - 1].start = start;
-	              _this4.preRanges[_this4.preRanges.length - 1].end = end;
-	              _this4.markPredefined(start, end);
+	            if (_this5.preRanges.length) {
+	              _this5.preRanges[_this5.preRanges.length - 1].start = start;
+	              _this5.preRanges[_this5.preRanges.length - 1].end = end;
+	              _this5.markPredefined(start, end);
 	            }
-	            _this4.value = _this4.getRangeValue();
+	            _this5.value = _this5.getRangeValue();
 	          }
 	        }
 
-	        _this4.selfChange = false;
+	        _this5.selfChange = false;
 	      });
 	    }
 	  }, {
@@ -1083,38 +1107,12 @@
 	  }, {
 	    key: 'setListeners',
 	    value: function setListeners() {
-	      var _this5 = this;
+	      var _this6 = this;
 
-	      var events = {
-	        documentClick: function documentClick() {
-	          if (_this5.elemClickFlag) {
-	            _this5.elemClickFlag = false;
-	          } else if (_this5.isPickerVisible) {
-	            _this5.discardChanges();
-	            _this5.Scope.$apply();
-	          }
-	        },
-	        documentEsc: function documentEsc(e) {
-	          if (e.keyCode == 27 && _this5.isPickerVisible) {
-	            _this5.discardChanges();
-	            _this5.hidePicker();
-	            _this5.Scope.$apply();
-	          }
-	        },
-	        pickerClick: function pickerClick() {
-	          _this5.elemClickFlag = true;
-	          _this5.Scope.$apply();
-	        }
-	      };
-
-	      this.pickerPopup.on('click', events.pickerClick.bind(this));
-	      this.Document.on('click', events.documentClick.bind(this));
-	      this.Document.on('keydown', events.documentEsc.bind(this));
+	      this.pickerPopup.on('click', this.events.pickerClick.bind(this));
 
 	      this.Scope.$on('$destroy', function () {
-	        _this5.pickerPopup.off('click', events.pickerClick);
-	        _this5.Document.off('click', events.documentClick);
-	        _this5.Document.off('keydown', events.documentClick);
+	        _this6.pickerPopup.off('click', _this6.events.pickerClick);
 	      });
 	    }
 	  }, {
@@ -1124,6 +1122,8 @@
 	      if (!disabled && !this.isPickerVisible) {
 	        this.isPickerVisible = true;
 	        this.elemClickFlag = true;
+	        this.Document.on('click', this.events.documentClick);
+	        this.Document.on('keydown', this.events.documentEsc);
 	      } else {
 	        this.isPickerVisible = false;
 	      }
@@ -1132,6 +1132,8 @@
 	    key: 'hidePicker',
 	    value: function hidePicker() {
 	      this.isPickerVisible = false;
+	      this.Document.off('click', this.events.documentClick);
+	      this.Document.off('keydown', this.events.documentClick);
 	    }
 	  }, {
 	    key: 'setRange',
@@ -1190,13 +1192,13 @@
 	  }, {
 	    key: 'getRangeValue',
 	    value: function getRangeValue() {
-	      var _this6 = this;
+	      var _this7 = this;
 
 	      var value = undefined;
 	      var format = this.getInputFormat();
 	      if (this.preRanges.length) {
 	        var index = this.preRanges.findIndex(function (range) {
-	          return _this6._range.start.isSame(range.start, 'day') && _this6._range.end.isSame(range.end, 'day');
+	          return _this7._range.start.isSame(range.start, 'day') && _this7._range.end.isSame(range.end, 'day');
 	        });
 
 	        if (index !== -1) {
@@ -1307,6 +1309,8 @@
 	  function ObDayPickerController($document, $element, $scope, $timeout, moment, datePickerConf) {
 	    'ngInject';
 
+	    var _this = this;
+
 	    _classCallCheck(this, ObDayPickerController);
 
 	    this.Element = $element;
@@ -1315,43 +1319,58 @@
 	    this.$timeout = $timeout;
 	    this.Moment = moment;
 	    this.datePickerConf = datePickerConf;
+
+	    this.events = {
+	      documentClick: function documentClick() {
+	        if (_this.elemClickFlag) {
+	          _this.elemClickFlag = false;
+	        } else {
+	          _this.onBlur();
+	          _this.Scope.$digest();
+	        }
+	      },
+	      pickerClick: function pickerClick() {
+	        _this.elemClickFlag = true;
+	        _this.Scope.$digest();
+	      }
+	    };
 	  }
 
 	  _createClass(ObDayPickerController, [{
 	    key: 'init',
 	    value: function init() {
-	      var _this = this;
+	      var _this2 = this;
 
 	      //config setup
 	      this.weekStart = this.weekStart() ? this.weekStart : function () {
-	        return _this.datePickerConf.weekStart;
+	        return _this2.datePickerConf.weekStart;
 	      };
 	      this.weekDaysName = this.weekDaysName() ? this.weekDaysName : function () {
-	        return _this.datePickerConf.weekDaysName;
+	        return _this2.datePickerConf.weekDaysName;
 	      };
 	      this.format = this.format() ? this.format : function () {
-	        return _this.datePickerConf.format;
+	        return _this2.datePickerConf.format;
 	      };
 	      this.minDay = this.minDay() ? this.minDay : function () {
-	        return _this.datePickerConf.minDay;
+	        return _this2.datePickerConf.minDay;
 	      };
 	      this.maxDay = this.maxDay() ? this.maxDay : function () {
-	        return _this.datePickerConf.maxDay;
+	        return _this2.datePickerConf.maxDay;
 	      };
 	      this.monthFormat = this.monthFormat() ? this.monthFormat : function () {
-	        return _this.datePickerConf.monthFormat;
+	        return _this2.datePickerConf.monthFormat;
 	      };
 	      this.inputFormat = this.inputFormat() ? this.inputFormat : function () {
-	        return _this.datePickerConf.inputFormat;
+	        return _this2.datePickerConf.inputFormat;
 	      };
 	      this.autoApply = angular.isDefined(this.autoApply()) ? this.autoApply : function () {
-	        return _this.datePickerConf.autoApply;
+	        return _this2.datePickerConf.autoApply;
 	      };
 	      this.disabled = angular.isDefined(this.disabled()) ? this.disabled : function () {
-	        return _this.datePickerConf.disabled;
+	        return _this2.datePickerConf.disabled;
 	      };
 	      this.isValidDateEnabled = angular.isDefined(this.isValidDateEnabled()) ? this.isValidDateEnabled : function () {
-	        return _this.datePickerConf.isValidDateEnabled;
+	        return _this2.datePickerConf.isValidDateEnabled;
 	      };
 
 	      this.formName = this.formName || 'dayPickerInput';
@@ -1364,14 +1383,14 @@
 
 	      this.api && _extends(this.api, {
 	        render: function render() {
-	          _this.render();
+	          _this2.render();
 	        }
 	      });
 
 	      this.setListeners();
 	      this.dayValidity = this.checkIfDayIsValid(this._selectedDay);
 	      this.$timeout(function () {
-	        _this.applyValidity(_this.dayValidity);
+	        _this2.applyValidity(_this2.dayValidity);
 	      });
 	    }
 	  }, {
@@ -1398,45 +1417,28 @@
 	  }, {
 	    key: 'setListeners',
 	    value: function setListeners() {
-	      var _this2 = this;
+	      var _this3 = this;
 
-	      var events = {
-	        documentClick: function documentClick() {
-	          if (_this2.elemClickFlag) {
-	            _this2.elemClickFlag = false;
-	          } else {
-	            _this2.onBlur();
-	            _this2.Scope.$digest();
-	          }
-	        },
-	        pickerClick: function pickerClick() {
-	          _this2.elemClickFlag = true;
-	          _this2.Scope.$digest();
-	        }
-	      };
-
-	      this.pickerPopup.on('click', events.pickerClick.bind(this));
-	      this.Document.on('click', events.documentClick.bind(this));
-
+	      this.pickerPopup.on('click', this.events.pickerClick.bind(this));
 	      this.Scope.$on('$destroy', function () {
-	        _this2.pickerPopup.off('click', events.pickerClick);
-	        _this2.Document.off('click', events.documentClick);
+	        _this3.pickerPopup.off('click', _this3.events.pickerClick);
+	        _this3.Document.off('click', _this3.events.documentClick);
 	      });
 
 	      this.Scope.$watchGroup([function () {
-	        return _this2.Moment(_this2.minDay(), _this2.getFormat()).format();
+	        return _this3.Moment(_this3.minDay(), _this3.getFormat()).format();
 	      }, function () {
-	        return _this2.Moment(_this2.maxDay(), _this2.getFormat()).format();
+	        return _this3.Moment(_this3.maxDay(), _this3.getFormat()).format();
 	      }], function (min, max) {
 	        if (min && min[0] || max && max[0]) {
-	          _this2.render();
+	          _this3.render();
 	        }
 	      });
 
 	      this.Scope.$watch(function () {
-	        return _this2.selectedDay;
+	        return _this3.selectedDay;
 	      }, function () {
-	        _this2.value = _this2.Moment(_this2.getSelectedDay()).format(_this2.getFormat());
+	        _this3.value = _this3.Moment(_this3.getSelectedDay()).format(_this3.getFormat());
 	      });
 	    }
 	  }, {
@@ -1445,6 +1447,7 @@
 	      var disabled = angular.isDefined(this.disabled()) ? this.disabled() : false;
 	      if (!disabled && !this.isPickerVisible) {
 	        this.isPickerVisible = true;
+	        this.Document.on('click', this.events.documentClick);
 	      }
 	      this.elemClickFlag = true;
 	    }
@@ -1452,11 +1455,12 @@
 	    key: 'hidePicker',
 	    value: function hidePicker() {
 	      this.isPickerVisible = false;
+	      this.Document.off('click', this.events.documentClick);
 	    }
 	  }, {
 	    key: 'daySelected',
 	    value: function daySelected(day) {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      var timeout = arguments.length <= 1 || arguments[1] === undefined ? 100 : arguments[1];
 
@@ -1467,8 +1471,8 @@
 	        this._selectedDay = day;
 
 	        this.$timeout(function () {
-	          _this3.hidePicker();
-	          _this3.updateSelectedDate(day);
+	          _this4.hidePicker();
+	          _this4.updateSelectedDate(day);
 	        }, timeout);
 	      } else {
 	        this.hidePicker();
