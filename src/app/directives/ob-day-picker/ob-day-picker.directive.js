@@ -42,6 +42,21 @@ class ObDayPickerController {
     this.$timeout = $timeout;
     this.Moment = moment;
     this.datePickerConf = datePickerConf;
+
+    this.events = {
+      documentClick: () => {
+        if (this.elemClickFlag) {
+          this.elemClickFlag = false;
+        } else {
+          this.onBlur();
+          this.Scope.$digest();
+        }
+      },
+      pickerClick: () => {
+        this.elemClickFlag = true;
+        this.Scope.$digest();
+      }
+    };
   }
 
   init() {
@@ -116,28 +131,12 @@ class ObDayPickerController {
     }
   }
 
+
   setListeners() {
-    let events = {
-      documentClick: () => {
-        if (this.elemClickFlag) {
-          this.elemClickFlag = false;
-        } else {
-          this.onBlur();
-          this.Scope.$digest();
-        }
-      },
-      pickerClick: () => {
-        this.elemClickFlag = true;
-        this.Scope.$digest();
-      }
-    };
-
-    this.pickerPopup.on('click', events.pickerClick.bind(this));
-    this.Document.on('click', events.documentClick.bind(this));
-
+    this.pickerPopup.on('click', this.events.pickerClick.bind(this));
     this.Scope.$on('$destroy', () => {
-      this.pickerPopup.off('click', events.pickerClick);
-      this.Document.off('click', events.documentClick);
+      this.pickerPopup.off('click', this.events.pickerClick);
+      this.Document.off('click', this.events.documentClick);
     });
 
     this.Scope.$watchGroup([
@@ -160,12 +159,14 @@ class ObDayPickerController {
     let disabled = angular.isDefined(this.disabled()) ? this.disabled() : false;
     if (!disabled && !this.isPickerVisible) {
       this.isPickerVisible = true;
+      this.Document.on('click', this.events.documentClick);
     }
     this.elemClickFlag = true;
   }
 
   hidePicker() {
     this.isPickerVisible = false;
+    this.Document.off('click', this.events.documentClick);
   }
 
   daySelected(day, timeout = 100) {
