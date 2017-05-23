@@ -43,6 +43,28 @@ class ObDateRangePickerController {
     this.Moment = moment;
     this.dateRangePickerConf = dateRangePickerConf;
     this.pickerApi = {};
+
+    this.events = {
+      documentClick: () => {
+        if (this.elemClickFlag) {
+          this.elemClickFlag = false;
+        } else if (this.isPickerVisible) {
+          this.discardChanges();
+          this.Scope.$apply();
+        }
+      },
+      documentEsc: (e) => {
+        if (e.keyCode == 27 && this.isPickerVisible) {
+          this.discardChanges();
+          this.hidePicker();
+          this.Scope.$apply();
+        }
+      },
+      pickerClick: () => {
+        this.elemClickFlag = true;
+        this.Scope.$apply();
+      }
+    };
   }
 
   init() {
@@ -222,36 +244,10 @@ class ObDateRangePickerController {
   }
 
   setListeners() {
-    let events = {
-      documentClick: () => {
-        if (this.elemClickFlag) {
-          this.elemClickFlag = false;
-        } else if (this.isPickerVisible) {
-          this.discardChanges();
-          this.Scope.$apply();
-        }
-      },
-      documentEsc: (e) => {
-        if (e.keyCode == 27 && this.isPickerVisible) {
-          this.discardChanges();
-          this.hidePicker();
-          this.Scope.$apply();
-        }
-      },
-      pickerClick: () => {
-        this.elemClickFlag = true;
-        this.Scope.$apply();
-      }
-    };
-
-    this.pickerPopup.on('click', events.pickerClick.bind(this));
-    this.Document.on('click', events.documentClick.bind(this));
-    this.Document.on('keydown', events.documentEsc.bind(this));
+    this.pickerPopup.on('click', this.events.pickerClick.bind(this));
 
     this.Scope.$on('$destroy', () => {
-      this.pickerPopup.off('click', events.pickerClick);
-      this.Document.off('click', events.documentClick);
-      this.Document.off('keydown', events.documentClick);
+      this.pickerPopup.off('click', this.events.pickerClick);
     });
   }
 
@@ -260,6 +256,8 @@ class ObDateRangePickerController {
     if (!disabled && !this.isPickerVisible) {
       this.isPickerVisible = true;
       this.elemClickFlag = true;
+      this.Document.on('click', this.events.documentClick);
+      this.Document.on('keydown', this.events.documentEsc);
     } else {
       this.isPickerVisible = false;
     }
@@ -267,6 +265,8 @@ class ObDateRangePickerController {
 
   hidePicker() {
     this.isPickerVisible = false;
+    this.Document.off('click', this.events.documentClick);
+    this.Document.off('keydown', this.events.documentClick);
   }
 
   setRange(range = this._range) {
