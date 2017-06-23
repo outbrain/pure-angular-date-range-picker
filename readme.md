@@ -162,6 +162,13 @@ When present, the calendars always will be shown when date range picker is open.
 `Boolean`    
 **default:**  
 `false`   
+
+#### **range-window:**  
+When present, will limit the range of selected days,  
+**type:**  
+`Number`    
+**default:**  
+`undefined`   
  
 ----------
 

@@ -13,7 +13,8 @@ export function DateRangePicker() {
       inputFormat: '&',
       weekDaysName: '&',
       linkedCalendars: '&',
-      interceptors: '&'
+      interceptors: '&',
+      rangeWindow: '&'
     },
     templateUrl: 'app/directives/date-range-picker/date-range-picker.html',
     controller: DateRangePickerController,
@@ -152,8 +153,20 @@ class DateRangePickerController {
       case 1:
         this.rangeStart = day;
         this.daysSelected = 1;
+
+        if (this.rangeWindow()) {
+          this._maxDate = day.clone().add(this.rangeWindow(), 'days');
+        }
         break;
       case 2:
+        if (this.rangeWindow() && (this.rangeEnd.diff(day, 'days') > this.rangeWindow())) {
+          this._maxDate = day.clone().add(this.rangeWindow(), 'days');
+          this.rangeStart = day;
+          this.rangeEnd = null;
+          this.daysSelected = 1;
+          break;
+        }
+
         if (day.diff(this.rangeStart, 'days') < 0) {
           this.rangeStart = day;
         } else if (day.isBetween(this.rangeStart, this.rangeEnd)) {
@@ -162,7 +175,9 @@ class DateRangePickerController {
           this.rangeStart = day;
           this.rangeEnd = day;
         }
+
         this.daysSelected = 2;
+        this._maxDate = null;
         this.updateRange();
         break;
     }
@@ -173,9 +188,20 @@ class DateRangePickerController {
       case 0:
         this.rangeStart = day;
         this.daysSelected = 1;
+        if (this.rangeWindow()) {
+          this._maxDate = day.clone().add(this.rangeWindow(), 'days');
+        }
         break;
       case 1:
       case 2:
+        if (this.rangeWindow() && (day.diff(this.rangeStart, 'days') > this.rangeWindow())) {
+          this._maxDate = day.clone().add(this.rangeWindow(), 'days');
+          this.rangeStart = day;
+          this.rangeEnd = null;
+          this.daysSelected = 1;
+          break;
+        }
+
         if (day.diff(this.rangeStart, 'days') <= 0) {
           this.rangeStart = day;
           this.rangeEnd = day;
@@ -186,7 +212,10 @@ class DateRangePickerController {
         }
 
         this.daysSelected = 2;
+        this._maxDate = null;
         this.updateRange();
+        this._maxDate = null;
+
         break;
     }
   }
@@ -216,7 +245,9 @@ class DateRangePickerController {
       case 1:
         if (day.diff(this.rangeStart, 'days') < 0) {
           this.rangeStart = day;
-          this._maxDate = day.clone().add(7, 'days');
+          if (this.rangeWindow()) {
+            this._maxDate = day.clone().add(this.rangeWindow(), 'days');
+          }
         } else {
           this.rangeEnd = day;
           this.daysSelected = 2;
@@ -228,7 +259,11 @@ class DateRangePickerController {
         this.daysSelected = 1;
         this.rangeStart = day;
         this.rangeEnd = null;
-        this._maxDate = day.clone().add(7, 'days');
+
+        // here
+        if (this.rangeWindow()) {
+          this._maxDate = day.clone().add(this.rangeWindow(), 'days');
+        }
         break;
     }
   }

@@ -18,6 +18,7 @@ export function ObDateRangePicker() {
       autoApply: '&',
       disabled: '&',
       calendarsAlwaysOn: '&',
+      rangeWindow: '&',
       api: '=?'
     },
     controller: ObDateRangePickerController,
@@ -106,6 +107,10 @@ class ObDateRangePickerController {
     };
     this.calendarsAlwaysOn = angular.isDefined(this.calendarsAlwaysOn()) ? this.calendarsAlwaysOn : () => {
       return this.dateRangePickerConf.calendarsAlwaysOn
+    };
+
+    this.rangeWindow = angular.isDefined(this.rangeWindow()) ? this.rangeWindow : () => {
+      return this.dateRangePickerConf.rangeWindow
     };
 
     this.isCustomVisible = this.calendarsAlwaysOn();
