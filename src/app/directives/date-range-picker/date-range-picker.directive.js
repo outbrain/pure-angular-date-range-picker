@@ -207,6 +207,7 @@ class DateRangePickerController {
     }
   }
 
+  // here
   daySelected(day) {
     switch (this.daysSelected) {
       case 0:
@@ -216,16 +217,19 @@ class DateRangePickerController {
       case 1:
         if (day.diff(this.rangeStart, 'days') < 0) {
           this.rangeStart = day;
+          this._maxDate = day.clone().add(7, 'days');
         } else {
           this.rangeEnd = day;
           this.daysSelected = 2;
           this.updateRange();
+          this._maxDate = null;
         }
         break;
       case 2:
         this.daysSelected = 1;
         this.rangeStart = day;
         this.rangeEnd = null;
+        this._maxDate = day.clone().add(7, 'days');
         break;
     }
   }
@@ -314,5 +318,13 @@ class DateRangePickerController {
 
   areCalendarsLinked() {
     return angular.isDefined(this.linkedCalendars()) ? this.linkedCalendars() : true;
+  }
+
+  getMinDate() {
+    return this._minDate || this.minDay();
+  }
+
+  getMaxDate() {
+    return this._maxDate || this.maxDay();
   }
 }

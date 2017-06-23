@@ -113,6 +113,7 @@ class CalendarController {
         day.inRange = this.isInRange(day.mo);
         day.rangeStart = day.mo.isSame(rangeStart || null, 'day');
         day.rangeEnd = day.mo.isSame(rangeEnd || null, 'day');
+        day.disabled = false;
         if (minDay) {
           day.disabled = day.mo.isBefore(minDay, 'day');
         }
