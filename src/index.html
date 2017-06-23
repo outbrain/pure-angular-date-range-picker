@@ -151,6 +151,11 @@
         </div>
 
         <div class="config">
+          <div class="label">Selection Range</div>
+          <input ng-model="range.rangeWindow" class="input" ng-blur="single.render()" ng-keypress="single.render($event)">
+        </div>
+
+        <div class="config">
           <div class="label">Toggle trigger</div>
             <button ng-click="range.dateRangeApi.togglePicker()">Toggle</button>
         </div>
@@ -176,7 +181,8 @@
           week-start="range.weekStart"
           auto-apply="range.autoApply"
           disabled="range.disabled"
-          calendars-always-on="range.calendarsAlwaysOn">
+          calendars-always-on="range.calendarsAlwaysOn"
+          range-window="range.rangeWindow">
         </ob-daterangepicker>
       </div>
       <br/>
@@ -311,6 +317,7 @@
           start: moment(),
           end: moment()
         };
+        this.rangeWindow = null;
 
         this.ranges = [
           {
