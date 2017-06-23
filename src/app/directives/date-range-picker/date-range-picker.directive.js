@@ -207,7 +207,6 @@ class DateRangePickerController {
     }
   }
 
-  // here
   daySelected(day) {
     switch (this.daysSelected) {
       case 0:
@@ -321,10 +320,18 @@ class DateRangePickerController {
   }
 
   getMinDate() {
+    if (this._minDate && this.minDay()) {
+      return this.Moment.min(this._minDate, this.minDay());
+    }
+
     return this._minDate || this.minDay();
   }
 
   getMaxDate() {
+    if (this._maxDate && this.maxDay()) {
+      return this.Moment.max(this._maxDate, this.maxDay());
+    }
+
     return this._maxDate || this.maxDay();
   }
 }
