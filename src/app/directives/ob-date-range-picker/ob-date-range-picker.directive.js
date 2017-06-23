@@ -264,7 +264,7 @@ class ObDateRangePickerController {
       this.Document.on('click', this.events.documentClick);
       this.Document.on('keydown', this.events.documentEsc);
     } else {
-      this.isPickerVisible = false;
+      this.hidePicker();
     }
   }
 
