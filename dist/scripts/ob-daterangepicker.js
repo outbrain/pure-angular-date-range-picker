@@ -520,7 +520,7 @@
 	    key: 'getMinDate',
 	    value: function getMinDate() {
 	      if (this._minDate && this.minDay()) {
-	        return this.Moment.min(this._minDate, this.minDay());
+	        return this.Moment.max(this._minDate, this.minDay());
 	      }
 
 	      return this._minDate || this.minDay();
@@ -529,7 +529,7 @@
 	    key: 'getMaxDate',
 	    value: function getMaxDate() {
 	      if (this._maxDate && this.maxDay()) {
-	        return this.Moment.max(this._maxDate, this.maxDay());
+	        return this.Moment.min(this._maxDate, this.maxDay());
 	      }
 
 	      return this._maxDate || this.maxDay();
