@@ -1,6 +1,9 @@
 <div class="picker-dropdown-container" ng-class="{'disabled': obDateRangePicker.disabled()}">
   <div class="picker-dropdown" ng-class="{'open': obDateRangePicker.isPickerVisible}" ng-click="obDateRangePicker.togglePicker()">
-    <span>{{obDateRangePicker.value}}</span>
+    <div>
+      <span class="drp_value">{{obDateRangePicker.value}}<span>
+      <span class="drp_prefix">{{obDateRangePicker.valuePostfix()}}</span>
+    </div>
   </div>
   <div class="picker" ng-class="{'open': obDateRangePicker.isPickerVisible}" ng-show="obDateRangePicker.isPickerVisible">
     <div class="date-range" ng-show="obDateRangePicker.isCustomVisible">

@@ -19,6 +19,7 @@ export function ObDateRangePicker() {
       disabled: '&',
       calendarsAlwaysOn: '&',
       rangeWindow: '&',
+      valuePostfix: '&',
       api: '=?'
     },
     controller: ObDateRangePickerController,

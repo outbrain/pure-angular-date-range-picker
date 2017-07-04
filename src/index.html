@@ -156,6 +156,11 @@
         </div>
 
         <div class="config">
+          <div class="label">Value postfix</div>
+          <input ng-model="range.postfix" class="input">
+        </div>
+
+        <div class="config">
           <div class="label">Toggle trigger</div>
             <button ng-click="range.dateRangeApi.togglePicker()">Toggle</button>
         </div>
@@ -182,7 +187,8 @@
           auto-apply="range.autoApply"
           disabled="range.disabled"
           calendars-always-on="range.calendarsAlwaysOn"
-          range-window="range.rangeWindow">
+          range-window="range.rangeWindow"
+          value-postfix="range.postfix">
         </ob-daterangepicker>
       </div>
       <br/>
@@ -195,7 +201,6 @@
       <h3>
         Day Picker (ob-daypicker)
       </h3>
-
 
       <div class="section">
         <div class="config">
@@ -313,6 +318,8 @@
         this.autoApply = false;
         this.linked = true;
         this.calendarsAlwaysOn = true;
+        this.postfix = '';
+
         this.range = {
           start: moment(),
           end: moment()
