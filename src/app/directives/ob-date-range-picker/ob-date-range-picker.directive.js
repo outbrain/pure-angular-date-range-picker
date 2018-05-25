@@ -277,8 +277,8 @@ class ObDateRangePickerController {
 
   setRange(range = this._range) {
     if (this.format()) {
-      this.range.start = range.start.format(this.getFormat());
-      this.range.end = range.end.format(this.getFormat());
+      this.range.start = range.start ? range.start.format(this.getFormat()) : null;
+      this.range.end = range.end ? range.end.format(this.getFormat()) : null;
     } else {
       this.range.start = range.start;
       this.range.end = range.end;
