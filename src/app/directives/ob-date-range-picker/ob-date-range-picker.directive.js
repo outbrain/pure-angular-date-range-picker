@@ -306,13 +306,15 @@ class ObDateRangePickerController {
   }
 
   discardChanges() {
-    let format = this.getFormat();
-    let start = this.Moment(this.range.start, format);
-    let end = this.Moment(this.range.end, format);
-    this._range.start = start;
-    this._range.end = end;
-    this.value = this.getRangeValue();
-    this.pickerApi.setCalendarPosition(start, end);
+    if( this.range.start && this.range.end ) {
+      let format = this.getFormat();
+      let start = this.Moment(this.range.start, format);
+      let end = this.Moment(this.range.end, format);
+      this._range.start = start;
+      this._range.end = end;
+      this.value = this.getRangeValue();
+      this.pickerApi.setCalendarPosition(start, end);
+    }
     this.hidePicker();
   }
 
@@ -360,7 +362,7 @@ class ObDateRangePickerController {
   setDateRange(range) {
     this._range.start = range.start;
     this._range.end = range.end;
-    this.applyChanges(false);``
+    this.applyChanges(false);
   }
 
   _getMinDay() {

@@ -53,11 +53,11 @@ class DateRangePickerController {
     let api = this.api() || {};
     Object.assign(api, {
       setCalendarPosition: (start, end) => {
-        this.startCalendar = start;
-        if (this.linkedCalendars() || start.isSame(end, 'M')) {
+        this.startCalendar = start || this.Moment();
+        if (this.linkedCalendars() || !start || start.isSame(end, 'M')) {
           this.endCalendar = this.startCalendar.clone().add(1, 'M');
         } else {
-          this.endCalendar = end;
+          this.endCalendar = end || this.startCalendar.clone().add(1, 'M');
         }
 
       },
@@ -82,10 +82,13 @@ class DateRangePickerController {
 
   setConfigurations() {
     let start, end;
+    if( !this.range || !this.range.start || !this.range.end ) return;
+
     if (this.isMomentRange(this.range)) {
       start = this.range.start;
       end = this.range.end;
     } else {
+      // todo this.getFormat() is not defined!
       start = this.Moment(this.range.start, this.getFormat());
       end = this.Moment(this.range.end, this.getFormat());
     }
@@ -98,10 +101,11 @@ class DateRangePickerController {
   }
 
   updateRange() {
-    if (this.isMomentRange(this.range)) {
+    if (this.isMomentRange({start: this.rangeStart, end: this.rangeEnd})) {
       this.range.start = this.rangeStart;
       this.range.end = this.rangeEnd;
     } else {
+      // todo this.getFormat() is not defined!
       this.range.start = this.rangeStart ? this.rangeStart.format(this.getFormat()) : null;
       this.range.end = this.rangeEnd ? this.rangeEnd.format(this.getFormat()) : null;
     }
@@ -149,6 +153,7 @@ class DateRangePickerController {
 
   inputInStartSelected(day) {
     switch (this.daysSelected) {
+      case undefined:
       case 0:
       case 1:
         this.rangeStart = day;
@@ -185,6 +190,7 @@ class DateRangePickerController {
 
   inputInEndSelected(day) {
     switch (this.daysSelected) {
+      case undefined:
       case 0:
         this.rangeStart = day;
         this.daysSelected = 1;
@@ -238,6 +244,7 @@ class DateRangePickerController {
 
   daySelected(day) {
     switch (this.daysSelected) {
+      case undefined:
       case 0:
         this.rangeStart = day;
         this.daysSelected = 1;
@@ -284,7 +291,7 @@ class DateRangePickerController {
   isMomentRange(range) {
     let isRange = false;
     if (range && range.start && range.end) {
-      isRange = this.Moment.isMoment(this.range.start) && this.Moment.isMoment(this.range.end)
+      isRange = this.Moment.isMoment(range.start) && this.Moment.isMoment(range.end)
     }
 
     return isRange;
@@ -300,6 +307,13 @@ class DateRangePickerController {
       let newEnd = newRange[1];
       let oldStart = oldRange[0];
       let oldEnd = oldRange[1];
+
+      if( !newStart ||  !newEnd || !newStart.isValid() || !newEnd.isValid() ) {
+        let s = this.Moment();
+        this.startCalendar = s;
+        this.endCalendar = this.maxDay() && s.isSame(this.maxDay(), 'M') ? s.clone().subtract(1,'M') : s.clone().add(1, 'M');
+        return;
+      }
 
       if (this.maxDay() && newStart.isSame(this.maxDay(), 'M')) {
         newStart = newStart.clone().subtract(1, 'M');
