@@ -46,8 +46,8 @@ Sets the initial range that would be displayed on the date-range-picker. When, r
 `Object`
 ```
 	{
-		start: Moment | String,
-		end: Moment | String
+		start: Moment | String | null,
+		end: Moment | String | null
 	}
 ```  
 **default:**  
@@ -139,7 +139,7 @@ html:
 	<ob-daterangepicker on-apply="vm.onApply(start, end)"></ob-daterangepicker>
 ```  
 **Note:**  
-You must to provide the `start` and `end` parameters as seen in the above example.
+The `start` and `end` parameters are optional.
  
 #### **auto-apply:**  
 Hide the apply and cancel buttons, and automatically apply a new date range as soon as two dates or a predefined range is selected
