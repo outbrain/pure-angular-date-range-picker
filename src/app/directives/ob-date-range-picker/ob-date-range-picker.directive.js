@@ -167,9 +167,9 @@ class ObDateRangePickerController {
       this._range.end = firstPreRange.end;
     }
 
-    if (this._range.start.isAfter(this._range.end)) {
+    if (this._range.start && this._range.start.isAfter(this._range.end)) {
       this._range.start = this._range.end.clone();
-    } else if (this._range.end.isBefore(this._range.start)) {
+    } else if (this._range.end && this._range.end.isBefore(this._range.start)) {
       this._range.end = this._range.start.clone();
     }
 
@@ -183,14 +183,26 @@ class ObDateRangePickerController {
   applyMinMaxDaysToRange() {
     if (this.minDay()) {
       let minDay = this._getMinDay();
-      this._range.start = this._range.start.isBefore(minDay, 'd') ? minDay : this._range.start;
-      this._range.end = this._range.end.isBefore(minDay, 'd') ? minDay : this._range.end;
+
+      if( this._range.start ) {
+        this._range.start = this._range.start.isBefore(minDay, 'd') ? minDay : this._range.start;
+      }
+
+      if( this._range.end ) {
+        this._range.end = this._range.end.isBefore(minDay, 'd') ? minDay : this._range.end;
+      }
     }
 
     if (this.maxDay()) {
       let maxDay = this._getMaxDay();
-      this._range.start = this._range.start.isAfter(maxDay) ? maxDay : this._range.start;
-      this._range.end = this._range.end.isAfter(maxDay) ? maxDay : this._range.end;
+
+      if( this._range.start ) {
+        this._range.start = this._range.start.isAfter(maxDay) ? maxDay : this._range.start;
+      }
+
+      if( this._range.end ) {
+        this._range.end = this._range.end.isAfter(maxDay) ? maxDay : this._range.end;
+      }
     }
   }
 
