@@ -308,12 +308,33 @@ class DateRangePickerController {
       let oldStart = oldRange[0];
       let oldEnd = oldRange[1];
 
-      if( !newStart ||  !newEnd || !newStart.isValid() || !newEnd.isValid() ) {
+      if( !newStart || !newStart.isValid() ) {
         let s = this.Moment();
         this.startCalendar = s;
-        this.endCalendar = this.maxDay() && s.isSame(this.maxDay(), 'M') ? s.clone().subtract(1,'M') : s.clone().add(1, 'M');
+        if( this.areCalendarsLinked() ) {
+          this.endCalendar = s.clone().add(1, 'M');
+        } else {
+          if( newEnd && newEnd.isValid() ) {
+            this.endCalendar = newEnd;
+          } else if( this.maxDay() ) {
+            this.endCalendar = this.maxDay().clone().subtract(1, 'M');
+          } else {
+            this.endCalendar = this.Moment();
+          }
+        }
         return;
       }
+      if( !newEnd || !newEnd.isValid() ) {
+        if( this.areCalendarsLinked() ) {
+          this.startCalendar = newStart;
+          this.endCalendar = newStart.clone().add(1, 'M');
+        } else {
+          this.startCalendar = newStart;
+          this.endCalendar = oldEnd && oldEnd.isValid() ? oldEnd : newStart.clone().add(1, 'M');
+        }
+        return;
+      }
+
 
       if (this.maxDay() && newStart.isSame(this.maxDay(), 'M')) {
         newStart = newStart.clone().subtract(1, 'M');
