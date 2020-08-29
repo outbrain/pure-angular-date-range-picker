@@ -1,4 +1,4 @@
-**Pure Angular Day & Date Range Pickers**
+**Pure Angular Day & Date Range Pickers** [No Longer Maintained]
 ===================
 A pure Angular (moment.js is the only dependency) day & date range picker, inspired by Dan Grossman's bootstrap-daterangepicker.
 
