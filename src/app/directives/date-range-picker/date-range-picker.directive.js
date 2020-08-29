@@ -308,12 +308,24 @@ class DateRangePickerController {
       let oldStart = oldRange[0];
       let oldEnd = oldRange[1];
 
-      if( !newStart ||  !newEnd || !newStart.isValid() || !newEnd.isValid() ) {
+      if( !newStart || !newStart.isValid() ) {
         let s = this.Moment();
         this.startCalendar = s;
-        this.endCalendar = this.maxDay() && s.isSame(this.maxDay(), 'M') ? s.clone().subtract(1,'M') : s.clone().add(1, 'M');
+        this.endCalendar = s.clone().add(1, 'M');
         return;
       }
+
+      if( !newEnd || !newEnd.isValid() ) {
+        this.startCalendar = newStart;
+        if( this.areCalendarsLinked() ) {
+          this.endCalendar = newStart.clone().add(1, 'M');
+        } else {
+          // move the calendar 1M from newStart only if overlaps the newStart, otherwise ne pas toucher
+          this.endCalendar = this.endCalendar && this.endCalendar.isSame( newStart, 'M') ? newStart.clone().add(1, 'M') : this.endCalendar;
+        }
+        return;
+      }
+
 
       if (this.maxDay() && newStart.isSame(this.maxDay(), 'M')) {
         newStart = newStart.clone().subtract(1, 'M');
