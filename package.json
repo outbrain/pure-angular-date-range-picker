@@ -2,7 +2,7 @@
   "name": "ob-daterangepicker",
   "version": "0.12.1",
   "dependencies": {
-    "moment": "~2.10.6",
+    "moment": "~2.27.0",
     "angular": "~1.4.2"
   },
   "scripts": {
